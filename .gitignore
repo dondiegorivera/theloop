@@ -3,12 +3,11 @@ __pycache__/
 *.pyc
 *.pyo
 .env
-docs/agno.md
-docs/env-management.md
-docs/litellm-endpoints.md
-docs/pi.md
 runs/
 CLAUDE.md
 .claude/
 .pytest_cache/
-
+doc/agno.md                                                                                                                                                                                                                                                                      
+doc/env-management.md                                                                                                                                                                                                                                                            
+doc/litellm-endpoints.md                                                                                                                                                                                                                                                         
+doc/pi.md    
