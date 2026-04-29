@@ -1,6 +1,6 @@
 ---
 adapter: svg
-max_iters: 8
+max_iters: 10
 score_threshold: 0.9
 no_improvement_for: 5
 ---
