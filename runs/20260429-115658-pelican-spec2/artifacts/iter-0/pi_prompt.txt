@@ -1,0 +1,32 @@
+Goal: Replace the content of `artifact.svg` with a complete, self-contained SVG illustration of a pelican riding a bicycle against a city skyline, styled as a postcard with text.
+
+Files to edit:
+- `artifact.svg`
+
+Files to leave alone:
+- `index.html`
+- `README.md`
+
+Instructions:
+1.  Open `artifact.svg`.
+2.  Replace all existing content with a new SVG structure.
+3.  Set the `viewBox` to "0 0 800 600" and `xmlns` to "http://www.w3.org/2000/svg".
+4.  **Background**: Draw a simple city skyline silhouette in the background (e.g., dark blue or grey shapes) to establish the setting.
+5.  **Bicycle**: Draw a bicycle in the foreground. It must have two wheels (circles), a frame (lines/paths), and handlebars. Ensure the wheels are grounded on a horizontal line representing the ground.
+6.  **Pelican**: Draw a pelican sitting on the bicycle seat. Key features must include:
+    -   A large, distinctive beak with a visible pouch (throat sac) hanging down.
+    -   A body shape recognizable as a bird.
+    -   Wings folded or slightly spread.
+    -   Feet positioned as if pedaling or resting on pedals.
+7.  **Postcard Style**: Add a white border or frame around the illustration to mimic a postcard.
+8.  **Text**: Add text elements to the postcard. Include a title like "Greetings from the City" and a small signature or date in the corner. Use a readable font.
+9.  **Styling**: Use a cohesive color palette. The pelican should be white/light grey, the beak yellow/orange, the bicycle a distinct color (e.g., red or blue), and the skyline dark.
+
+Acceptance Criteria:
+-   The SVG must parse as valid XML.
+-   Every tag must be closed (e.g., `<circle />`, `<path ... />`).
+-   Every attribute must be quoted (e.g., `fill="red"`, not `fill=red`).
+-   The image must clearly show a pelican with a large beak/pouch riding a bicycle.
+-   A city skyline must be visible in the background.
+-   Text elements must be present and legible.
+-   No console errors or XML parsing errors.

@@ -1,0 +1,17 @@
+12:16:03 INFO theloop.workspace: workspace created: runs/improve-spec-v3-validation/workspace (run_id=improve-spec-v3-validation)
+12:20:22 INFO theloop.workspace: committed f59c46db (iter 0: Produce a revised `document.md` that explicitly defines each component i) on iter/0
+12:20:22 INFO theloop.reporter: wrote report: runs/improve-spec-v3-validation/index.html
+run_id:        improve-spec-v3-validation
+adapter:       doc
+max_iters:     4
+threshold:     0.9
+no_improve_for:3
+pi model:      Qwen3.6-Mesh-Code-Long
+workspace:     /src/theloop/runs/improve-spec-v3-validation/workspace
+
+stop reason:   threshold
+best score:    0.95
+iterations:    1
+  iter 0: rc=✓ score=0.95  intent=Produce a revised `document.md` that explicitly defines each component in §4 wit
+events:        runs/improve-spec-v3-validation/events.jsonl
+report:        runs/improve-spec-v3-validation/index.html

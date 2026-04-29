@@ -1,13 +1,23 @@
-"""Judge — single LiteLLM call → JSON verdict.
+"""Judge — two-pass LiteLLM evaluation → JSON verdict.
 
-Vision path attaches the rendered PNG as a base64 data URL alongside the
-spec; text-only path skips the image (used for `doc`/`generic` adapters or
-when the proxy's loaded model has no vision backbone).
+Pass 1 (`_describe`) produces a literal description of the artifact: object
+enumeration for images, structural enumeration for text. The describe call
+sees the spec only as context for what to look for, never as something to
+score against. Vision path uses JUDGE_VISION; text path uses JUDGE_TEXT.
 
-A startup `vision_probe()` checks whether the configured `Qwen3.6-Mesh`
-alias actually returns image-aware output. If the probe fails we flag the
-Judge as text-only for the rest of the run — no code-path branching at the
-caller; `evaluate()` just ignores the image argument.
+Pass 2 (`evaluate`) reads spec + first-pass description + artifact text +
+last coder output and returns the JSON verdict. Always JUDGE_TEXT — by the
+time the verdict pass runs, all the visual extraction has already happened.
+
+Why two passes: a single-call judge collapses observation and judgment,
+which lets the model rubber-stamp obviously-broken artifacts ("a pelican
+riding a bike", scoring 1.0 even when the bike has no frame). Forcing the
+model to commit to a description first makes structural defects survive
+into the scoring pass.
+
+A startup `vision_probe()` checks whether the configured JUDGE_VISION
+alias actually returns image-aware output; on failure the describe pass
+falls back to text-only.
 """
 
 from __future__ import annotations
@@ -27,6 +37,12 @@ log = logging.getLogger(__name__)
 
 _PROMPTS_DIR = Path(__file__).resolve().parent / "prompts"
 _FENCE_RE = re.compile(r"^\s*```(?:json)?\s*|\s*```\s*$", re.MULTILINE)
+
+# Soft cap on how much we feed the first-pass model for description, to
+# keep the describe call bounded. Doc artifacts can be 25KB+; vision pass
+# doesn't see this anyway, and for text the verdict pass sees the full
+# artifact regardless.
+_DESCRIBE_TEXT_LIMIT = 12_000
 
 # 32×32 solid-red PNG. llama.cpp's vision encoder rejects very small images,
 # so the probe needs something the vision tokenizer can actually process.
@@ -48,6 +64,7 @@ class JudgeVerdict:
     critique: str
     done: bool
     raw: str  # original model output, kept for debugging
+    description: str = ""  # first-pass concrete description (empty pre-two-pass)
 
 
 class Judge:
@@ -56,10 +73,12 @@ class Judge:
         config: LiteLLMConfig | None = None,
         *,
         prompt_template: str | None = None,
+        describe_template: str | None = None,
         vision_available: bool | None = None,
     ) -> None:
         self.config = config or litellm_config()
         self.prompt_template = prompt_template or (_PROMPTS_DIR / "judge.md").read_text()
+        self.describe_template = describe_template or (_PROMPTS_DIR / "judge_describe.md").read_text()
         # None = unknown (probe not yet run); True/False = decided.
         self.vision_available: bool | None = vision_available
         self._client = AsyncOpenAI(base_url=self.config.base_url, api_key=self.config.api_key)
@@ -131,29 +150,88 @@ class Judge:
         last_pi_output: str,
         artifact_text: str | None = None,
     ) -> JudgeVerdict:
+        """Two-pass judge: describe → score.
+
+        Pass 1 produces a concrete description of the artifact (vision call
+        if a render is available, text otherwise). Pass 2 reads spec +
+        description and returns the JSON verdict. The structural separation
+        forces the model to commit to observations before scoring.
+        """
         use_vision = bool(png_path) and self.vision_available is not False
-        alias = alias_for(Hat.JUDGE_VISION if use_vision else Hat.JUDGE_TEXT)
 
-        if use_vision:
-            artifact_block = "(see attached image)"
-        elif artifact_text:
+        # ── Pass 1: describe ─────────────────────────────────────────────
+        description = await self._describe(
+            png_path=png_path if use_vision else None,
+            artifact_text=artifact_text,
+            spec=spec,
+        )
+
+        # ── Pass 2: score ────────────────────────────────────────────────
+        verdict_alias = alias_for(Hat.JUDGE_TEXT)
+
+        if artifact_text:
             artifact_block = artifact_text.strip()
+        elif use_vision:
+            artifact_block = "(image was described in the first pass; see description above)"
         else:
-            artifact_block = "(no visual artifact — judge from spec + coder output)"
+            artifact_block = "(no artifact text — judge from spec + description + coder output)"
 
-        user_text = (
+        verdict_text = (
             f"{self.prompt_template}\n\n"
             "## Spec\n"
             f"{spec.strip()}\n\n"
+            "## First-pass description\n"
+            f"{description.strip()}\n\n"
             "## Last coder output\n"
             f"{(last_pi_output or '(empty)').strip()}\n\n"
             "## Artifact\n"
             f"{artifact_block}"
         )
 
+        resp = await self._client.chat.completions.create(
+            model=verdict_alias,
+            messages=[{"role": "user", "content": verdict_text}],
+            temperature=0.0,
+        )
+        raw = (resp.choices[0].message.content or "").strip()
+        return _parse_verdict(raw, description=description)
+
+    async def _describe(
+        self,
+        png_path: Path | None,
+        artifact_text: str | None,
+        spec: str,
+    ) -> str:
+        """First pass: concrete description of the artifact, no scoring."""
+        if png_path is not None:
+            alias = alias_for(Hat.JUDGE_VISION)
+            artifact_block = "(see attached image)"
+        else:
+            alias = alias_for(Hat.JUDGE_TEXT)
+            if artifact_text:
+                trimmed = artifact_text.strip()
+                if len(trimmed) > _DESCRIBE_TEXT_LIMIT:
+                    trimmed = (
+                        trimmed[:_DESCRIBE_TEXT_LIMIT]
+                        + f"\n\n... (truncated; full artifact is {len(artifact_text)} chars)"
+                    )
+                artifact_block = trimmed
+            else:
+                artifact_block = "(no artifact provided)"
+
+        # The describe pass sees the spec only as context for *what to look
+        # for* (e.g. a bicycle has these parts), not as something to score
+        # against. The prompt explicitly forbids evaluation.
+        user_text = (
+            f"{self.describe_template}\n\n"
+            "## Spec (for context only — do not evaluate against it)\n"
+            f"{spec.strip()}\n\n"
+            "## Artifact\n"
+            f"{artifact_block}"
+        )
+
         content: list[dict] = [{"type": "text", "text": user_text}]
-        if use_vision:
-            assert png_path is not None
+        if png_path is not None:
             b64 = base64.b64encode(png_path.read_bytes()).decode("ascii")
             content.append(
                 {
@@ -162,19 +240,19 @@ class Judge:
                 }
             )
 
-        # No max_tokens: LiteLLM aliases hold their own presets, and the
-        # text-only path goes through a thinking model whose reasoning eats
-        # tokens before the final answer is emitted.
-        resp = await self._client.chat.completions.create(
-            model=alias,
-            messages=[{"role": "user", "content": content}],
-            temperature=0.0,
-        )
-        raw = (resp.choices[0].message.content or "").strip()
-        return _parse_verdict(raw)
+        try:
+            resp = await self._client.chat.completions.create(
+                model=alias,
+                messages=[{"role": "user", "content": content}],
+                temperature=0.0,
+            )
+            return (resp.choices[0].message.content or "").strip()
+        except Exception as e:
+            log.warning("describe pass failed (%s); verdict pass will run without it", e)
+            return f"(describe pass failed: {e})"
 
 
-def _parse_verdict(raw: str) -> JudgeVerdict:
+def _parse_verdict(raw: str, *, description: str = "") -> JudgeVerdict:
     body = _FENCE_RE.sub("", raw).strip()
     try:
         obj = json.loads(body)
@@ -185,10 +263,13 @@ def _parse_verdict(raw: str) -> JudgeVerdict:
             critique=str(obj.get("critique", "")).strip(),
             done=bool(obj.get("done", False)),
             raw=raw,
+            description=description,
         )
     except (json.JSONDecodeError, TypeError, ValueError) as e:
         log.warning("judge output did not parse as JSON (%s); raw=%r", e, raw[:200])
-        return JudgeVerdict(score=None, critique=raw[:500], done=False, raw=raw)
+        return JudgeVerdict(
+            score=None, critique=raw[:500], done=False, raw=raw, description=description
+        )
 
 
 # ── manual smoke test ───────────────────────────────────────────────────────

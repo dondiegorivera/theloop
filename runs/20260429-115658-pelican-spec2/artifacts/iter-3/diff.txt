@@ -1,0 +1,13 @@
+diff --git a/artifact.svg b/artifact.svg
+index e9b09f4..b88a8a7 100644
+--- a/artifact.svg
++++ b/artifact.svg
+@@ -346,7 +346,7 @@
+ 
+   <!-- ==================== POSTCARD TEXT ==================== -->
+   <!-- Title -->
+-  <text x="400" y="560" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="bold" fill="#2C3E50" letter-spacing="2">Greetings from Pelican City</text>
++  <text x="400" y="555" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="bold" fill="#2C3E50" letter-spacing="2">Greetings from Pelican City</text>
+ 
+   <!-- Signature / date -->
+   <text x="720" y="560" text-anchor="end" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#7F8C8D" font-style="italic">— A. Pelican, 2026</text>

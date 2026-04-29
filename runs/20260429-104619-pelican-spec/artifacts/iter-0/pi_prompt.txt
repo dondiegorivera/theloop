@@ -1,0 +1,25 @@
+Goal: Replace the contents of `artifact.svg` with a complete, valid SVG illustration of a pelican riding a bicycle. The pelican must be clearly recognizable (large bill, throat pouch) and depicted in a forward-leaning posture while pedaling.
+
+File to edit: `artifact.svg`
+Files to ignore: `index.html`, `README.md`
+
+Implementation details:
+1.  **Structure**: Use an `<svg>` root element with `viewBox="0 0 400 300"`. Ensure all tags are closed and attributes are quoted.
+2.  **Bicycle**:
+    *   Draw two wheels (circles) with spokes or a simple rim style. Place them at appropriate coordinates (e.g., front wheel center at x=300, y=220; rear wheel center at x=100, y=220).
+    *   Draw a frame connecting the wheels, seat post, and handlebars using lines or paths.
+    *   Add handlebars at the front and a seat near the rear.
+3.  **Pelican**:
+    *   Position the pelican on the seat, leaning forward toward the handlebars.
+    *   Draw the body, neck, and head. The head should be near the handlebars.
+    *   Key feature: A large, distinct bill with a visible throat pouch (gular pouch).
+    *   Draw legs extending to the pedals. The feet should be on the pedals, suggesting a pedaling motion.
+    *   Use colors appropriate for a pelican (white/grey body, yellow/orange bill).
+4.  **Style**: Use clean, simple shapes. Ensure the pelican is recognizable as a bird, not just a generic figure.
+
+Acceptance criteria:
+- The SVG parses as valid XML (no unclosed tags, all attributes quoted).
+- The image contains a bicycle with two wheels, a frame, and handlebars.
+- The image contains a pelican with a large bill and throat pouch.
+- The pelican is positioned on the bicycle in a forward-leaning, pedaling posture.
+- The overall composition is balanced and recognizable.

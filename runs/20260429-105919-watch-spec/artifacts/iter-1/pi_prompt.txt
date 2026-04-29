@@ -1,0 +1,21 @@
+Goal: Update `artifact.svg` to reposition the power reserve sub-dial to the 12 o'clock position and replace its Arabic numerals with Roman numerals, ensuring the SVG remains valid XML.
+
+Files to edit:
+- `artifact.svg`
+
+Files to leave alone:
+- `index.html`
+- `README.md`
+
+Instructions:
+1. Locate the power reserve sub-dial in the SVG. It is likely a group (`<g>`) or set of elements representing a smaller circle with text labels.
+2. Reposition this entire sub-dial group so that its center aligns with the 12 o'clock position of the main watch face. Calculate the necessary translation (dx, dy) based on the main dial's center and radius. Ensure the sub-dial does not overlap critical elements of the main dial unless intended by the design.
+3. Identify the text elements within the power reserve sub-dial that currently display Arabic numerals (e.g., "1", "2", "3", etc.).
+4. Replace the content of these text elements with the corresponding Roman numerals (e.g., "I", "II", "III", etc.) as specified by standard watch design conventions for power reserves (typically I, II, III, IV, V, VI, VII, VIII, IX, X, XI, XII or similar, depending on the number of markers). Ensure the font family, size, and alignment remain consistent with the rest of the sub-dial.
+5. Verify that all SVG tags are properly closed and all attributes are quoted. The file must parse as valid XML without errors.
+
+Acceptance Criteria:
+- The power reserve sub-dial is centered at the 12 o'clock position relative to the main dial.
+- All numerals in the power reserve sub-dial are Roman numerals.
+- The SVG file is valid XML (no unclosed tags, no unquoted attributes).
+- No other parts of the SVG are unintentionally modified.

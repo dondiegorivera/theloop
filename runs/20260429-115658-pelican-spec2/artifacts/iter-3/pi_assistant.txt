@@ -1,0 +1,17 @@
+I found the text element. The title is at `y="560"` with `font-size="28"`, and the decorative line is at `y="568"` — only 8 pixels below the baseline. With a 28px font, the descender of 'y' extends well below the baseline, likely overlapping or crowding the decorative line.
+
+I'll raise the text by decreasing the `y` value from 560 to 555, giving the descender proper breathing room.
+
+Let me verify the edit and confirm the SVG is well-formed:
+
+The fix is complete. Here's a summary of what was done:
+
+**Change made:**
+- **Line 349:** Adjusted the `y` attribute of the "Greetings from Pelican City" text from `560` to `555` (raised by 5 pixels).
+
+**Why this works:**
+- In SVG, the `y` attribute sets the text baseline position. Decreasing `y` moves the text upward.
+- The original `y="560"` placed the baseline only 8 pixels above the decorative line at `y="568"`. With a 28px font, the descender of the final 'y' would extend ~8–10px below the baseline, crowding or overlapping the decorative line.
+- The new `y="555"` gives the descender proper breathing room while keeping the text visually centered in its intended area.
+- Font size, family, weight, horizontal centering (`x="400"` with `text-anchor="middle"`), and all other elements remain unchanged.
+- The SVG validates as well-formed XML.

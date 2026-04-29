@@ -218,6 +218,7 @@ class Loop:
             score=verdict.score,
             done=verdict.done,
             critique=verdict.critique,
+            description_chars=len(verdict.description),
         )
 
         # 7. commit ---------------------------------------------------------
@@ -234,6 +235,8 @@ class Loop:
             (ws.artifact_dir(it) / "spec.md").write_text(plan.spec)
             (ws.artifact_dir(it) / "pi_prompt.txt").write_text(pi_prompt)
             (ws.artifact_dir(it) / "pi_assistant.txt").write_text(pi_result.assistant_text)
+            if verdict.description:
+                (ws.artifact_dir(it) / "judge_description.txt").write_text(verdict.description)
         except Exception as e:
             log.debug("could not persist iter %d artifacts: %s", it, e)
 

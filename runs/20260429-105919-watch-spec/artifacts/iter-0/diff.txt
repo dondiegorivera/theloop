@@ -1,0 +1,706 @@
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..c4bc5d0
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,8 @@
++# SVG task workspace
++
++The artifact pi should iteratively edit lives at `artifact.svg`. The
++preview wrapper at `index.html` opens it in the browser; do not touch
++the wrapper unless you need a different presentation surface.
++
++Tools available: read, write, edit, bash. The renderer screenshots
++`index.html` at 1024×768 after each iteration.
+diff --git a/artifact.svg b/artifact.svg
+new file mode 100644
+index 0000000..9b71708
+--- /dev/null
++++ b/artifact.svg
+@@ -0,0 +1,665 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
++  <defs>
++    <!-- ===== CASE GRADIENTS ===== -->
++    <radialGradient id="caseOuter" cx="50%" cy="40%" r="55%">
++      <stop offset="0%" stop-color="#e8d5a3"/>
++      <stop offset="40%" stop-color="#c9a84c"/>
++      <stop offset="80%" stop-color="#8b6914"/>
++      <stop offset="100%" stop-color="#5a4510"/>
++    </radialGradient>
++    <radialGradient id="caseInner" cx="50%" cy="45%" r="50%">
++      <stop offset="0%" stop-color="#d4b85a"/>
++      <stop offset="60%" stop-color="#a07828"/>
++      <stop offset="100%" stop-color="#6b5010"/>
++    </radialGradient>
++    <linearGradient id="caseBevel" x1="0" y1="0" x2="1" y2="1">
++      <stop offset="0%" stop-color="#f0d878"/>
++      <stop offset="50%" stop-color="#b8942e"/>
++      <stop offset="100%" stop-color="#7a5c18"/>
++    </linearGradient>
++    <radialGradient id="crownGrad" cx="45%" cy="35%" r="55%">
++      <stop offset="0%" stop-color="#f0d878"/>
++      <stop offset="50%" stop-color="#c9a84c"/>
++      <stop offset="100%" stop-color="#6b5010"/>
++    </radialGradient>
++    <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
++      <stop offset="0%" stop-color="#e8d080"/>
++      <stop offset="50%" stop-color="#a07828"/>
++      <stop offset="100%" stop-color="#5a4510"/>
++    </linearGradient>
++
++    <!-- ===== DIAL GRADIENTS ===== -->
++    <radialGradient id="dialBg" cx="50%" cy="45%" r="55%">
++      <stop offset="0%" stop-color="#faf6eb"/>
++      <stop offset="60%" stop-color="#f0e8d0"/>
++      <stop offset="100%" stop-color="#d8ccb0"/>
++    </radialGradient>
++    <radialGradient id="dialShadow" cx="50%" cy="50%" r="50%">
++      <stop offset="70%" stop-color="transparent"/>
++      <stop offset="100%" stop-color="rgba(0,0,0,0.15)"/>
++    </radialGradient>
++    <radialGradient id="subDialBg" cx="50%" cy="40%" r="55%">
++      <stop offset="0%" stop-color="#e8dcc0"/>
++      <stop offset="100%" stop-color="#c8b890"/>
++    </radialGradient>
++    <radialGradient id="subDialInset" cx="50%" cy="50%" r="50%">
++      <stop offset="0%" stop-color="rgba(0,0,0,0.05)"/>
++      <stop offset="100%" stop-color="rgba(0,0,0,0.25)"/>
++    </radialGradient>
++
++    <!-- ===== HAND GRADIENTS ===== -->
++    <linearGradient id="hourHandGrad" x1="0" y1="0" x2="1" y2="1">
++      <stop offset="0%" stop-color="#1a1a2e"/>
++      <stop offset="50%" stop-color="#2c2c4a"/>
++      <stop offset="100%" stop-color="#0e0e1a"/>
++    </linearGradient>
++    <linearGradient id="minuteHandGrad" x1="0" y1="0" x2="1" y2="1">
++      <stop offset="0%" stop-color="#1a1a2e"/>
++      <stop offset="50%" stop-color="#2c2c4a"/>
++      <stop offset="100%" stop-color="#0e0e1a"/>
++    </linearGradient>
++    <linearGradient id="secondHandGrad" x1="0" y1="0" x2="1" y2="1">
++      <stop offset="0%" stop-color="#cc2200"/>
++      <stop offset="50%" stop-color="#ee3311"/>
++      <stop offset="100%" stop-color="#aa1100"/>
++    </linearGradient>
++
++    <!-- ===== GEAR GRADIENTS ===== -->
++    <radialGradient id="gearGold" cx="45%" cy="40%" r="55%">
++      <stop offset="0%" stop-color="#f0d878"/>
++      <stop offset="50%" stop-color="#c9a84c"/>
++      <stop offset="100%" stop-color="#8b6914"/>
++    </radialGradient>
++    <radialGradient id="gearSilver" cx="45%" cy="40%" r="55%">
++      <stop offset="0%" stop-color="#e8e8e8"/>
++      <stop offset="50%" stop-color="#b0b0b0"/>
++      <stop offset="100%" stop-color="#707070"/>
++    </radialGradient>
++    <radialGradient id="gearBronze" cx="45%" cy="40%" r="55%">
++      <stop offset="0%" stop-color="#d4a060"/>
++      <stop offset="50%" stop-color="#a07040"/>
++      <stop offset="100%" stop-color="#6b4820"/>
++    </radialGradient>
++    <radialGradient id="springGrad" cx="50%" cy="50%" r="50%">
++      <stop offset="0%" stop-color="#4488cc"/>
++      <stop offset="100%" stop-color="#225588"/>
++    </radialGradient>
++
++    <!-- ===== SHADOWS & FILTERS ===== -->
++    <filter id="dropShadow" x="-10%" y="-10%" width="130%" height="130%">
++      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.35)"/>
++    </filter>
++    <filter id="innerShadow">
++      <feOffset dx="0" dy="2"/>
++      <feGaussianBlur stdDeviation="3" result="offset-blur"/>
++      <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/>
++      <feFlood flood-color="black" flood-opacity="0.3" result="color"/>
++      <feComposite operator="in" in="color" in2="inverse" result="shadow"/>
++      <feComposite operator="over" in="shadow" in2="SourceGraphic"/>
++    </filter>
++    <filter id="handShadow" x="-20%" y="-20%" width="140%" height="140%">
++      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="rgba(0,0,0,0.3)"/>
++    </filter>
++
++    <!-- ===== REUSABLE GEAR ===== -->
++    <g id="gear12">
++      <circle cx="0" cy="0" r="22" fill="url(#gearGold)"/>
++      <circle cx="0" cy="0" r="18" fill="none" stroke="#8b6914" stroke-width="0.5"/>
++      <!-- 12 teeth -->
++      <rect x="-3" y="-26" width="6" height="8" rx="1" fill="url(#gearGold)"/>
++      <rect x="-3" y="-26" width="6" height="8" rx="1" fill="url(#gearGold)" transform="rotate(30)"/>
++      <rect x="-3" y="-26" width="6" height="8" rx="1" fill="url(#gearGold)" transform="rotate(60)"/>
++      <rect x="-3" y="-26" width="6" height="8" rx="1" fill="url(#gearGold)" transform="rotate(90)"/>
++      <rect x="-3" y="-26" width="6" height="8" rx="1" fill="url(#gearGold)" transform="rotate(120)"/>
++      <rect x="-3" y="-26" width="6" height="8" rx="1" fill="url(#gearGold)" transform="rotate(150)"/>
++      <rect x="-3" y="-26" width="6" height="8" rx="1" fill="url(#gearGold)" transform="rotate(180)"/>
++      <rect x="-3" y="-26" width="6" height="8" rx="1" fill="url(#gearGold)" transform="rotate(210)"/>
++      <rect x="-3" y="-26" width="6" height="8" rx="1" fill="url(#gearGold)" transform="rotate(240)"/>
++      <rect x="-3" y="-26" width="6" height="8" rx="1" fill="url(#gearGold)" transform="rotate(270)"/>
++      <rect x="-3" y="-26" width="6" height="8" rx="1" fill="url(#gearGold)" transform="rotate(300)"/>
++      <rect x="-3" y="-26" width="6" height="8" rx="1" fill="url(#gearGold)" transform="rotate(330)"/>
++      <circle cx="0" cy="0" r="6" fill="#d4b85a"/>
++      <circle cx="0" cy="0" r="3" fill="#8b6914"/>
++    </g>
++
++    <g id="gear8">
++      <circle cx="0" cy="0" r="16" fill="url(#gearSilver)"/>
++      <circle cx="0" cy="0" r="13" fill="none" stroke="#888" stroke-width="0.5"/>
++      <!-- 8 teeth -->
++      <rect x="-2.5" y="-19" width="5" height="7" rx="1" fill="url(#gearSilver)"/>
++      <rect x="-2.5" y="-19" width="5" height="7" rx="1" fill="url(#gearSilver)" transform="rotate(45)"/>
++      <rect x="-2.5" y="-19" width="5" height="7" rx="1" fill="url(#gearSilver)" transform="rotate(90)"/>
++      <rect x="-2.5" y="-19" width="5" height="7" rx="1" fill="url(#gearSilver)" transform="rotate(135)"/>
++      <rect x="-2.5" y="-19" width="5" height="7" rx="1" fill="url(#gearSilver)" transform="rotate(180)"/>
++      <rect x="-2.5" y="-19" width="5" height="7" rx="1" fill="url(#gearSilver)" transform="rotate(225)"/>
++      <rect x="-2.5" y="-19" width="5" height="7" rx="1" fill="url(#gearSilver)" transform="rotate(270)"/>
++      <rect x="-2.5" y="-19" width="5" height="7" rx="1" fill="url(#gearSilver)" transform="rotate(315)"/>
++      <circle cx="0" cy="0" r="5" fill="#c0c0c0"/>
++      <circle cx="0" cy="0" r="2.5" fill="#666"/>
++    </g>
++
++    <g id="gear16">
++      <circle cx="0" cy="0" r="30" fill="url(#gearBronze)"/>
++      <circle cx="0" cy="0" r="25" fill="none" stroke="#6b4820" stroke-width="0.5"/>
++      <!-- 16 teeth -->
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)"/>
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)" transform="rotate(22.5)"/>
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)" transform="rotate(45)"/>
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)" transform="rotate(67.5)"/>
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)" transform="rotate(90)"/>
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)" transform="rotate(112.5)"/>
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)" transform="rotate(135)"/>
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)" transform="rotate(157.5)"/>
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)" transform="rotate(180)"/>
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)" transform="rotate(202.5)"/>
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)" transform="rotate(225)"/>
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)" transform="rotate(247.5)"/>
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)" transform="rotate(270)"/>
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)" transform="rotate(292.5)"/>
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)" transform="rotate(315)"/>
++      <rect x="-2.5" y="-34" width="5" height="9" rx="1" fill="url(#gearBronze)" transform="rotate(337.5)"/>
++      <circle cx="0" cy="0" r="8" fill="#c09060"/>
++      <circle cx="0" cy="0" r="4" fill="#6b4820"/>
++    </g>
++
++    <!-- ===== HOUR MARKER ===== -->
++    <g id="hourMarker">
++      <rect x="-2.5" y="-12" width="5" height="12" rx="1" fill="#2c2c4a"/>
++    </g>
++    <g id="hourMarkerMajor">
++      <rect x="-3" y="-16" width="6" height="16" rx="1.5" fill="#1a1a2e"/>
++    </g>
++
++    <!-- ===== MINUTE TICK ===== -->
++    <g id="minuteTick">
++      <line x1="0" y1="-142" x2="0" y2="-138" stroke="#888" stroke-width="0.8"/>
++    </g>
++
++    <!-- ===== CLIPPING PATHS ===== -->
++    <clipPath id="dialClip">
++      <circle cx="250" cy="250" r="155"/>
++    </clipPath>
++    <clipPath id="movementClip">
++      <path d="M 120 250 A 130 130 0 0 0 380 250 Z"/>
++    </clipPath>
++    <clipPath id="subDial6Clip">
++      <circle cx="250" cy="370" r="28"/>
++    </clipPath>
++    <clipPath id="subDial9Clip">
++      <circle cx="130" cy="250" r="23"/>
++    </clipPath>
++  </defs>
++
++  <!-- ============================================ -->
++  <!-- LAYER 1: CASE & CROWN (outermost structure)  -->
++  <!-- ============================================ -->
++  <g id="case">
++    <!-- Chain ring -->
++    <ellipse cx="250" cy="38" rx="14" ry="18" fill="none" stroke="url(#ringGrad)" stroke-width="4" filter="url(#dropShadow)"/>
++    <ellipse cx="250" cy="38" rx="10" ry="14" fill="none" stroke="#a07828" stroke-width="1"/>
++
++    <!-- Crown base -->
++    <rect x="238" y="52" width="24" height="18" rx="3" fill="url(#caseOuter)" filter="url(#dropShadow)"/>
++    <rect x="240" y="54" width="20" height="14" rx="2" fill="url(#caseBevel)"/>
++
++    <!-- Crown knob -->
++    <circle cx="250" cy="48" r="16" fill="url(#crownGrad)" filter="url(#dropShadow)"/>
++    <circle cx="250" cy="48" r="13" fill="none" stroke="#f0d878" stroke-width="0.5" opacity="0.6"/>
++    <!-- Crown ridges -->
++    <line x1="238" y1="42" x2="238" y2="54" stroke="#8b6914" stroke-width="0.8" opacity="0.5"/>
++    <line x1="242" y1="40" x2="242" y2="56" stroke="#8b6914" stroke-width="0.8" opacity="0.5"/>
++    <line x1="250" y1="39" x2="250" y2="57" stroke="#8b6914" stroke-width="0.8" opacity="0.5"/>
++    <line x1="258" y1="40" x2="258" y2="56" stroke="#8b6914" stroke-width="0.8" opacity="0.5"/>
++    <line x1="262" y1="42" x2="262" y2="54" stroke="#8b6914" stroke-width="0.8" opacity="0.5"/>
++
++    <!-- Outer case ring -->
++    <circle cx="250" cy="250" r="185" fill="url(#caseOuter)" filter="url(#dropShadow)"/>
++    <!-- Case inner bevel -->
++    <circle cx="250" cy="250" r="180" fill="none" stroke="url(#caseBevel)" stroke-width="10"/>
++    <!-- Case inner edge -->
++    <circle cx="250" cy="250" r="175" fill="url(#caseInner)"/>
++    <!-- Inner case shadow -->
++    <circle cx="250" cy="250" r="175" fill="url(#dialShadow)"/>
++  </g>
++
++  <!-- ============================================ -->
++  <!-- LAYER 2: MAIN DIAL                           -->
++  <!-- ============================================ -->
++  <g id="dial">
++    <!-- Dial background -->
++    <circle cx="250" cy="250" r="155" fill="url(#dialBg)"/>
++    <!-- Dial edge shadow -->
++    <circle cx="250" cy="250" r="155" fill="none" stroke="#c8b890" stroke-width="2"/>
++    <!-- Subtle guilloche pattern overlay -->
++    <circle cx="250" cy="250" r="150" fill="none" stroke="#e0d4b8" stroke-width="0.3" opacity="0.5"/>
++    <circle cx="250" cy="250" r="140" fill="none" stroke="#e0d4b8" stroke-width="0.3" opacity="0.4"/>
++    <circle cx="250" cy="250" r="130" fill="none" stroke="#e0d4b8" stroke-width="0.3" opacity="0.3"/>
++    <circle cx="250" cy="250" r="120" fill="none" stroke="#e0d4b8" stroke-width="0.3" opacity="0.2"/>
++
++    <!-- Brand text area -->
++    <text x="250" y="140" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#6b5010" letter-spacing="3">CHRONOMETER</text>
++    <text x="250" y="152" text-anchor="middle" font-family="Georgia, serif" font-size="7" fill="#8b7355" letter-spacing="2">SWISS MADE</text>
++
++    <!-- ===== MINUTE TRACK (60 ticks) ===== -->
++    <g id="minuteTrack" stroke="#999" stroke-width="0.6">
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(6, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(12, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(18, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(24, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(30, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(36, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(42, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(48, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(54, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(60, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(66, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(72, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(78, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(84, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(90, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(96, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(102, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(108, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(114, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(120, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(126, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(132, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(138, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(144, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(150, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(156, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(162, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(168, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(174, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(180, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(186, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(192, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(198, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(204, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(210, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(216, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(222, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(228, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(234, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(240, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(246, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(252, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(258, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(264, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(270, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(276, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(282, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(288, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(294, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(300, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(306, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(312, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(318, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(324, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(330, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(336, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(342, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(348, 250, 250)"/>
++      <line x1="250" y1="105" x2="250" y2="109" transform="rotate(354, 250, 250)"/>
++    </g>
++
++    <!-- ===== HOUR MARKERS (12) ===== -->
++    <use href="#hourMarkerMajor" x="250" y="250" transform="rotate(0, 250, 250)"/>
++    <use href="#hourMarker"   x="250" y="250" transform="rotate(30, 250, 250)"/>
++    <use href="#hourMarker"   x="250" y="250" transform="rotate(60, 250, 250)"/>
++    <use href="#hourMarkerMajor" x="250" y="250" transform="rotate(90, 250, 250)"/>
++    <use href="#hourMarker"   x="250" y="250" transform="rotate(120, 250, 250)"/>
++    <use href="#hourMarker"   x="250" y="250" transform="rotate(150, 250, 250)"/>
++    <use href="#hourMarkerMajor" x="250" y="250" transform="rotate(180, 250, 250)"/>
++    <use href="#hourMarker"   x="250" y="250" transform="rotate(210, 250, 250)"/>
++    <use href="#hourMarker"   x="250" y="250" transform="rotate(240, 250, 250)"/>
++    <use href="#hourMarkerMajor" x="250" y="250" transform="rotate(270, 250, 250)"/>
++    <use href="#hourMarker"   x="250" y="250" transform="rotate(300, 250, 250)"/>
++    <use href="#hourMarker"   x="250" y="250" transform="rotate(330, 250, 250)"/>
++
++    <!-- ===== HOUR NUMERALS ===== -->
++    <text x="250" y="122" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#2c2c4a" font-weight="bold">12</text>
++    <text x="315" y="143" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2c2c4a" font-weight="bold">1</text>
++    <text x="357" y="185" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2c2c4a" font-weight="bold">2</text>
++    <text x="378" y="254" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2c2c4a" font-weight="bold">3</text>
++    <text x="357" y="321" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2c2c4a" font-weight="bold">4</text>
++    <text x="315" y="363" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2c2c4a" font-weight="bold">5</text>
++    <text x="250" y="382" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#2c2c4a" font-weight="bold">6</text>
++    <text x="185" y="363" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2c2c4a" font-weight="bold">7</text>
++    <text x="143" y="321" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2c2c4a" font-weight="bold">8</text>
++    <text x="122" y="254" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2c2c4a" font-weight="bold">9</text>
++    <text x="143" y="185" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2c2c4a" font-weight="bold">10</text>
++    <text x="185" y="143" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#2c2c4a" font-weight="bold">11</text>
++
++    <!-- ===== SUB-DIAL AT 6 O'CLOCK (Running Seconds) ===== -->
++    <g id="subDial6">
++      <!-- Sub-dial recessed background -->
++      <circle cx="250" cy="370" r="30" fill="url(#subDialBg)" filter="url(#innerShadow)"/>
++      <circle cx="250" cy="370" r="30" fill="none" stroke="#a09070" stroke-width="1.5"/>
++      <circle cx="250" cy="370" r="28" fill="none" stroke="#c8b890" stroke-width="0.5"/>
++
++      <!-- Sub-dial ticks (12 for seconds markers) -->
++      <g stroke="#555" stroke-width="0.8">
++        <line x1="250" y1="342" x2="250" y2="346" transform="rotate(0, 250, 370)"/>
++        <line x1="250" y1="342" x2="250" y2="344" transform="rotate(30, 250, 370)"/>
++        <line x1="250" y1="342" x2="250" y2="344" transform="rotate(60, 250, 370)"/>
++        <line x1="250" y1="342" x2="250" y2="346" transform="rotate(90, 250, 370)"/>
++        <line x1="250" y1="342" x2="250" y2="344" transform="rotate(120, 250, 370)"/>
++        <line x1="250" y1="342" x2="250" y2="344" transform="rotate(150, 250, 370)"/>
++        <line x1="250" y1="342" x2="250" y2="346" transform="rotate(180, 250, 370)"/>
++        <line x1="250" y1="342" x2="250" y2="344" transform="rotate(210, 250, 370)"/>
++        <line x1="250" y1="342" x2="250" y2="344" transform="rotate(240, 250, 370)"/>
++        <line x1="250" y1="342" x2="250" y2="346" transform="rotate(270, 250, 370)"/>
++        <line x1="250" y1="342" x2="250" y2="344" transform="rotate(300, 250, 370)"/>
++        <line x1="250" y1="342" x2="250" y2="344" transform="rotate(330, 250, 370)"/>
++      </g>
++
++      <!-- Sub-dial label -->
++      <text x="250" y="362" text-anchor="middle" font-family="Georgia, serif" font-size="6" fill="#6b5010" letter-spacing="1">SECONDS</text>
++
++      <!-- Sub-dial second hand (pointing to ~25 seconds) -->
++      <line x1="250" y1="370" x2="260" y2="352" stroke="#cc2200" stroke-width="0.8" stroke-linecap="round"/>
++      <circle cx="250" cy="370" r="2" fill="#cc2200"/>
++
++      <!-- Sub-dial center -->
++      <circle cx="250" cy="370" r="1.5" fill="#8b6914"/>
++    </g>
++
++    <!-- ===== SUB-DIAL AT 9 O'CLOCK (Power Reserve) ===== -->
++    <g id="subDial9">
++      <!-- Sub-dial recessed background -->
++      <circle cx="130" cy="250" r="25" fill="url(#subDialBg)" filter="url(#innerShadow)"/>
++      <circle cx="130" cy="250" r="25" fill="none" stroke="#a09070" stroke-width="1.5"/>
++      <circle cx="130" cy="250" r="23" fill="none" stroke="#c8b890" stroke-width="0.5"/>
++
++      <!-- Power reserve arc scale -->
++      <path d="M 110 250 A 20 20 0 0 1 150 250" fill="none" stroke="#888" stroke-width="1.5"/>
++
++      <!-- Power reserve ticks -->
++      <g stroke="#555" stroke-width="0.8">
++        <line x1="110" y1="250" x2="113" y2="250" transform="rotate(0, 130, 250)"/>
++        <line x1="110" y1="250" x2="112" y2="250" transform="rotate(15, 130, 250)"/>
++        <line x1="110" y1="250" x2="112" y2="250" transform="rotate(30, 130, 250)"/>
++        <line x1="110" y1="250" x2="112" y2="250" transform="rotate(45, 130, 250)"/>
++        <line x1="110" y1="250" x2="113" y2="250" transform="rotate(60, 130, 250)"/>
++        <line x1="110" y1="250" x2="112" y2="250" transform="rotate(75, 130, 250)"/>
++        <line x1="110" y1="250" x2="112" y2="250" transform="rotate(90, 130, 250)"/>
++      </g>
++
++      <!-- Power reserve label -->
++      <text x="130" y="242" text-anchor="middle" font-family="Georgia, serif" font-size="5.5" fill="#6b5010" letter-spacing="0.5">POWER</text>
++      <text x="130" y="250" text-anchor="middle" font-family="Georgia, serif" font-size="5" fill="#6b5010">RESERVE</text>
++
++      <!-- Power reserve indicator (pointing to ~75%) -->
++      <line x1="130" y1="250" x2="118" y2="238" stroke="#2c2c4a" stroke-width="1" stroke-linecap="round"/>
++      <circle cx="130" cy="250" r="1.5" fill="#8b6914"/>
++    </g>
++
++    <!-- ===== OPEN-HEART MOVEMENT WINDOW (bottom half) ===== -->
++    <g id="movementWindow">
++      <!-- Movement background plate -->
++      <path d="M 120 250 A 130 130 0 0 0 380 250 Z" fill="#2a2a3a"/>
++
++      <!-- Côtes de Genève / Geneva stripes on movement plate -->
++      <g clip-path="url(#movementClip)" opacity="0.15">
++        <line x1="100" y1="260" x2="400" y2="260" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="265" x2="400" y2="265" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="270" x2="400" y2="270" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="275" x2="400" y2="275" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="280" x2="400" y2="280" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="285" x2="400" y2="285" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="290" x2="400" y2="290" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="295" x2="400" y2="295" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="300" x2="400" y2="300" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="305" x2="400" y2="305" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="310" x2="400" y2="310" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="315" x2="400" y2="315" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="320" x2="400" y2="320" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="325" x2="400" y2="325" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="330" x2="400" y2="330" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="335" x2="400" y2="335" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="340" x2="400" y2="340" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="345" x2="400" y2="345" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="350" x2="400" y2="350" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="355" x2="400" y2="355" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="360" x2="400" y2="360" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="365" x2="400" y2="365" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="370" x2="400" y2="370" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="375" x2="400" y2="375" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="380" x2="400" y2="380" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="385" x2="400" y2="385" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="390" x2="400" y2="390" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="395" x2="400" y2="395" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="400" x2="400" y2="400" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="405" x2="400" y2="405" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="410" x2="400" y2="410" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="415" x2="400" y2="415" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="420" x2="400" y2="420" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="425" x2="400" y2="425" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="430" x2="400" y2="430" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="435" x2="400" y2="435" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="440" x2="400" y2="440" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="445" x2="400" y2="445" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="450" x2="400" y2="450" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="455" x2="400" y2="455" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="460" x2="400" y2="460" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="465" x2="400" y2="465" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="470" x2="400" y2="470" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="475" x2="400" y2="475" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="480" x2="400" y2="480" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="485" x2="400" y2="485" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="490" x2="400" y2="490" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="495" x2="400" y2="495" stroke="#c9a84c" stroke-width="1"/>
++        <line x1="100" y1="500" x2="400" y2="500" stroke="#c9a84c" stroke-width="1"/>
++      </g>
++
++      <!-- ===== MOVEMENT GEARS ===== -->
++
++      <!-- Large mainspring barrel (center-ish, bottom) -->
++      <g id="mainspringBarrel" transform="translate(250, 340)">
++        <circle cx="0" cy="0" r="35" fill="url(#gearBronze)" opacity="0.9"/>
++        <circle cx="0" cy="0" r="30" fill="none" stroke="#6b4820" stroke-width="0.8"/>
++        <!-- Barrel teeth -->
++        <g opacity="0.7">
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)"/>
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)" transform="rotate(22.5)"/>
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)" transform="rotate(45)"/>
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)" transform="rotate(67.5)"/>
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)" transform="rotate(90)"/>
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)" transform="rotate(112.5)"/>
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)" transform="rotate(135)"/>
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)" transform="rotate(157.5)"/>
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)" transform="rotate(180)"/>
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)" transform="rotate(202.5)"/>
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)" transform="rotate(225)"/>
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)" transform="rotate(247.5)"/>
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)" transform="rotate(270)"/>
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)" transform="rotate(292.5)"/>
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)" transform="rotate(315)"/>
++          <rect x="-2" y="-38" width="4" height="10" rx="1" fill="url(#gearBronze)" transform="rotate(337.5)"/>
++        </g>
++        <circle cx="0" cy="0" r="12" fill="#c09060"/>
++        <circle cx="0" cy="0" r="8" fill="none" stroke="#6b4820" stroke-width="0.5"/>
++        <circle cx="0" cy="0" r="4" fill="#6b4820"/>
++        <!-- Barrel spring coil hint -->
++        <circle cx="0" cy="0" r="20" fill="none" stroke="#8b6914" stroke-width="0.5" stroke-dasharray="2 3" opacity="0.4"/>
++      </g>
++
++      <!-- Center wheel (behind hands, visible through movement) -->
++      <g id="centerWheel" transform="translate(250, 280)">
++        <circle cx="0" cy="0" r="22" fill="url(#gearGold)" opacity="0.85"/>
++        <circle cx="0" cy="0" r="18" fill="none" stroke="#8b6914" stroke-width="0.5"/>
++        <!-- 12 teeth -->
++        <g>
++          <rect x="-2.5" y="-25" width="5" height="7" rx="1" fill="url(#gearGold)"/>
++          <rect x="-2.5" y="-25" width="5" height="7" rx="1" fill="url(#gearGold)" transform="rotate(30)"/>
++          <rect x="-2.5" y="-25" width="5" height="7" rx="1" fill="url(#gearGold)" transform="rotate(60)"/>
++          <rect x="-2.5" y="-25" width="5" height="7" rx="1" fill="url(#gearGold)" transform="rotate(90)"/>
++          <rect x="-2.5" y="-25" width="5" height="7" rx="1" fill="url(#gearGold)" transform="rotate(120)"/>
++          <rect x="-2.5" y="-25" width="5" height="7" rx="1" fill="url(#gearGold)" transform="rotate(150)"/>
++          <rect x="-2.5" y="-25" width="5" height="7" rx="1" fill="url(#gearGold)" transform="rotate(180)"/>
++          <rect x="-2.5" y="-25" width="5" height="7" rx="1" fill="url(#gearGold)" transform="rotate(210)"/>
++          <rect x="-2.5" y="-25" width="5" height="7" rx="1" fill="url(#gearGold)" transform="rotate(240)"/>
++          <rect x="-2.5" y="-25" width="5" height="7" rx="1" fill="url(#gearGold)" transform="rotate(270)"/>
++          <rect x="-2.5" y="-25" width="5" height="7" rx="1" fill="url(#gearGold)" transform="rotate(300)"/>
++          <rect x="-2.5" y="-25" width="5" height="7" rx="1" fill="url(#gearGold)" transform="rotate(330)"/>
++        </g>
++        <circle cx="0" cy="0" r="7" fill="#d4b85a"/>
++        <circle cx="0" cy="0" r="3" fill="#8b6914"/>
++      </g>
++
++      <!-- Third wheel (right side) -->
++      <g id="thirdWheel" transform="translate(320, 310)">
++        <circle cx="0" cy="0" r="16" fill="url(#gearSilver)" opacity="0.85"/>
++        <circle cx="0" cy="0" r="13" fill="none" stroke="#888" stroke-width="0.5"/>
++        <!-- 8 teeth -->
++        <g>
++          <rect x="-2" y="-19" width="4" height="6" rx="1" fill="url(#gearSilver)"/>
++          <rect x="-2" y="-19" width="4" height="6" rx="1" fill="url(#gearSilver)" transform="rotate(45)"/>
++          <rect x="-2" y="-19" width="4" height="6" rx="1" fill="url(#gearSilver)" transform="rotate(90)"/>
++          <rect x="-2" y="-19" width="4" height="6" rx="1" fill="url(#gearSilver)" transform="rotate(135)"/>
++          <rect x="-2" y="-19" width="4" height="6" rx="1" fill="url(#gearSilver)" transform="rotate(180)"/>
++          <rect x="-2" y="-19" width="4" height="6" rx="1" fill="url(#gearSilver)" transform="rotate(225)"/>
++          <rect x="-2" y="-19" width="4" height="6" rx="1" fill="url(#gearSilver)" transform="rotate(270)"/>
++          <rect x="-2" y="-19" width="4" height="6" rx="1" fill="url(#gearSilver)" transform="rotate(315)"/>
++        </g>
++        <circle cx="0" cy="0" r="5" fill="#c0c0c0"/>
++        <circle cx="0" cy="0" r="2" fill="#666"/>
++      </g>
++
++      <!-- Fourth wheel / escape wheel (left side) -->
++      <g id="escapeWheel" transform="translate(180, 310)">
++        <circle cx="0" cy="0" r="14" fill="url(#gearGold)" opacity="0.85"/>
++        <circle cx="0" cy="0" r="11" fill="none" stroke="#8b6914" stroke-width="0.5"/>
++        <!-- 15 escape teeth (simplified) -->
++        <g>
++          <polygon points="-1.5,-14 1.5,-14 0.5,-20 -0.5,-20" fill="url(#gearGold)"/>
++          <polygon points="-1.5,-14 1.5,-14 0.5,-20 -0.5,-20" fill="url(#gearGold)" transform="rotate(24)"/>
++          <polygon points="-1.5,-14 1.5,-14 0.5,-20 -0.5,-20" fill="url(#gearGold)" transform="rotate(48)"/>
++          <polygon points="-1.5,-14 1.5,-14 0.5,-20 -0.5,-20" fill="url(#gearGold)" transform="rotate(72)"/>
++          <polygon points="-1.5,-14 1.5,-14 0.5,-20 -0.5,-20" fill="url(#gearGold)" transform="rotate(96)"/>
++          <polygon points="-1.5,-14 1.5,-14 0.5,-20 -0.5,-20" fill="url(#gearGold)" transform="rotate(120)"/>
++          <polygon points="-1.5,-14 1.5,-14 0.5,-20 -0.5,-20" fill="url(#gearGold)" transform="rotate(144)"/>
++          <polygon points="-1.5,-14 1.5,-14 0.5,-20 -0.5,-20" fill="url(#gearGold)" transform="rotate(168)"/>
++          <polygon points="-1.5,-14 1.5,-14 0.5,-20 -0.5,-20" fill="url(#gearGold)" transform="rotate(192)"/>
++          <polygon points="-1.5,-14 1.5,-14 0.5,-20 -0.5,-20" fill="url(#gearGold)" transform="rotate(216)"/>
++          <polygon points="-1.5,-14 1.5,-14 0.5,-20 -0.5,-20" fill="url(#gearGold)" transform="rotate(240)"/>
++          <polygon points="-1.5,-14 1.5,-14 0.5,-20 -0.5,-20" fill="url(#gearGold)" transform="rotate(264)"/>
++          <polygon points="-1.5,-14 1.5,-14 0.5,-20 -0.5,-20" fill="url(#gearGold)" transform="rotate(288)"/>
++          <polygon points="-1.5,-14 1.5,-14 0.5,-20 -0.5,-20" fill="url(#gearGold)" transform="rotate(312)"/>
++          <polygon points="-1.5,-14 1.5,-14 0.5,-20 -0.5,-20" fill="url(#gearGold)" transform="rotate(336)"/>
++        </g>
++        <circle cx="0" cy="0" r="5" fill="#d4b85a"/>
++        <circle cx="0" cy="0" r="2" fill="#8b6914"/>
++      </g>
++
++      <!-- Balance wheel (bottom right) -->
++      <g id="balanceWheel" transform="translate(310, 380)">
++        <!-- Balance wheel rim -->
++        <circle cx="0" cy="0" r="22" fill="none" stroke="url(#gearGold)" stroke-width="3"/>
++        <!-- Hairspring (spiral) -->
++        <path d="M 0 0 C 3 0 3 6 0 6 C -6 6 -6 -3 0 -3 C 8 -3 8 9 0 9 C -10 9 -10 -6 0 -6 C 12 -6 12 12 0 12 C -14 12 -14 -9 0 -9 C 16 -9 16 15 0 15"
++              fill="none" stroke="#4488cc" stroke-width="0.8" opacity="0.7"/>
++        <!-- Balance spokes -->
++        <line x1="-22" y1="0" x2="22" y2="0" stroke="url(#gearGold)" stroke-width="1.5"/>
++        <line x1="0" y1="-22" x2="0" y2="22" stroke="url(#gearGold)" stroke-width="1.5"/>
++        <line x1="-15.5" y1="-15.5" x2="15.5" y2="15.5" stroke="url(#gearGold)" stroke-width="1"/>
++        <line x1="-15.5" y1="15.5" x2="15.5" y2="-15.5" stroke="url(#gearGold)" stroke-width="1"/>
++        <!-- Center jewel -->
++        <circle cx="0" cy="0" r="3" fill="#cc2244" opacity="0.8"/>
++        <circle cx="0" cy="0" r="1.5" fill="#ff4466"/>
++      </g>
++
++      <!-- Pallet fork (between escape wheel and balance) -->
++      <g id="palletFork" transform="translate(245, 345)">
++        <line x1="-8" y1="-4" x2="8" y2="4" stroke="#c0c0c0" stroke-width="1.5" stroke-linecap="round"/>
++        <line x1="-4" y1="-8" x2="4" y2="8" stroke="#c0c0c0" stroke-width="1.5" stroke-linecap="round"/>
++        <circle cx="0" cy="0" r="2" fill="#888"/>
++      </g>
++
++      <!-- Bridge plate (decorative) -->
++      <path d="M 140 260 Q 200 240 260 255 Q 320 240 380 260 L 380 280 Q 320 265 260 280 Q 200 265 140 280 Z"
++            fill="url(#gearBronze)" opacity="0.3"/>
++
++      <!-- Ruby jewels (decorative) -->
++      <circle cx="250" cy="340" r="2.5" fill="#cc2244" opacity="0.7"/>
++      <circle cx="250" cy="280" r="2" fill="#cc2244" opacity="0.7"/>
++      <circle cx="320" cy="310" r="2" fill="#cc2244" opacity="0.7"/>
++      <circle cx="180" cy="310" r="2" fill="#cc2244" opacity="0.7"/>
++      <circle cx="310" cy="380" r="2.5" fill="#cc2244" opacity="0.7"/>
++      <circle cx="245" cy="345" r="1.5" fill="#cc2244" opacity="0.7"/>
++
++      <!-- Movement plate screws -->
++      <g fill="#aaa" stroke="#666" stroke-width="0.5">
++        <circle cx="160" cy="270" r="2.5"/>
++        <circle cx="340" cy="270" r="2.5"/>
++        <circle cx="250" cy="400" r="2.5"/>
++        <circle cx="170" cy="380" r="2"/>
++        <circle cx="330" cy="380" r="2"/>
++      </g>
++      <!-- Screw slots -->
++      <g stroke="#444" stroke-width="0.5">
++        <line x1="158" y1="270" x2="162" y2="270"/>
++        <line x1="338" y1="270" x2="342" y2="270"/>
++        <line x1="248" y1="400" x2="252" y2="400"/>
++        <line x1="168" y1="380" x2="172" y2="380"/>
++        <line x1="328" y1="380" x2="332" y2="380"/>
++      </g>
++
++      <!-- Movement plate edge highlight -->
++      <path d="M 120 250 A 130 130 0 0 0 380 250" fill="none" stroke="#c9a84c" stroke-width="1" opacity="0.4"/>
++    </g>
++
++    <!-- ===== DIAL GLASS REFLECTION ===== -->
++    <ellipse cx="200" cy="180" rx="60" ry="40" fill="white" opacity="0.06" transform="rotate(-20, 200, 180)"/>
++    <ellipse cx="180" cy="200" rx="30" ry="20" fill="white" opacity="0.04" transform="rotate(-20, 180, 200)"/>
++  </g>
++
++  <!-- ============================================ -->
++  <!-- LAYER 3: HANDS (topmost, above everything)  -->
++  <!-- ============================================ -->
++  <g id="hands" filter="url(#handShadow)">
++    <!-- Hour hand (pointing to ~10:10 → 10 o'clock position = 300° from 12) -->
++    <g id="hourHand" transform="rotate(305, 250, 250)">
++      <!-- Main body -->
++      <polygon points="247,250 248.5,130 250,115 251.5,130 253,250 251,260 249,260"
++               fill="url(#hourHandGrad)" stroke="#0e0e1a" stroke-width="0.3"/>
++      <!-- Counterweight -->
++      <polygon points="247,250 248,265 250,270 252,265 253,250"
++               fill="url(#hourHandGrad)" stroke="#0e0e1a" stroke-width="0.3"/>
++      <!-- Highlight edge -->
++      <line x1="250" y1="118" x2="250" y2="248" stroke="#4a4a6a" stroke-width="0.5" opacity="0.5"/>
++    </g>
++
++    <!-- Minute hand (pointing to ~10 minutes = 60° from 12) -->
++    <g id="minuteHand" transform="rotate(60, 250, 250)">
++      <!-- Main body -->
++      <polygon points="248.5,250 249.2,100 250,85 250.8,100 251.5,250 250.5,262 249.5,262"
++               fill="url(#minuteHandGrad)" stroke="#0e0e1a" stroke-width="0.3"/>
++      <!-- Counterweight -->
++      <polygon points="248.5,250 249,268 250,273 251,268 251.5,250"
++               fill="url(#minuteHandGrad)" stroke="#0e0e1a" stroke-width="0.3"/>
++      <!-- Highlight edge -->
++      <line x1="250" y1="88" x2="250" y2="248" stroke="#4a4a6a" stroke-width="0.5" opacity="0.5"/>
++    </g>
++
++    <!-- Second hand (pointing to ~25 seconds = 150° from 12) -->
++    <g id="secondHand" transform="rotate(150, 250, 250)">
++      <!-- Main shaft -->
++      <line x1="250" y1="250" x2="250" y2="95" stroke="url(#secondHandGrad)" stroke-width="1.2" stroke-linecap="round"/>
++      <!-- Counterweight -->
++      <line x1="250" y1="250" x2="250" y2="290" stroke="url(#secondHandGrad)" stroke-width="1.2" stroke-linecap="round"/>
++      <!-- Counterweight circle -->
++      <circle cx="250" cy="285" r="3" fill="url(#secondHandGrad)"/>
++      <!-- Center dot -->
++      <circle cx="250" cy="250" r="2.5" fill="#cc2200"/>
++    </g>
++
++    <!-- Center cap/pin -->
++    <circle cx="250" cy="250" r="5" fill="url(#caseOuter)" stroke="#8b6914" stroke-width="0.5"/>
++    <circle cx="250" cy="250" r="3" fill="#d4b85a"/>
++    <circle cx="250" cy="250" r="1.5" fill="#8b6914"/>
++  </g>
++
++</svg>
+diff --git a/index.html b/index.html
+new file mode 100644
+index 0000000..fa58ccd
+--- /dev/null
++++ b/index.html
+@@ -0,0 +1,15 @@
++<!doctype html>
++<html>
++<head>
++<meta charset="utf-8">
++<title>artifact preview</title>
++<style>
++  html, body { margin: 0; padding: 0; height: 100%; background: #fff; }
++  body { display: flex; align-items: center; justify-content: center; }
++  img { max-width: 92vw; max-height: 92vh; }
++</style>
++</head>
++<body>
++  <img src="artifact.svg" alt="artifact">
++</body>
++</html>

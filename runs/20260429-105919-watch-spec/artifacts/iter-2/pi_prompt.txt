@@ -1,0 +1,37 @@
+Goal: Update `artifact.svg` to fix the watch dial layout by adding a chain to the crown, repositioning sub-dials, removing obscuring text, and ensuring Roman numerals are visible.
+
+Files to edit:
+- `artifact.svg`
+
+Files to leave alone:
+- `index.html`
+- `README.md`
+
+Concrete changes for `artifact.svg`:
+
+1. **Add Chain to Crown**:
+   - Locate the crown element (typically at the top center, e.g., near x=400, y=50).
+   - Add a new `<path>` or `<g>` representing a chain attached to the crown. Ensure it extends upward or outward naturally from the crown’s attachment point. Use appropriate stroke width and color to match the watch style.
+
+2. **Reposition Sub-dials**:
+   - **Power Reserve**: Move the power reserve sub-dial to the 12 o'clock position. Calculate the center coordinates based on the dial’s radius (e.g., if dial center is (400,400) and radius is 200, 12 o’clock is (400,200)). Update the `cx` and `cy` attributes of the sub-dial group.
+   - **Small Seconds**: Move the small seconds sub-dial to the 6 o'clock position (e.g., (400,600)). Update its `cx` and `cy` attributes.
+   - Ensure any hands or indicators within these sub-dials are also rotated or repositioned to reflect their new locations relative to the sub-dial centers.
+
+3. **Remove 'CHRONOMETER' Text**:
+   - Find the `<text>` element containing "CHRONOMETER".
+   - Delete this element entirely. Ensure no residual attributes or empty tags remain.
+
+4. **Ensure Roman Numerals Visibility**:
+   - Identify the Roman numeral elements (likely `<text>` elements positioned around the dial perimeter).
+   - Verify that no hands (hour, minute, second) overlap these numerals. If hands are drawn after the numerals in the SVG DOM, move the numeral elements to appear *after* the hands in the code, or adjust the hands’ paths to avoid the numeral positions.
+   - Check that the numerals’ `font-size`, `fill`, and `opacity` are sufficient for clear visibility against the dial background.
+
+Acceptance Criteria:
+- The SVG parses as valid XML (all tags closed, attributes quoted).
+- A chain is visibly attached to the crown.
+- The power reserve sub-dial is centered at 12 o'clock.
+- The small seconds sub-dial is centered at 6 o'clock.
+- The text "CHRONOMETER" is completely removed.
+- All Roman numerals are fully visible and not obscured by any hands.
+- No other elements in the SVG are unintentionally modified.

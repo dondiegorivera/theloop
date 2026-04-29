@@ -1,0 +1,24 @@
+Goal: Update `artifact.svg` to display the text "Greetings from Pelican City" and reposition the pelican’s wings so they extend forward and grip the handlebars, instead of being folded against the body.
+
+Files to edit:
+- `artifact.svg`
+
+Files to leave alone:
+- `index.html`
+- `README.md`
+
+Concrete changes:
+1. Locate the `<text>` element containing the current greeting. Replace its content with exactly: `Greetings from Pelican City`. Ensure the text is centered and legible.
+2. Identify the SVG elements representing the pelican’s wings (likely `<path>`, `<polygon>`, or `<g>` groups with specific IDs or classes).
+3. Modify the wing paths/groups so they extend forward from the body toward the handlebars.
+4. Adjust the wing endpoints or add new path segments to visually depict the wings gripping the handlebars. Ensure the grip looks natural and overlaps the handlebars appropriately.
+5. Verify that the wings are no longer folded against the body; they should be clearly extended forward.
+
+Acceptance criteria:
+- The SVG parses as valid XML. All tags are closed, and all attributes are quoted.
+- The text reads exactly "Greetings from Pelican City" with no extra characters or typos.
+- The pelican’s wings are extended forward and visually grip the handlebars.
+- No other elements in the SVG are unintentionally altered.
+- The overall composition remains balanced and visually coherent.
+
+Do not modify `index.html` or `README.md`. Return only the updated `artifact.svg` content.

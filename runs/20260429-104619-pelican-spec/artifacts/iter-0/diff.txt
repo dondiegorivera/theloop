@@ -1,0 +1,171 @@
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..c4bc5d0
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,8 @@
++# SVG task workspace
++
++The artifact pi should iteratively edit lives at `artifact.svg`. The
++preview wrapper at `index.html` opens it in the browser; do not touch
++the wrapper unless you need a different presentation surface.
++
++Tools available: read, write, edit, bash. The renderer screenshots
++`index.html` at 1024×768 after each iteration.
+diff --git a/artifact.svg b/artifact.svg
+new file mode 100644
+index 0000000..f043018
+--- /dev/null
++++ b/artifact.svg
+@@ -0,0 +1,129 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
++  <!-- Background -->
++  <rect x="0" y="0" width="400" height="300" fill="#e8f4f8"/>
++
++  <!-- Ground line -->
++  <line x1="20" y1="265" x2="380" y2="265" stroke="#8B7355" stroke-width="2" stroke-linecap="round"/>
++
++  <!-- === BICYCLE === -->
++
++  <!-- Rear wheel -->
++  <circle cx="100" cy="220" r="42" fill="none" stroke="#333" stroke-width="3"/>
++  <circle cx="100" cy="220" r="38" fill="none" stroke="#666" stroke-width="1"/>
++  <!-- Rear wheel spokes -->
++  <line x1="100" y1="178" x2="100" y2="262" stroke="#999" stroke-width="1"/>
++  <line x1="58" y1="220" x2="142" y2="220" stroke="#999" stroke-width="1"/>
++  <line x1="70" y1="190" x2="130" y2="250" stroke="#999" stroke-width="1"/>
++  <line x1="130" y1="190" x2="70" y2="250" stroke="#999" stroke-width="1"/>
++  <!-- Rear hub -->
++  <circle cx="100" cy="220" r="4" fill="#555"/>
++
++  <!-- Front wheel -->
++  <circle cx="300" cy="220" r="42" fill="none" stroke="#333" stroke-width="3"/>
++  <circle cx="300" cy="220" r="38" fill="none" stroke="#666" stroke-width="1"/>
++  <!-- Front wheel spokes -->
++  <line x1="300" y1="178" x2="300" y2="262" stroke="#999" stroke-width="1"/>
++  <line x1="258" y1="220" x2="342" y2="220" stroke="#999" stroke-width="1"/>
++  <line x1="270" y1="190" x2="330" y2="250" stroke="#999" stroke-width="1"/>
++  <line x1="330" y1="190" x2="270" y2="250" stroke="#999" stroke-width="1"/>
++  <!-- Front hub -->
++  <circle cx="300" cy="220" r="4" fill="#555"/>
++
++  <!-- Bicycle frame -->
++  <!-- Rear triangle: seat tube to bottom bracket to rear axle -->
++  <line x1="120" y1="145" x2="195" y2="220" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
++  <!-- Top tube -->
++  <line x1="120" y1="145" x2="260" y2="140" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
++  <!-- Down tube -->
++  <line x1="195" y1="220" x2="260" y2="140" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
++  <!-- Seat stay -->
++  <line x1="120" y1="145" x2="100" y2="220" stroke="#c0392b" stroke-width="3" stroke-linecap="round"/>
++  <!-- Chain stay -->
++  <line x1="195" y1="220" x2="100" y2="220" stroke="#c0392b" stroke-width="3" stroke-linecap="round"/>
++
++  <!-- Seat post and seat -->
++  <line x1="120" y1="145" x2="115" y2="125" stroke="#555" stroke-width="3" stroke-linecap="round"/>
++  <ellipse cx="115" cy="122" rx="18" ry="6" fill="#2c3e50"/>
++
++  <!-- Head tube and fork -->
++  <line x1="260" y1="140" x2="275" y2="195" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
++  <line x1="275" y1="195" x2="300" y2="220" stroke="#555" stroke-width="3" stroke-linecap="round"/>
++
++  <!-- Handlebars -->
++  <path d="M270,130 Q275,118 285,115 Q295,112 300,118" fill="none" stroke="#555" stroke-width="3" stroke-linecap="round"/>
++  <circle cx="300" cy="118" r="4" fill="#444"/>
++
++  <!-- Bottom bracket / crank area -->
++  <circle cx="195" cy="220" r="8" fill="#555"/>
++
++  <!-- Pedals and cranks -->
++  <!-- Right crank (forward) -->
++  <line x1="195" y1="220" x2="215" y2="200" stroke="#555" stroke-width="3" stroke-linecap="round"/>
++  <rect x="210" y="196" width="12" height="5" rx="1" fill="#444" transform="rotate(-30, 216, 198)"/>
++  <!-- Left crank (backward) -->
++  <line x1="195" y1="220" x2="175" y2="240" stroke="#555" stroke-width="3" stroke-linecap="round"/>
++  <rect x="168" y="236" width="12" height="5" rx="1" fill="#444" transform="rotate(30, 174, 238)"/>
++
++  <!-- Chain ring -->
++  <circle cx="195" cy="220" r="14" fill="none" stroke="#777" stroke-width="2"/>
++
++  <!-- === PELICAN === -->
++
++  <!-- Left leg (back, behind body) -->
++  <path d="M130,130 Q140,160 175,240" fill="none" stroke="#e8a735" stroke-width="5" stroke-linecap="round"/>
++  <!-- Left foot on pedal -->
++  <ellipse cx="172" cy="240" rx="8" ry="4" fill="#e8a735" transform="rotate(30, 172, 240)"/>
++
++  <!-- Pelican body -->
++  <ellipse cx="145" cy="100" rx="38" ry="28" fill="#f5f5f0" stroke="#ccc" stroke-width="1.5" transform="rotate(-15, 145, 100)"/>
++
++  <!-- Wing (folded, on body) -->
++  <path d="M120,90 Q140,75 165,85 Q175,95 160,110 Q140,115 120,105 Z" fill="#e8e8e0" stroke="#ccc" stroke-width="1"/>
++  <!-- Wing feather detail -->
++  <path d="M130,95 Q145,88 158,95" fill="none" stroke="#ddd" stroke-width="1"/>
++  <path d="M128,100 Q142,94 155,100" fill="none" stroke="#ddd" stroke-width="1"/>
++
++  <!-- Tail feathers -->
++  <path d="M108,115 Q95,120 90,130 Q95,125 105,122" fill="#e8e8e0" stroke="#ccc" stroke-width="1"/>
++  <path d="M105,118 Q90,125 85,135 Q92,128 103,124" fill="#e8e8e0" stroke="#ccc" stroke-width="1"/>
++
++  <!-- Neck (curved forward) -->
++  <path d="M165,85 Q195,65 230,60 Q250,58 260,62" fill="none" stroke="#f5f5f0" stroke-width="16" stroke-linecap="round"/>
++  <path d="M165,85 Q195,65 230,60 Q250,58 260,62" fill="none" stroke="#e8e8e0" stroke-width="14" stroke-linecap="round"/>
++
++  <!-- Head -->
++  <ellipse cx="262" cy="58" rx="14" ry="12" fill="#f5f5f0" stroke="#ccc" stroke-width="1.5"/>
++
++  <!-- Eye -->
++  <circle cx="268" cy="54" r="3" fill="#222"/>
++  <circle cx="269" cy="53" r="1" fill="#fff"/>
++
++  <!-- Bill (upper mandible) -->
++  <path d="M272,55 Q290,52 310,54 Q318,55 320,58 Q318,60 310,60 Q290,60 272,60 Z" fill="#f0a500" stroke="#d4900a" stroke-width="1"/>
++
++  <!-- Bill tip hook -->
++  <path d="M318,55 Q322,56 320,60 Q318,62 315,60" fill="#d4900a" stroke="#c07800" stroke-width="1"/>
++
++  <!-- Throat pouch (gular pouch) - the key pelican feature -->
++  <path d="M272,60 Q280,80 300,82 Q315,80 318,60" fill="#f0a500" fill-opacity="0.6" stroke="#d4900a" stroke-width="1.5"/>
++  <!-- Pouch line detail -->
++  <path d="M280,65 Q290,78 305,78" fill="none" stroke="#d4900a" stroke-width="0.8" stroke-linecap="round"/>
++
++  <!-- Right leg (front, visible) -->
++  <path d="M140,120 Q160,155 215,200" fill="none" stroke="#e8a735" stroke-width="5" stroke-linecap="round"/>
++  <!-- Right foot on pedal -->
++  <ellipse cx="212" cy="200" rx="8" ry="4" fill="#e8a735" transform="rotate(-30, 212, 200)"/>
++
++  <!-- Small cloud decorations -->
++  <ellipse cx="60" cy="40" rx="25" ry="10" fill="#fff" fill-opacity="0.7"/>
++  <ellipse cx="80" cy="35" rx="20" ry="12" fill="#fff" fill-opacity="0.7"/>
++  <ellipse cx="340" cy="50" rx="22" ry="9" fill="#fff" fill-opacity="0.6"/>
++  <ellipse cx="355" cy="45" rx="18" ry="10" fill="#fff" fill-opacity="0.6"/>
++
++  <!-- Small grass tufts -->
++  <path d="M50,265 Q52,255 55,265" fill="none" stroke="#6B8E23" stroke-width="1.5" stroke-linecap="round"/>
++  <path d="M55,265 Q57,252 60,265" fill="none" stroke="#6B8E23" stroke-width="1.5" stroke-linecap="round"/>
++  <path d="M340,265 Q342,256 345,265" fill="none" stroke="#6B8E23" stroke-width="1.5" stroke-linecap="round"/>
++  <path d="M345,265 Q347,253 350,265" fill="none" stroke="#6B8E23" stroke-width="1.5" stroke-linecap="round"/>
++</svg>
+\ No newline at end of file
+diff --git a/index.html b/index.html
+new file mode 100644
+index 0000000..fa58ccd
+--- /dev/null
++++ b/index.html
+@@ -0,0 +1,15 @@
++<!doctype html>
++<html>
++<head>
++<meta charset="utf-8">
++<title>artifact preview</title>
++<style>
++  html, body { margin: 0; padding: 0; height: 100%; background: #fff; }
++  body { display: flex; align-items: center; justify-content: center; }
++  img { max-width: 92vw; max-height: 92vh; }
++</style>
++</head>
++<body>
++  <img src="artifact.svg" alt="artifact">
++</body>
++</html>

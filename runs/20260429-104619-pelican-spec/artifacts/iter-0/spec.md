@@ -1,8 +1,8 @@
 ---
 adapter: svg
-max_iters: 10
-score_threshold: 0.99
-no_improvement_for: 5
+max_iters: 4
+score_threshold: 0.85
+no_improvement_for: 3
 ---
 
 # Pelican on a bicycle
@@ -16,3 +16,9 @@ near the pedals, posture leaning slightly forward.
 Style is up to you. Flat colors, line art, or a mix all fine. Keep it on
 a clean background. The SVG must parse as XML and render in any modern
 browser.
+
+## Previous critique
+(none — first iteration)
+
+## Iteration history
+- iter 0: Draw a recognizable pelican riding a bicycle with two wheels, a frame, and handlebars, ensuring the pelican is pedaling with a forward-leaning posture. → Generate the SVG code.

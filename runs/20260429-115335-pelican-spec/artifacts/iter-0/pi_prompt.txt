@@ -1,0 +1,31 @@
+Goal: Replace the content of `artifact.svg` with a valid, self-contained SVG illustration of a pelican actively pedaling a bicycle on a clean background.
+
+Files to edit:
+- `artifact.svg`
+
+Files to leave alone:
+- `index.html`
+- `README.md`
+
+Implementation details:
+1.  **SVG Structure**: Ensure the root `<svg>` tag has appropriate `viewBox` (e.g., `0 0 800 600`) and `xmlns`. Close all tags properly. Quote all attribute values.
+2.  **Background**: Use a simple, clean background (e.g., a light gray or white `<rect>` covering the viewBox) to ensure the subject stands out.
+3.  **Bicycle**:
+    -   Draw two wheels (circles) with spokes or a simple rim design.
+    -   Draw a frame connecting the wheels, seat post, and handlebars.
+    -   Include handlebars and a seat.
+    -   Ensure the geometry allows for a rider to be positioned between the wheels.
+4.  **Pelican**:
+    -   Draw the pelican's body, head, and wings.
+    -   **Key Feature**: The pelican must have a distinct, long beak and a visible throat pouch (gular pouch).
+    -   **Posture**: Position the pelican so it appears to be riding the bike. Its feet should be near the pedals (or on them), and its hands should be on the handlebars. The body should lean slightly forward to suggest active pedaling.
+    -   Use distinct colors for the pelican (e.g., white body, gray wings, yellow/orange beak) to differentiate it from the bike.
+5.  **Styling**: Use inline styles or presentation attributes (like `fill`, `stroke`, `stroke-width`) for colors and line weights. Ensure the drawing is visually balanced within the viewBox.
+
+Acceptance Criteria:
+-   The file `artifact.svg` contains valid XML.
+-   The SVG renders a pelican with a long beak and throat pouch.
+-   The pelican is depicted riding a bicycle with two wheels, a frame, and handlebars.
+-   The pelican's posture indicates active pedaling (hands on bars, feet near pedals).
+-   The background is clean and uncluttered.
+-   No tags are left unclosed, and all attributes are quoted.

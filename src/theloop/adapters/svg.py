@@ -71,6 +71,24 @@ class SVGAdapter(TaskAdapter):
         url = (workspace / "index.html").as_uri()
         await renderer.screenshot(url, out_png, wait_until="load")
 
+    def artifact_text(self, workspace: Path) -> str | None:
+        # The vision encoder is reliable for "does this look like a pelican"
+        # and unreliable for "is there actually a frame triangle connecting
+        # these two wheels". The source is the opposite. Surfacing the SVG
+        # source alongside the render lets the judge cross-check structural
+        # claims (counts of <line>/<circle>/<path>, presence of named
+        # groups) against what it sees rendered.
+        svg = workspace / "artifact.svg"
+        if not svg.exists():
+            return None
+        body = svg.read_text()
+        return (
+            f"### artifact.svg ({len(body)} chars, {body.count(chr(10)) + 1} lines)\n\n"
+            "```xml\n"
+            f"{body}\n"
+            "```\n"
+        )
+
 
 # ── manual smoke test ───────────────────────────────────────────────────────
 

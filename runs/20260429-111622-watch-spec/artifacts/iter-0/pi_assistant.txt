@@ -1,0 +1,47 @@
+I'll create this detailed pocket watch SVG. Let me build it with all the specified components.
+
+Let me verify the SVG is valid XML:
+
+The SVG is valid XML with 696 elements. Let me also verify the viewBox and file size:
+
+The `artifact.svg` has been created successfully. Here's a summary of what's included:
+
+**Case & Bezel:**
+- Circular outer case (r=170) with brushed silver/gold linear gradient
+- Textured bezel with concentric engraved rings and decorative dot engravings
+- Winding crown at 12 o'clock with knurled ridges and top cap emblem
+- Gold bow (loop) at the very top for chain attachment
+
+**Dial & Face:**
+- Cream/ivory dial with radial gradient simulating curvature
+- 60 minute track ticks (small) + 12 major ticks (bold) around the perimeter
+- Roman numerals (I–XII) in Georgia serif font, evenly spaced
+- "CHRONOMETER" and "SWISS MADE" brand text
+- Subtle sunburst pattern and glass dome reflection
+
+**Hands (positioned at 10:10:30):**
+- Hour hand (Dauphine style, blued steel) at ~305°
+- Minute hand (Dauphine style, blued steel) at 60°
+- Second hand (thin blued steel) at 180°
+- Central pivot with screw cross detail
+
+**Sub-dials:**
+- Small seconds sub-dial at 6 o'clock with its own minute track and hand
+- Date window at 3 o'clock showing "28"
+
+**Skeletonized Movement (right side):**
+- Mainspring barrel with visible coil winds
+- Center wheel (12 teeth), third wheel (8 teeth), escape wheel (15 teeth)
+- Balance wheel with timing screws and spokes
+- Hairspring (spiral coil)
+- Lever escapement with pallet jewels
+- Ruby jewel bearings with glow effects
+- Skeleton bridge with ornamental cutouts and blued screws
+
+**Chain:**
+- 36 linked gold chain segments descending from the bow, alternating orientation
+
+**Styling:**
+- 20+ gradients (linear and radial) for metallic reflections
+- Drop shadow filters for depth
+- Proper document-order layering (chain → bow → crown → case → dial → hands → movement)

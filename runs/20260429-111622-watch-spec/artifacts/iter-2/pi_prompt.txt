@@ -1,0 +1,39 @@
+Goal: Update `artifact.svg` to reposition the hour, minute, and second hands to their specific angles (305°, 60°, 210°) and restructure the lower movement area so that all gears and the balance wheel are strictly confined to the bottom half of the clock face, below the dial.
+
+Files to Edit:
+- `artifact.svg`
+
+Files to Leave Alone:
+- `index.html`
+- `README.md`
+
+Concrete Changes:
+
+1. **Reposition Hands:**
+   - Locate the `<g>` or `<path>` elements representing the hour, minute, and second hands.
+   - Apply rotation transforms to align them to the specified angles relative to the clock center (assume center is at `cx="250" cy="250"` unless otherwise defined in the SVG).
+     - Hour hand: Rotate by 305°.
+     - Minute hand: Rotate by 60°.
+     - Second hand: Rotate by 210°.
+   - Ensure the rotation origin is the center of the clock face. If the hands are not currently centered, adjust their `transform-origin` or translate them before rotating so they pivot correctly.
+   - Verify the visual length and width of each hand remain consistent with the existing design style.
+
+2. **Reconstruct Lower Movement Area:**
+   - Identify the current positions of the gears and balance wheel.
+   - Move all gear and balance wheel elements so they reside entirely in the bottom half of the SVG canvas (y-coordinates greater than the dial's bottom edge).
+   - Ensure no part of any gear or the balance wheel overlaps or extends above the dial boundary.
+   - Adjust the layout of the movement components to fit neatly within this confined lower region, maintaining visual balance and mechanical plausibility.
+   - If necessary, resize or reposition the background elements defining the "movement area" to clearly demarcate this lower section.
+
+3. **Structural Integrity:**
+   - Ensure all SVG tags are properly closed.
+   - Ensure all attributes are quoted.
+   - The SVG must parse as valid XML without errors.
+
+Acceptance Criteria:
+- The hour hand points to approximately 305° (roughly 10 o'clock position).
+- The minute hand points to approximately 60° (roughly 2 o'clock position).
+- The second hand points to approximately 210° (roughly 7 o'clock position).
+- All gears and the balance wheel are strictly contained within the bottom half of the clock face, below the dial.
+- No elements overlap incorrectly or extend outside their designated zones.
+- The SVG file is valid XML and renders correctly in a browser.
