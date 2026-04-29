@@ -1,0 +1,51 @@
+Goal: Create a functional 3D Flappy Bird prototype using Three.js in `index.html` and `app.js`. The game must feature a dragon (simple geometry) that flaps on click/spacebar, avoids obstacles (pillars), and displays a score. The page must set `window.__ready = true` after the first render frame.
+
+Files to edit:
+- `index.html`: Structure, CDN link for Three.js, and basic CSS.
+- `app.js`: All game logic, scene setup, physics, and rendering.
+
+Implementation Plan:
+
+1.  **Scene Setup (`app.js`)**:
+    -   Initialize `THREE.Scene`, `THREE.PerspectiveCamera`, and `THREE.WebGLRenderer`.
+    -   Set renderer size to 1024x768.
+    -   Add ambient and directional light.
+    -   Append renderer.domElement to `document.body`.
+
+2.  **Player (Dragon)**:
+    -   Create a simple group representing the dragon (e.g., a red box or cone).
+    -   Position it at `x = -2`, `y = 0`, `z = 0`.
+    -   Implement gravity: apply a downward force every frame.
+    -   Implement flap: on `click` or `keydown` (Space), apply an upward impulse.
+    -   Keep the dragon within vertical bounds (e.g., y between -5 and 5).
+
+3.  **Obstacles (Pillars)**:
+    -   Create pairs of green boxes (top and bottom pillars) with a gap in the middle.
+    -   Move pillars from right to left (`x` decreases).
+    -   Spawn new pillar pairs at regular intervals (e.g., every 100 frames or distance).
+    -   Remove pillars that move off-screen (`x < -10`).
+
+4.  **Collision Detection**:
+    -   Check if the dragon intersects with any pillar boxes.
+    -   Check if the dragon hits the floor (`y < -5`) or ceiling (`y > 5`).
+    -   On collision, stop the game loop and show a "Game Over" message.
+
+5.  **UI Overlay**:
+    -   Add a simple HTML overlay in `index.html` for score and "Game Over" text.
+    -   Update score when the dragon passes a pillar.
+    -   Allow restart on click after game over.
+
+6.  **Render Loop**:
+    -   Use `requestAnimationFrame`.
+    -   Update physics, move obstacles, check collisions, update UI.
+    -   Render the scene.
+    -   **Crucial**: Set `window.__ready = true` after the first `renderer.render()` call.
+
+Acceptance Criteria:
+-   The page loads without console errors.
+-   `window.__ready` is set to `true` shortly after load.
+-   The dragon responds to clicks/spacebar by moving up.
+-   Pillars scroll from right to left.
+-   Collision with pillars or boundaries stops the game and shows "Game Over".
+-   Score increases as pillars are passed.
+-   The game is playable and visually clear at 1024x768.

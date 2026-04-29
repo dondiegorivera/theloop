@@ -1,0 +1,26 @@
+Both files exist with scaffold content. I'll now implement the full game.
+
+Let me verify both files are correct:
+
+Both files are complete. Let me do a quick syntax check:
+
+Both files are implemented and validated. Here's a summary:
+
+### `index.html`
+- Three.js loaded via CDN (`three@0.160.0`)
+- 1024×768 game container centered on screen
+- **Score display** — large white number at top-center
+- **Game Over overlay** — hidden by default, fades in with "Game Over" + restart prompt
+- CSS handles pointer-events so clicks pass through to the canvas during gameplay
+
+### `app.js`
+| Feature | Implementation |
+|---|---|
+| **Scene** | Sky-blue background with fog, ambient + directional light, green ground plane |
+| **Dragon** | Group with red box body, white sphere eyes, orange cone beak, animated wings — positioned at `x = -2` |
+| **Physics** | Gravity (`-0.015`/frame), flap impulse (`0.28`), velocity-based tilt, wing flapping animation |
+| **Pillars** | Green box pairs with decorative caps, random gap placement, spawn every 220 frames, scroll right→left |
+| **Collision** | AABB overlap check against top/bottom pillars + boundary clamping (`±5`) |
+| **Scoring** | Increment when dragon passes a pillar's x position |
+| **Game Over** | Stops physics, shows overlay; click/space restarts everything |
+| **Ready signal** | `window.__ready = true` set after first `renderer.render()` call |

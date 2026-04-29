@@ -1,0 +1,24 @@
+Create `primes.py` and `test_primes.py` in the workspace root.
+
+**1. `primes.py`**
+Implement the Sieve of Eratosthenes to generate all prime numbers up to a given limit `n`.
+- Function `sieve_of_eratosthenes(n: int) -> list[int]`: Returns a list of all primes less than or equal to `n`. Handle edge cases where `n < 2` by returning an empty list.
+- Function `is_prime(n: int) -> bool`: A helper function that checks if a single number is prime. It should efficiently use the sieve logic or a direct check (preferably leveraging the sieve if `n` is within a reasonable range, or a standard O(sqrt(n)) check if not, but for simplicity, a direct efficient check is acceptable unless specified otherwise. However, since the intent mentions "implementing the Sieve... and the is_prime helper", ensure `is_prime` is robust. A simple implementation using the sieve result or a direct trial division is fine. Let's stick to a direct efficient check for `is_prime` to keep it independent, or have `is_prime` rely on `sieve_of_eratosthenes` if `n` is small. Given the context, a direct O(sqrt(n)) check is standard for `is_prime`, while `sieve_of_eratosthenes` is for bulk generation.
+
+**2. `test_primes.py`**
+Write unit tests using `pytest` (or standard `unittest`) to verify:
+- `sieve_of_eratosthenes(10)` returns `[2, 3, 5, 7]`.
+- `sieve_of_eratosthenes(0)` returns `[]`.
+- `sieve_of_eratosthenes(2)` returns `[2]`.
+- `is_prime(2)` is `True`.
+- `is_prime(4)` is `False`.
+- `is_prime(17)` is `True`.
+- `is_prime(1)` is `False`.
+
+**Acceptance Criteria:**
+- Both files must be syntactically valid Python.
+- `primes.py` must export `sieve_of_eratosthenes` and `is_prime`.
+- `test_primes.py` must run without errors and pass all assertions.
+- No other files should be modified.
+
+End your turn with a summary of the files created.

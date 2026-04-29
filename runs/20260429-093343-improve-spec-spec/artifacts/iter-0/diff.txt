@@ -1,0 +1,568 @@
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..2fd5dea
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,12 @@
++# Document improvement workspace
++
++The document you should edit lives at `document.md`. The spec describes
++the rubric and the kind of improvements wanted; refine the document
++*incrementally* — do not rewrite from scratch unless the spec says so.
++
++Tools available: read, write, edit, bash. There is no rendered preview;
++the judge scores the markdown text directly against the rubric in the
++spec.
++
++End your turn with a one-paragraph summary of *what changed and why* — the
++judge sees this alongside the document.
+diff --git a/document.md b/document.md
+new file mode 100644
+index 0000000..cb22bad
+--- /dev/null
++++ b/document.md
+@@ -0,0 +1,544 @@
++# theloop — system specification (v1)
++
++A closed agentic loop in the spirit of Karpathy's autoresearch, but generic over
++artifact type. **Agno** orchestrates; **pi** writes/edits code; **Qwen3.6** (via
++local LiteLLM) is the only model family. Vision is treated as a first-class
++feedback channel, not an extra.
++
++## Core Terminology
++
++| Term | Definition |
++|------|-----------|
++| **Adapter** | A `TaskAdapter` implementation that defines how a specific artifact type (svg, web, doc, generic) is prepared, checked, and rendered. |
++| **Hat / hat switching** | The pattern where a single `Orchestrator` agent adopts different roles (planner, director, judge) by swapping prompt templates and model aliases. |
++| **Iteration (iter)** | One complete pass through the loop: plan → direct → pi → check → render → judge → terminate. |
++| **JudgeVerdict** | The JSON object returned by `Judge`: `{score: float, critique: str, done: bool}`. |
++| **LiteLLM proxy** | The local LiteLLM server (`http://100.69.40.49:8080/v1`) that routes model alias names to underlying model endpoints. |
++| **Model alias** | A logical name (e.g., `Qwen3.6-Mesh-Thinking-Long`) mapped by the LiteLLM proxy to a specific model; code depends on aliases, not underlying model IDs. |
++| **PlanResult** | The output of `Orchestrator.plan()`: an updated spec and a one-paragraph iteration intent. |
++| **PiResult** | The output of `PiClient.prompt()`: the assistant text plus a summary of tool calls (edits/writes). |
++| **RenderError** | Returned by `TaskAdapter.render()` when no visual artifact can be produced; signals the Judge to use text-only mode. |
++| **Renderer** | The Playwright-based component that launches Chromium and captures screenshots. |
++| **Run** | A single execution of `Loop.run()`, producing a workspace under `runs/<id>/`. |
++| **RuntimeCheckResult** | The output of `TaskAdapter.runtime_check()`: `{ok: bool, log: str}`. |
++| **Spec** | The input markdown document (with optional YAML frontmatter) that drives the loop. |
++| **Terminator** | The component that evaluates `JudgeVerdict` history against stop conditions (max iterations, score threshold, plateau). |
++| **Vision probe** | A startup call to `Judge` with a 32×32 red PNG to verify vision capability; if it fails, the run falls back to text-only judging. |
++| **Workspace** | The per-run git repository under `runs/<id>/workspace/` that tracks file changes across iterations. |
++
++## 1. Goals & non-goals
++
++**Goals (v1):**
++- One `Loop` class that, given a free-form markdown spec, runs:
++  *plan → write/code → check → render → judge → revise* until a stop condition fires.
++- Four task adapters out of the box: `svg`, `web` (HTML/canvas/threejs),
++  `doc` (iterative improvement of a markdown/text document), `generic`
++  (no render — just runtime + text judge).
++- Visual feedback via headless Chromium for `svg` and `web`; PNGs are fed back
++  to a Qwen3.6 vision call that emits a single JSON `{score, critique}`.
++- Text feedback path for `doc`/`generic`: same Judge component, no image,
++  rubric drawn from the spec.
++- Composite termination: hard iteration cap, score threshold, or
++  no-improvement-for-N — whichever fires first.
++- Per-run isolated workspace with one git commit per iteration.
++- Static HTML report at end of run.
++
++**Non-goals (v1):**
++- Multi-agent teams inside agno (single orchestrator with model-hat switching).
++- Live web dashboard (static HTML only; tail JSONL if you want live).
++- Pi calling back into agno mid-iteration (no `request_render`/`ask_judge`
++  tools registered on pi yet).
++- Resuming a partially-completed run (rerun from scratch is fine for v1).
++- Distributed / remote execution.
++
++## 2. Architecture
++
++```
++              ┌─────────────────────────────────────────┐
++              │              theloop CLI                │
++              │   (entry: python -m theloop run …)      │
++              └──────────────────┬──────────────────────┘
++                                 │
++                ┌────────────────▼────────────────┐
++                │            Loop                 │   one Python process
++                │  iter = 0..N until terminate    │
++                └──┬────────┬─────────┬─────────┬─┘
++                   │        │         │         │
++        ┌──────────▼──┐  ┌──▼────┐ ┌──▼─────┐ ┌─▼──────────────┐
++        │ Orchestrator│  │  Pi   │ │Renderer│ │     Judge      │
++        │  (agno,     │  │Client │ │(Play-  │ │ (Qwen3.6 vision│
++        │  hat-       │  │(stdio │ │ wright)│ │  → JSON score) │
++        │  switching) │  │ JSON) │ │        │ │                │
++        └──────┬──────┘  └───┬───┘ └────┬───┘ └────────┬───────┘
++               │             │          │              │
++               └─── Qwen3.6 via LiteLLM proxy ($LITELLM_BASE_URL) ─────────┘
++                                 │
++                ┌────────────────▼────────────────┐
++                │  TaskAdapter (svg | web | gen)  │
++                │   prepare / render / runtime    │
++                └────────────────┬────────────────┘
++                                 │
++                ┌────────────────▼────────────────┐
++                │   runs/<run_id>/workspace/      │
++                │   (git repo, iter/N branches)   │
++                └─────────────────────────────────┘
++```
++
++**Data flow per iteration:**
++1. Orchestrator (planner hat) reads current spec.md + previous critique →
++   writes updated `spec.md` + a one-paragraph "this iteration's intent".
++2. Orchestrator (director hat) hands intent + workspace path to `PiClient`.
++3. Pi runs to completion (own internal turns), edits/creates files in
++   `workspace/`.
++4. Adapter `runtime_check` runs (e.g., `node --check`, headless page-load with
++   no JS errors) — failures get fed back without rendering.
++5. Adapter `render` produces a PNG.
++6. `Judge` makes one vision call: spec + render → `{score, critique, done}`.
++7. `Terminator` decides continue/stop. If continue, critique becomes input to
++   step 1 of next iter.
++8. Workspace is git-committed on branch `iter/N`. Artifacts written to
++   `runs/<id>/artifacts/iter-N/`.
++
++## 3. Directory layout
++
++```
++theloop/
++├── pyproject.toml                 # (to be created — uv- or pip-managed)
++├── docs/
++│   ├── spec.md                    # this file
++│   ├── agno.md                    # vendor docs (existing)
++│   ├── pi.md                      # vendor docs (existing)
++│   └── litellm-endpoints.md       # endpoint config (existing)
++├── src/theloop/
++│   ├── __init__.py
++│   ├── __main__.py                # `python -m theloop`
++│   ├── cli.py                     # argparse / Typer entry
++│   ├── loop.py                    # Loop class — main control flow
++│   ├── orchestrator.py            # agno wrapper + hat switching
++│   ├── pi_client.py               # subprocess + line-JSON RPC
++│   ├── renderer.py                # Playwright wrapper
++│   ├── judge.py                   # single vision call → JSON
++│   ├── terminator.py              # composite stop condition
++│   ├── workspace.py               # git-init, branch-per-iter, commits
++│   ├── reporter.py                # JSONL events + static HTML index
++│   ├── models.py                  # role → LiteLLM alias mapping
++│   ├── prompts/                   # markdown prompt templates per hat
++│   │   ├── planner.md
++│   │   ├── director.md
++│   │   └── judge.md
++│   └── adapters/
++│       ├── __init__.py            # registry
++│       ├── base.py                # TaskAdapter ABC
++│       ├── svg.py
++│       ├── web.py
++│       ├── doc.py
++│       └── generic.py
++├── runs/                          # gitignored — created on first run
++└── examples/
++    ├── pelican.spec.md
++    └── dragon-flappy.spec.md
++```
++
++## 4. Components
++
++### 4.1 `Loop` (loop.py)
++
++```python
++class Loop:
++    def __init__(
++        self,
++        spec_path: Path,
++        adapter: TaskAdapter,
++        orchestrator: Orchestrator,
++        pi: PiClient,
++        renderer: Renderer | None,
++        judge: Judge,
++        terminator: Terminator,
++        workspace: Workspace,
++        reporter: Reporter,
++    ): ...
++
++    async def run(self) -> RunResult: ...
++```
++
++`run()` is the only public method. It owns the iter counter, calls each
++component in fixed order, and emits structured events to `reporter` at every
++boundary. No retries, no fallbacks beyond what each component does internally —
++if anything below raises, the loop ends and the report shows the error.
++
++### 4.2 `Orchestrator` (orchestrator.py)
++
++Single agno `Agent` instance. We don't instantiate one agent per role; instead,
++we keep three prompt templates (`planner`, `director`, `judge` — judge prompt
++is used by `Judge` but lives here for colocation) and switch which model alias
++the agent uses for each call. This is the "hat" pattern.
++
++```python
++class Orchestrator:
++    async def plan(self, spec: str, critique: str | None) -> PlanResult:
++        # uses Qwen3.6-Mesh-Thinking-Long
++        # returns updated spec.md + iteration intent
++
++    async def direct(self, intent: str, workspace: Path) -> str:
++        # uses Qwen3.6-Mesh-Structured
++        # returns the prompt string to hand to pi
++```
++
++Why agno at all if we only use it for two calls? Because phase 2 will add a
++critic hat and possibly a memory store, and agno's `Agent` already gives us
++session history, tool registration, and structured output. Cost is one
++import + one Agent ctor.
++
++### 4.3 `PiClient` (pi_client.py)
++
++Spawns `pi --mode rpc` as a subprocess. Stdin = line-delimited JSON commands;
++stdout = line-delimited JSON events. We only need three command types in v1:
++
++- `{"type": "new_session"}` — start fresh per iteration
++- `{"type": "prompt", "text": "..."}` — send orchestrator's directive
++- (read events until `agent_end` or `turn_end` with no more turns queued)
++
++```python
++class PiClient:
++    async def __aenter__(self) -> "PiClient": ...
++    async def new_session(self) -> None: ...
++    async def prompt(self, text: str) -> PiResult:
++        # collects events; returns final assistant text + tool call summary
++        ...
++    async def __aexit__(self, ...): ...
++```
++
++Pi runs against `Qwen3.6-Mesh-Code-Long` by default, configured to talk to
++the LiteLLM proxy as an OpenAI-compatible endpoint via env vars
++(`LITELLM_BASE_URL`, `LITELLM_MASTER_KEY`, loaded from `.env`). LiteLLM in
++turn forwards to the llama.cpp upstream — that hop is invisible to our code,
++which deliberately depends only on the alias names. The model alias is
++passed via pi CLI flags when we spawn the subprocess; we do not hot-swap
++pi's model per iteration within a run, but the `PiClient` constructor takes
++a `model_alias` parameter so different runs (or different adapters) can
++choose. Notably, `DocAdapter` runs default pi to `Qwen3.6-Mesh-Thinking-Long`
++(better prose, same long context) instead of Code-Long.
++
++`PiResult` includes the list of files pi touched (derived from
++`tool_execution_start` events with `toolName == "edit"|"write"`) so the
++workspace knows what to stage.
++
++### 4.4 `TaskAdapter` (adapters/base.py)
++
++```python
++class TaskAdapter(ABC):
++    name: str  # "svg" | "web" | "generic"
++
++    def prepare(self, workspace: Path) -> None:
++        """Scaffold initial files. Called once before iter 0."""
++
++    def runtime_check(self, workspace: Path) -> RuntimeCheckResult:
++        """ok/err + log excerpt. Called after pi edits, before render."""
++
++    def render(self, workspace: Path, out_png: Path) -> None | RenderError:
++        """Produce a PNG. Generic adapter returns NotImplemented and Loop
++        skips Judge's vision step, falling back to text-only critique."""
++```
++
++**`SVGAdapter`** — scaffolds `index.html` with a single inline `<svg>` slot
++plus `artifact.svg`. Pi is instructed to edit `artifact.svg`. Render = open
++the HTML in headless Chromium, screenshot at fixed viewport.
++
++**`WebAppAdapter`** — scaffolds `index.html` + `app.js` + (optional)
++`package.json` with three.js as a CDN import. Render = open in headless
++Chromium, wait for `window.__ready === true` (or 3s timeout), screenshot.
++Runtime check = navigate and assert no console errors.
++
++**`DocAdapter`** — for iteratively improving a text document (system specs,
++RFCs, prose). Scaffold copies the source document into the workspace as
++`document.md`. Pi is instructed to edit `document.md` directly. Runtime check
++is a structural pass: file exists, parses as markdown, optional `markdownlint`
++and link-existence check (warnings, not failures). Render returns
++`RenderError("text artifact")`; judge runs in text-only mode against the
++spec's rubric (extracted from the spec body or a `--rubric` file).
++
++Inputs: the spec frontmatter takes a `source:` key pointing at the original
++document path, e.g.:
++```
++---
++adapter: doc
++source: ../my-system-spec.md
++rubric: ../rubric.md   # optional; otherwise the spec body is the rubric
++---
++```
++Output of a doc run is `runs/<id>/workspace/document.md` plus the diff branches
++per iter — i.e. you get the full revision history for free, and can pick which
++iteration to merge back.
++
++**`GenericAdapter`** — no scaffold beyond a `README.md`. Render returns
++`RenderError("no visual artifact")`; judge falls back to text-only on the
++spec + last pi turn output. This is a catch-all for tasks that don't fit the
++other three (e.g., a CLI tool, a data-cleaning script).
++
++Adapter chosen via `--adapter` CLI flag, or inferred from the spec's
++frontmatter (`adapter: web`) if present.
++
++### 4.5 `Renderer` (renderer.py)
++
++Thin wrapper over Playwright's **async** API. The browser is launched once
++per `Loop.run()` (saves ~1–2s per iteration) and reused; each screenshot
++opens a fresh `BrowserContext` so iterations don't leak state into each
++other. Used as an async context manager.
++
++```python
++class Renderer:
++    async def __aenter__(self) -> "Renderer": ...   # launches chromium
++    async def __aexit__(self, ...): ...             # closes chromium
++
++    async def screenshot(
++        self,
++        url: str,                                # file:// URL into the workspace
++        out_png: Path,
++        *,
++        viewport: tuple[int, int] = (1024, 768),
++        wait_until: str = "load",                # load | domcontentloaded | networkidle
++        wait_for_js: str | None = None,          # JS expr awaited after nav, e.g. "window.__ready"
++        timeout_s: float = 5.0,
++    ) -> None: ...
++```
++
++Adapters call this; `Loop` doesn't talk to it directly.
++
++### 4.6 `Judge` (judge.py)
++
++Single LiteLLM call with one image + one text prompt. Model:
++`Qwen3.6-Mesh` (base alias, vision-capable since the 35B backbone has vision —
++**this requires the 35B LiteLLM config to be loaded**, [see §6](#6-vision-availability-constraint).
++
++```python
++class Judge:
++    async def evaluate(
++        self,
++        spec: str,
++        png_path: Path | None,    # None → text-only critique
++        last_pi_output: str,
++    ) -> JudgeVerdict:
++        # returns {score: float 0..1, critique: str, done: bool}
++```
++
++Prompt template (`prompts/judge.md`) instructs the model to return a single
++JSON object. We parse with `json.loads` after stripping any ```json fences;
++on parse failure we record `score=None`, treat as no-improvement, continue.
++
++### 4.7 `Terminator` (terminator.py)
++
++```python
++@dataclass
++class TerminationConfig:
++    max_iters: int = 10
++    score_threshold: float = 0.85
++    no_improvement_for: int = 3
++
++class Terminator:
++    def should_stop(self, history: list[JudgeVerdict]) -> StopReason | None:
++        # returns one of: "max_iters", "threshold_met", "plateau", or None
++```
++
++Pure function over history. Easy to unit-test; no I/O.
++
++### 4.8 `Workspace` (workspace.py)
++
++- On `Loop.run()` start: `mkdir runs/<id>/workspace`, `git init`, initial
++  commit on `main` ("scaffold").
++- After each iter: `git checkout -b iter/N` (from `main` for iter 0, from
++  previous `iter/N-1` for later — chained), stage adapter-touched files,
++  commit `"iter N: <intent first line>"`.
++- Final report links to each branch + diff.
++
++Git is local-only; no remotes touched. Failure to `git` is non-fatal — we log
++and continue (the run still produces artifacts).
++
++### 4.9 `Reporter` (reporter.py)
++
++- Writes `runs/<id>/events.jsonl` — one JSON object per event:
++  `{ts, iter, kind, payload}` where `kind ∈
++  {plan_start, plan_end, pi_start, pi_event, pi_end, runtime_check,
++   render, judge, iter_end, run_end}`.
++- At `run_end`, generates a self-contained `runs/<id>/index.html` with one
++  card per iteration: spec excerpt (or diff), screenshot `<img>`, judge
++  verdict block, link to the iter branch (relative path to a `git diff`
++  text file we drop alongside).
++- No template engine; one Python f-string-built HTML file. ~150 lines.
++
++## 5. Model alias mapping (`models.py`)
++
++| Role / hat        | LiteLLM alias                | Why |
++|-------------------|------------------------------|-----|
++| planner           | `Qwen3.6-Mesh-Thinking-Long` | low-temp thinking, longer output for spec rewrites |
++| director          | `Qwen3.6-Mesh-Structured`    | tight, deterministic prompt-for-pi generation |
++| coder (inside pi, code adapters) | `Qwen3.6-Mesh-Code-Long` | long ctx, low-temp, reasoning budget for code |
++| writer (inside pi, doc adapter)  | `Qwen3.6-Mesh-Thinking-Long` | low-temp thinking, prose-friendly, long ctx |
++| judge (vision)    | `Qwen3.6-Mesh`               | fast non-thinking, vision via shared backbone |
++| judge (text-only) | `Qwen3.6-Mesh-Thinking`      | for `doc`/`generic`; reasoning budget helps rubric scoring |
++
++Aliases are fixed strings; the underlying model can be swapped on the LiteLLM
++proxy without touching code (per CLAUDE.md). Override per-run via env vars
++`THELOOP_MODEL_PLANNER` etc., for experimentation.
++
++## 6. Vision availability constraint
++
++Both Qwen3.6 backbones in `litellm-endpoints.md` (35B and 27B) have vision —
++the naming in the model files is misleading; the multimodal projector ships
++with both. We still keep a startup probe because future swaps to a non-vision
++backbone are plausible and we want graceful fallback rather than crashes
++mid-iteration.
++
++Behavior: at startup, `Judge` makes a probe call to `Qwen3.6-Mesh` with a
++**32×32 solid-red PNG** (small but large enough for llama.cpp's vision
++tokenizer — a 1×1 PNG is rejected by the encoder) and asks for the dominant
++color in one word. If the reply does not contain `red`, we log a warning and
++the loop falls back to text-only judging for the whole run. No code-path
++changes required — `JudgeVerdict.score` still works.
++
++`doc` and `generic` adapters never need vision; the probe is skipped for them.
++
++## 7. Spec format
++
++Free-form markdown. No required sections. Conventions only:
++
++- Optional YAML frontmatter:
++  ```
++  ---
++  adapter: web        # svg | web | generic
++  max_iters: 12
++  score_threshold: 0.9
++  ---
++  ```
++- Anything outside frontmatter is the prompt. The planner is allowed (and
++  expected) to rewrite the spec each iter, appending an
++  `## Iteration history` section it owns.
++- Final spec at end of run is committed as `runs/<id>/spec.final.md`.
++
++## 8. CLI
++
++```
++python -m theloop run examples/pelican.spec.md
++python -m theloop run examples/dragon-flappy.spec.md \
++    --adapter web --max-iters 15 --threshold 0.9 --interactive
++python -m theloop report runs/<id>          # regenerate index.html
++```
++
++Flags:
++- `--adapter {svg,web,generic}` — overrides frontmatter
++- `--max-iters N`, `--threshold F`, `--no-improvement-for N`
++- `--interactive` — pause for `[c]ontinue / [s]top / [e]dit-spec` after each
++  iter (off by default)
++- `--run-id <id>` — override the auto-generated `YYYYMMDD-HHMMSS-<slug>` id
++
++## 9. Worked examples
++
++### 9.1 Pelican on a bike (SVG)
++
++`examples/pelican.spec.md`:
++```
++---
++adapter: svg
++max_iters: 8
++---
++Draw an SVG of a pelican riding a bicycle. The pelican should be
++recognizable, the bike should have two wheels and a frame, and the
++composition should suggest motion.
++```
++
++Expected loop:
++- iter 0 — planner emits a structural plan (head/body/wings/wheels/frame),
++  director hands "create artifact.svg with these shapes" to pi, pi writes
++  initial SVG, render produces PNG, judge says "wheels okay, pelican is a
++  blob, score 0.4, critique: needs distinguishable beak and wing".
++- iter 1..N — critique flows into next plan; spec accrues
++  `## Iteration history` entries; usually settles by iter 4–6.
++
++### 9.2 Dragon flappy-bird in three.js
++
++`examples/dragon-flappy.spec.md`:
++```
++---
++adapter: web
++max_iters: 15
++threshold: 0.9
++---
++Build a 3D flappy-bird-style game with a dragon as the player character,
++using three.js loaded from a CDN. Tap/space to flap. Procedural pipe-like
++obstacles. Score counter top-left. Game-over screen with restart.
++A test harness should set window.__ready=true once the scene first renders.
++```
++
++Expected loop:
++- iter 0 — scaffold has `index.html` + `app.js`. Pi writes scene + dragon
++  geometry + obstacle spawner. Runtime check passes (no console errors).
++  Render captures the start screen.
++- judge sees blank-ish scene, scores 0.3, critiques camera angle and
++  missing dragon silhouette.
++- iter 1 — orchestrator's plan adds explicit "dragon should be visible at
++  start, camera at z=8 looking at origin"; pi tweaks; render shows dragon;
++  score climbs.
++- termination usually via plateau or max-iters since "feels like a game"
++  is hard to score above 0.9 from a single screenshot.
++
++### 9.3 Improve a system spec (doc)
++
++`examples/improve-spec.spec.md`:
++```
++---
++adapter: doc
++source: ../docs/spec.md
++max_iters: 6
++threshold: 0.9
++---
++Improve the linked system specification for clarity, internal consistency,
++and completeness. Score against this rubric:
++- Every component has a clear single responsibility.
++- All cross-references between sections are valid.
++- No undefined terms; jargon is introduced before use.
++- Examples are concrete, runnable or copy-pasteable.
++- Open items in §11 are tagged with the section they affect.
++Do not change the architectural decisions; refine wording, fill gaps,
++fix inconsistencies.
++```
++
++Expected loop:
++- iter 0 — planner reads source + rubric, produces a critique pass; pi edits
++  `document.md` with line-level fixes; judge scores against rubric bullets,
++  returns `{score: 0.7, critique: "§4.6 references §6 vision constraint but
++  §6 doesn't mention text-only fallback applies to §4.6 too"}`.
++- iter 1..N — converges quickly because text edits are deterministic and
++  the rubric is fixed (no moving target).
++- final `runs/<id>/workspace/document.md` is the improved spec; user can
++  diff it against the source and merge selectively, or take it whole.
++
++This use-case is *self-applicable* — you can run theloop on its own spec.
++
++## 10. Phase 1 implementation order
++
++1. `models.py`, `pyproject.toml`, choose pkg manager (uv preferred — confirm
++   with user before adding).
++2. `pi_client.py` — happy-path stdio JSON, manual smoke test against `pi --mode rpc`.
++3. `workspace.py` — git plumbing, no LLMs involved.
++4. `renderer.py` — Playwright headless screenshot of a fixed HTML file.
++5. `adapters/svg.py` — minimum viable adapter end-to-end with a hardcoded SVG.
++6. `judge.py` + vision probe.
++7. `orchestrator.py` (planner + director hats) using agno.
++8. `loop.py` — wire it all, run pelican example.
++9. `terminator.py`, `reporter.py`, static HTML.
++10. `adapters/web.py` + dragon example.
++11. `adapters/generic.py` (mostly free given the others).
++12. `adapters/doc.py` + improve-spec example (also mostly free; reuses
++    text-only judge path from generic).
++
++Each step is independently testable; no step blocks more than one downstream
++step until step 8.
++
++## 11. Open items deferred to later phases
++
++- Critic hat as a separate orchestrator role (currently judge does double duty).
++- Pi-side custom tools (`request_render`, `ask_judge`).
++- Multi-image judge (compare iter N screenshot against iter N-1 to detect
++  regressions, not just absolute score).
++- Resume/branch a run from iter K.
++- Live web UI (websocket tail of events.jsonl).
++- Cost/latency telemetry per hat.

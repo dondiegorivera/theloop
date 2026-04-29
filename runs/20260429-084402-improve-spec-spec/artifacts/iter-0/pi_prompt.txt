@@ -1,0 +1,36 @@
+Goal: Refine `document.md` to establish a clear, numbered structural skeleton aligned with the scoring rubric, including a glossary, component summaries, and placeholder examples, without rewriting the source content from scratch.
+
+Files to Edit:
+- `document.md`: Apply structural changes.
+
+Files to Leave Alone:
+- `README.md`: Do not modify.
+
+Instructions:
+1. **Preserve Source Content**: Do not delete or rewrite the existing body text. Use it as the foundation.
+2. **Add Structural Skeleton**:
+   - Insert a top-level numbered list of sections that mirrors the scoring rubric’s criteria.
+   - Ensure each section has a clear heading (e.g., `## 1. Introduction`, `## 2. Architecture`).
+   - If the source text doesn’t naturally fit these sections, group existing paragraphs under the most relevant placeholder headings.
+3. **Insert Glossary**:
+   - Add a `## Glossary` section near the top (after the title/intro).
+   - Extract key domain terms from the source text and define them in a simple `Term: Definition` format.
+4. **Define Component Responsibilities**:
+   - Identify major components mentioned in the source.
+   - Add a `## Component Responsibilities` section.
+   - For each component, provide a single-sentence summary of its role, based on the source text.
+5. **Add Placeholder Examples**:
+   - In relevant sections (e.g., Architecture, Implementation), insert `[Example: ...]` placeholders where concrete examples would strengthen the argument, based on the context of the surrounding text.
+6. **Scoped Open Items**:
+   - Add a `## Open Items` section at the end.
+   - List 2-3 specific areas that need further refinement, derived from ambiguities or gaps in the current source text.
+
+Acceptance Criteria:
+- `document.md` is valid Markdown.
+- The document has a clear, numbered section structure.
+- A Glossary section exists with at least 3 terms.
+- A Component Responsibilities section exists with single-sentence summaries.
+- Placeholder examples are present in logical locations.
+- An Open Items section exists.
+- No source content was deleted; only structural additions and minor re-grouping were performed.
+- End your turn with a one-paragraph summary of what you changed and why.

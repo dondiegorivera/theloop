@@ -1,0 +1,41 @@
+Goal: Edit `document.md` to produce a clean, internally consistent system specification draft that explicitly defines jargon in §3, assigns single responsibilities in §4, and validates all cross-references.
+
+Files to touch:
+- `document.md`: Edit in place. Refine existing text; do not rewrite from scratch.
+
+Files to read (read-only):
+- `context/theloop/` (all .py files): For accurate class names, function signatures, and behavior descriptions.
+- `context/litellm-endpoints.md`: For upstream endpoint details. Note: Do not confuse these with the LiteLLM proxy URL (which is in `.env` and not directly visible here). Use `context/` to verify any factual claims about URLs, paths, or APIs.
+
+Specific Instructions:
+
+1.  **§3: Domain Jargon Definitions**
+    -   Identify every technical term, acronym, or domain-specific jargon used in the document.
+    -   Ensure each term has a clear, concise definition within this section.
+    -   Verify definitions against `context/theloop/` source code. For example, if the doc mentions `Orchestrator`, its definition must align with `context/theloop/orchestrator.py`. Do not invent class members or fields; use only what is defined in the context.
+
+2.  **§4: Component Responsibilities**
+    -   List each major component (e.g., `Judge`, `Reporter`, `Renderer`, `PiClient`).
+    -   Assign exactly **one** primary responsibility to each component.
+    -   Ensure these responsibilities are derived from the actual code in `context/theloop/`. For instance, if `reporter.py` handles both formatting and saving, define the responsibility as "generating and persisting reports" rather than splitting them arbitrarily.
+    -   Remove any ambiguity. If a component has multiple roles, consolidate them into a single, comprehensive responsibility statement or split the component logically if the code supports it.
+
+3.  **Cross-Reference Validation**
+    -   Scan the entire document for any references to other sections (e.g., "see §3", "as defined in §4").
+    -   Ensure every cross-reference points to an **existing** section.
+    -   If a reference is broken or points to a non-existent section, either fix the reference to point to the correct section or remove the reference if it is no longer relevant.
+    -   Ensure internal consistency: If §3 defines a term, §4 should use that term consistently.
+
+4.  **Fact-Checking**
+    -   Before making any factual claim (URLs, file paths, function signatures, version numbers), grep `context/` to verify.
+    -   If `context/` does not support a claim, keep the wording abstract or omit the claim. Do not invent details.
+    -   Specifically, when discussing LiteLLM, distinguish between the upstream llama.cpp endpoints (in `context/litellm-endpoints.md`) and the proxy URL (which is not in the workspace but is referenced in `.env`). Do not conflate them.
+
+Acceptance Criteria:
+-   All domain jargon in §3 is explicitly defined.
+-   Each component in §4 has a single, clear responsibility.
+-   All cross-references point to existing sections.
+-   No factual claims are invented; all claims are supported by `context/`.
+-   The document is internally consistent and ready for scoring.
+
+End your turn with a one-paragraph summary of what you changed and why.

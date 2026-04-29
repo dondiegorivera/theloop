@@ -1,0 +1,37 @@
+Create the initial structural scaffolding for `artifact.svg`. The goal is to establish a clean, valid XML foundation with a standardized viewBox, explicit layering, and semantic grouping, using only flat colors and simple strokes.
+
+**File to Edit:** `artifact.svg`
+**Files to Ignore:** `index.html`, `README.md`
+
+**Implementation Details:**
+
+1.  **Root Element & ViewBox:**
+    *   Use `<svg>` with `xmlns="http://www.w3.org/2000/svg"`.
+    *   Set `viewBox="0 0 800 600"` to define a standard coordinate system.
+    *   Set `width="100%"` and `height="100%"` for responsiveness.
+    *   Add a descriptive `id="root"` or similar semantic identifier if appropriate, but primarily focus on structure.
+
+2.  **Layering & Grouping:**
+    *   Organize content into distinct `<g>` (group) elements to enforce layering order.
+    *   Create at least two semantic groups:
+        *   `<g id="background">`: For base shapes or background elements.
+        *   `<g id="foreground">`: For primary subjects or foreground details.
+    *   Ensure elements are ordered within these groups to reflect visual depth (background first, then foreground).
+
+3.  **Styling & Aesthetics:**
+    *   Use **flat colors** only (no gradients, no filters, no opacity unless explicitly defined as a solid fill).
+    *   Use **simple strokes** (e.g., `stroke-width="2"`, `stroke-linecap="round"`) if outlines are needed.
+    *   Avoid complex paths; use basic shapes (`<rect>`, `<circle>`, `<line>`, `<polygon>`) where possible to keep the structure simple and robust.
+
+4.  **XML Validity:**
+    *   **Close every tag.** No self-closing shortcuts for elements that might contain content later, unless they are truly void elements (like `<line>` or `<circle>`).
+    *   **Quote every attribute.** Use double quotes for all attribute values (e.g., `fill="#000000"`, not `fill=#000000`).
+    *   Ensure the document is well-formed XML. No unclosed tags, no malformed attributes.
+
+**Acceptance Criteria:**
+*   `artifact.svg` parses as valid XML without errors.
+*   The SVG has a `viewBox="0 0 800 600"`.
+*   Content is grouped into semantic `<g>` elements (e.g., background, foreground).
+*   Only flat colors and simple strokes are used.
+*   All tags are closed and all attributes are quoted.
+*   No changes to `index.html` or `README.md`.

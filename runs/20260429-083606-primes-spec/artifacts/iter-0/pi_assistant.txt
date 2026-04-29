@@ -1,0 +1,9 @@
+All 7 tests pass. Here's a summary of the files created:
+
+**`primes.py`** — Prime number utilities:
+- `sieve_of_eratosthenes(n)` — Classic Sieve of Eratosthenes returning all primes ≤ n. Returns `[]` for n < 2.
+- `is_prime(n)` — Efficient O(√n) trial-division check (6k±1 optimization). Returns `False` for n < 2.
+
+**`test_primes.py`** — pytest test suite with two test classes:
+- `TestSieveOfEratosthenes` — 3 tests covering n=10, n=0, n=2.
+- `TestIsPrime` — 4 tests covering n=2, 4, 17, 1.

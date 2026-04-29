@@ -1,0 +1,326 @@
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..922d816
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,13 @@
++# Web app workspace
++
++Edit `index.html` and `app.js`. The page is rendered in headless Chromium
++at 1024×768; theloop screenshots it once `window.__ready === true`.
++
++Tools available: read, write, edit, bash. three.js global build is loaded
++in the scaffold; you can switch to import maps if you prefer.
++
++Acceptance signals theloop checks each iteration:
++- `index.html` and `app.js` both exist.
++- `index.html` parses as well-formed HTML.
++- The page sets `window.__ready = true` within 5 seconds of load.
++- No uncaught console errors during render (best-effort; not fatal).
+diff --git a/app.js b/app.js
+new file mode 100644
+index 0000000..74f21c9
+--- /dev/null
++++ b/app.js
+@@ -0,0 +1,255 @@
++// ── Constants ──────────────────────────────────────────────────────────
++const W = 1024, H = 768;
++const GRAVITY      = -0.015;
++const FLAP_IMPULSE  = 0.28;
++const PILLAR_SPEED  = 0.06;
++const PILLAR_SPACING = 220;          // frames between spawns
++const PILLAR_GAP    = 3.2;           // vertical gap between top/bottom pillar
++const PILLAR_WIDTH  = 1.2;
++const PILLAR_DEPTH  = 1.2;
++const BOUNDARY      = 5;             // ±y limit
++const DRAGON_SIZE   = 0.6;           // half-extent for AABB
++const DRAGON_X      = -2;
++
++// ── State ──────────────────────────────────────────────────────────────
++let dragonY = 0, dragonVy = 0;
++let pillars = [];          // { meshTop, meshBottom, x, scored }
++let frameCount = 0;
++let score = 0;
++let running = true;
++let gameOverShown = false;
++
++// ── DOM refs ───────────────────────────────────────────────────────────
++const scoreEl = document.getElementById('score');
++const overlay = document.getElementById('overlay');
++
++// ── Scene setup ────────────────────────────────────────────────────────
++const scene  = new THREE.Scene();
++scene.background = new THREE.Color(0x87CEEB);   // sky blue
++scene.fog = new THREE.Fog(0x87CEEB, 20, 50);
++
++const camera = new THREE.PerspectiveCamera(60, W / H, 0.1, 100);
++camera.position.set(0, 0, 10);
++camera.lookAt(0, 0, 0);
++
++const renderer = new THREE.WebGLRenderer({ antialias: true });
++renderer.setSize(W, H);
++renderer.setPixelRatio(window.devicePixelRatio);
++document.getElementById('app').prepend(renderer.domElement);
++
++// ── Lights ─────────────────────────────────────────────────────────────
++scene.add(new THREE.AmbientLight(0xffffff, 0.7));
++const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
++dirLight.position.set(5, 10, 7);
++scene.add(dirLight);
++
++// ── Ground plane ───────────────────────────────────────────────────────
++const groundGeo = new THREE.PlaneGeometry(60, 2);
++const groundMat = new THREE.MeshLambertMaterial({ color: 0x4a8c3f });
++const ground = new THREE.Mesh(groundGeo, groundMat);
++ground.rotation.x = -Math.PI / 2;
++ground.position.y = -BOUNDARY - 0.5;
++scene.add(ground);
++
++// ── Dragon (player) ────────────────────────────────────────────────────
++const dragonGroup = new THREE.Group();
++
++// Body – red box
++const bodyGeo = new THREE.BoxGeometry(DRAGON_SIZE * 2, DRAGON_SIZE * 2, DRAGON_SIZE * 2);
++const bodyMat = new THREE.MeshLambertMaterial({ color: 0xe63946 });
++const body = new THREE.Mesh(bodyGeo, bodyMat);
++dragonGroup.add(body);
++
++// Eyes – two small white spheres
++const eyeGeo = new THREE.SphereGeometry(DRAGON_SIZE * 0.25, 8, 8);
++const eyeMat = new THREE.MeshLambertMaterial({ color: 0xffffff });
++const eyeL = new THREE.Mesh(eyeGeo, eyeMat);
++eyeL.position.set(-DRAGON_SIZE * 0.4, DRAGON_SIZE * 0.3, DRAGON_SIZE * 0.8);
++dragonGroup.add(eyeL);
++const eyeR = eyeL.clone();
++eyeR.position.x = DRAGON_SIZE * 0.4;
++dragonGroup.add(eyeR);
++
++// Beak – orange cone
++const beakGeo = new THREE.ConeGeometry(DRAGON_SIZE * 0.3, DRAGON_SIZE * 0.8, 4);
++const beakMat = new THREE.MeshLambertMaterial({ color: 0xf4a261 });
++const beak = new THREE.Mesh(beakGeo, beakMat);
++beak.rotation.x = Math.PI / 2;
++beak.position.set(0, -DRAGON_SIZE * 0.1, DRAGON_SIZE * 1.1);
++dragonGroup.add(beak);
++
++// Wings – two flat planes
++const wingGeo = new THREE.PlaneGeometry(DRAGON_SIZE * 1.6, DRAGON_SIZE * 1.0);
++const wingMat = new THREE.MeshLambertMaterial({ color: 0xc1121f, side: THREE.DoubleSide });
++const wingL = new THREE.Mesh(wingGeo, wingMat);
++wingL.position.set(-DRAGON_SIZE * 1.1, DRAGON_SIZE * 0.2, 0);
++dragonGroup.add(wingL);
++const wingR = wingL.clone();
++wingR.position.x = DRAGON_SIZE * 1.1;
++dragonGroup.add(wingR);
++
++dragonGroup.position.set(DRAGON_X, dragonY, 0);
++scene.add(dragonGroup);
++
++// ── Pillar creation helper ─────────────────────────────────────────────
++const pillarMat = new THREE.MeshLambertMaterial({ color: 0x2d6a4f });
++const pillarCapMat = new THREE.MeshLambertMaterial({ color: 0x40916c });
++
++function spawnPillar() {
++  const gapCenter = (Math.random() - 0.5) * (2 * BOUNDARY - PILLAR_GAP - 2) + 0.5;
++  const halfGap = PILLAR_GAP / 2;
++
++  // Top pillar
++  const topH = BOUNDARY + 0.5 - (gapCenter + halfGap);
++  const topGeo = new THREE.BoxGeometry(PILLAR_WIDTH, topH * 2, PILLAR_DEPTH);
++  const topMesh = new THREE.Mesh(topGeo, pillarMat);
++  topMesh.position.set(12, gapCenter + halfGap + topH, 0);
++  scene.add(topMesh);
++
++  // Top cap
++  const topCapGeo = new THREE.BoxGeometry(PILLAR_WIDTH + 0.3, 0.3, PILLAR_DEPTH + 0.3);
++  const topCap = new THREE.Mesh(topCapGeo, pillarCapMat);
++  topCap.position.set(12, gapCenter + halfGap + topH - topH, 0);
++  scene.add(topCap);
++
++  // Bottom pillar
++  const botH = BOUNDARY + 0.5 - (gapCenter - halfGap);
++  const botGeo = new THREE.BoxGeometry(PILLAR_WIDTH, botH * 2, PILLAR_DEPTH);
++  const botMesh = new THREE.Mesh(botGeo, pillarMat);
++  botMesh.position.set(12, gapCenter - halfGap - botH, 0);
++  scene.add(botMesh);
++
++  // Bottom cap
++  const botCap = new THREE.Mesh(topCapGeo, pillarCapMat);
++  botCap.position.set(12, gapCenter - halfGap - botH + botH, 0);
++  scene.add(botCap);
++
++  pillars.push({ meshTop: topMesh, meshBot: botMesh, x: 12, scored: false });
++}
++
++// ── AABB collision helper ──────────────────────────────────────────────
++function aabbOverlap(ax, ay, aw, ah, bx, by, bw, bh) {
++  return ax - aw < bx + bw && ax + aw > bx - bw &&
++         ay - ah < by + bh && ay + ah > by - bh;
++}
++
++// ── Input ──────────────────────────────────────────────────────────────
++function flap() {
++  if (!running) {
++    restart();
++    return;
++  }
++  dragonVy = FLAP_IMPULSE;
++}
++
++document.addEventListener('click', flap);
++document.addEventListener('keydown', (e) => {
++  if (e.code === 'Space') { e.preventDefault(); flap(); }
++});
++
++// ── Restart ────────────────────────────────────────────────────────────
++function restart() {
++  // Remove old pillars
++  for (const p of pillars) {
++    scene.remove(p.meshTop);
++    scene.remove(p.meshBot);
++  }
++  pillars = [];
++  dragonY = 0;
++  dragonVy = 0;
++  frameCount = 0;
++  score = 0;
++  scoreEl.textContent = '0';
++  running = true;
++  gameOverShown = false;
++  overlay.classList.remove('visible');
++}
++
++// ── Game-over ──────────────────────────────────────────────────────────
++function showGameOver() {
++  running = false;
++  gameOverShown = true;
++  overlay.classList.add('visible');
++}
++
++// ── Render loop ────────────────────────────────────────────────────────
++let firstFrame = true;
++
++function loop() {
++  requestAnimationFrame(loop);
++
++  // ── Physics ──────────────────────────────────────────────────────────
++  if (running) {
++    dragonVy += GRAVITY;
++    dragonY += dragonVy;
++
++    // Wing animation
++    const wingAngle = Math.sin(frameCount * 0.3) * 0.5;
++    wingL.rotation.z = wingAngle;
++    wingR.rotation.z = -wingAngle;
++
++    // Dragon tilt based on velocity
++    dragonGroup.rotation.z = Math.max(-0.5, Math.min(0.5, dragonVy * 2));
++
++    // Boundary check
++    if (dragonY < -BOUNDARY + DRAGON_SIZE || dragonY > BOUNDARY - DRAGON_SIZE) {
++      showGameOver();
++    }
++
++    // ── Pillars ────────────────────────────────────────────────────────
++    frameCount++;
++    if (frameCount % PILLAR_SPACING === 0) {
++      spawnPillar();
++    }
++
++    for (let i = pillars.length - 1; i >= 0; i--) {
++      const p = pillars[i];
++      p.x -= PILLAR_SPEED;
++      p.meshTop.position.x = p.x;
++      p.meshBot.position.x = p.x;
++
++      // Score when passed
++      if (!p.scored && p.x < DRAGON_X) {
++        p.scored = true;
++        score++;
++        scoreEl.textContent = String(score);
++      }
++
++      // Collision with dragon AABB
++      const dx = DRAGON_X, dy = dragonY, dw = DRAGON_SIZE * 0.8, dh = DRAGON_SIZE * 0.8;
++      const px = p.x, pw = PILLAR_WIDTH / 2, pd = PILLAR_DEPTH / 2;
++
++      // Top pillar AABB
++      const topH = BOUNDARY + 0.5 - (p.meshTop.position.y + PILLAR_GAP / 2);
++      if (aabbOverlap(dx, dy, dw, dh, px, p.meshTop.position.y, pw, topH)) {
++        showGameOver();
++      }
++      // Bottom pillar AABB
++      const botH = BOUNDARY + 0.5 - (p.meshBot.position.y - PILLAR_GAP / 2);
++      if (aabbOverlap(dx, dy, dw, dh, px, p.meshBot.position.y, pw, botH)) {
++        showGameOver();
++      }
++
++      // Remove off-screen
++      if (p.x < -10) {
++        scene.remove(p.meshTop);
++        scene.remove(p.meshBot);
++        pillars.splice(i, 1);
++      }
++    }
++  }
++
++  // ── Sync dragon mesh ─────────────────────────────────────────────────
++  dragonGroup.position.y = dragonY;
++
++  // ── Render ───────────────────────────────────────────────────────────
++  renderer.render(scene, camera);
++
++  // Signal ready after first frame
++  if (firstFrame) {
++    firstFrame = false;
++    window.__ready = true;
++  }
++}
++
++loop();
+diff --git a/index.html b/index.html
+new file mode 100644
+index 0000000..2472707
+--- /dev/null
++++ b/index.html
+@@ -0,0 +1,40 @@
++<!doctype html>
++<html lang="en">
++<head>
++<meta charset="utf-8">
++<meta name="viewport" content="width=device-width,initial-scale=1">
++<title>Dragon Flappy</title>
++<style>
++  html, body { margin: 0; padding: 0; height: 100%; background: #111; color: #eee;
++    font: 16px -apple-system, system-ui, "Segoe UI", sans-serif; overflow: hidden; }
++  #app { position: relative; width: 1024px; height: 768px; margin: auto; }
++  #app canvas { display: block; width: 100%; height: 100%; }
++
++  /* UI overlay */
++  #ui { position: absolute; top: 0; left: 0; width: 100%; height: 100%;
++    pointer-events: none; user-select: none; }
++  #score { position: absolute; top: 24px; left: 50%; transform: translateX(-50%);
++    font-size: 48px; font-weight: 700; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.6); }
++  #overlay { position: absolute; inset: 0; display: flex; flex-direction: column;
++    align-items: center; justify-content: center;
++    background: rgba(0,0,0,.45); opacity: 0; transition: opacity .3s; }
++  #overlay.visible { opacity: 1; pointer-events: auto; }
++  #overlay h1 { font-size: 52px; margin: 0 0 12px; color: #ff4444; }
++  #overlay p  { font-size: 22px; margin: 0; color: #ddd; }
++</style>
++</head>
++<body>
++<div id="app">
++  <div id="ui">
++    <div id="score">0</div>
++    <div id="overlay">
++      <h1>Game Over</h1>
++      <p>Click or press Space to restart</p>
++    </div>
++  </div>
++</div>
++<!-- three.js global build (no module/CORS hassles from file://) -->
++<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
++<script src="app.js"></script>
++</body>
++</html>

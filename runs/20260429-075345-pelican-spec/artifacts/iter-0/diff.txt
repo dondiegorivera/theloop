@@ -1,0 +1,62 @@
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..c4bc5d0
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,8 @@
++# SVG task workspace
++
++The artifact pi should iteratively edit lives at `artifact.svg`. The
++preview wrapper at `index.html` opens it in the browser; do not touch
++the wrapper unless you need a different presentation surface.
++
++Tools available: read, write, edit, bash. The renderer screenshots
++`index.html` at 1024×768 after each iteration.
+diff --git a/artifact.svg b/artifact.svg
+new file mode 100644
+index 0000000..3336702
+--- /dev/null
++++ b/artifact.svg
+@@ -0,0 +1,21 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
++  <g id="background">
++    <rect x="0" y="0" width="800" height="600" fill="#1a1a2e" />
++    <rect x="0" y="0" width="800" height="60" fill="#16213e" />
++    <rect x="0" y="540" width="800" height="60" fill="#16213e" />
++  </g>
++  <g id="foreground">
++    <circle cx="400" cy="280" r="120" fill="#0f3460" stroke="#e94560" stroke-width="4" />
++    <circle cx="400" cy="280" r="80" fill="#533483" />
++    <circle cx="400" cy="280" r="40" fill="#e94560" />
++    <line x1="400" y1="100" x2="400" y2="180" stroke="#e94560" stroke-width="3" stroke-linecap="round" />
++    <line x1="400" y1="380" x2="400" y2="460" stroke="#e94560" stroke-width="3" stroke-linecap="round" />
++    <line x1="220" y1="280" x2="300" y2="280" stroke="#e94560" stroke-width="3" stroke-linecap="round" />
++    <line x1="500" y1="280" x2="580" y2="280" stroke="#e94560" stroke-width="3" stroke-linecap="round" />
++    <polygon points="400,140 420,170 380,170" fill="#e94560" />
++    <polygon points="400,420 420,390 380,390" fill="#e94560" />
++    <polygon points="260,280 290,260 290,300" fill="#e94560" />
++    <polygon points="540,280 510,260 510,300" fill="#e94560" />
++  </g>
++</svg>
+diff --git a/index.html b/index.html
+new file mode 100644
+index 0000000..fa58ccd
+--- /dev/null
++++ b/index.html
+@@ -0,0 +1,15 @@
++<!doctype html>
++<html>
++<head>
++<meta charset="utf-8">
++<title>artifact preview</title>
++<style>
++  html, body { margin: 0; padding: 0; height: 100%; background: #fff; }
++  body { display: flex; align-items: center; justify-content: center; }
++  img { max-width: 92vw; max-height: 92vh; }
++</style>
++</head>
++<body>
++  <img src="artifact.svg" alt="artifact">
++</body>
++</html>

@@ -1,0 +1,22 @@
+Goal: Edit `document.md` to add a Glossary section that defines all domain-specific jargon used in the specification, ensuring no terms are undefined when first introduced.
+
+Files to touch:
+- `document.md`: Add the glossary. Do not rewrite the document from scratch; append or insert the glossary in a logical location (e.g., before the main content or at the end, depending on standard spec structure, but ensure it is clearly labeled).
+
+Files to leave alone:
+- All files under `context/`.
+- Any other files in the workspace root.
+
+Instructions:
+1. **Scan `document.md`**: Identify all technical terms, acronyms, and domain-specific jargon that are used without prior definition in the main body of the text. Pay special attention to terms related to `theloop`, `LiteLLM`, `llama.cpp`, `JudgeVerdict`, `RuntimeCheckResult`, and any other classes/functions mentioned in the context.
+2. **Verify against `context/`**: For each identified term, grep `context/theloop/` and `context/litellm-endpoints.md` to find the precise definition or usage. Use these sources to write accurate, concise definitions. Do not invent definitions. If a term is not found in `context/`, provide a generic but accurate definition based on general knowledge, or omit it if it's too obscure.
+3. **Create the Glossary**: Add a new section titled `## Glossary` to `document.md`. List each term alphabetically with its definition. Ensure the definitions are clear and directly address the term's role in the specification.
+4. **Check for Undefined Terms**: Re-read the main body of `document.md` to ensure that every term defined in the glossary is either defined in the glossary or explained in the text before its first use. If a term is used without definition, add a brief inline explanation or ensure it is in the glossary.
+5. **Acceptance Criteria**:
+   - The `document.md` file contains a `## Glossary` section.
+   - All domain-specific jargon (e.g., `JudgeVerdict`, `RuntimeCheckResult`, `LiteLLM`, `llama.cpp`) is defined in the glossary.
+   - No undefined terms remain in the main body of the specification.
+   - Definitions are accurate and derived from `context/` where possible.
+   - The document structure is preserved; no existing content is deleted or significantly altered beyond the addition of the glossary.
+
+End your turn with a one-paragraph summary of what you changed and why.
