@@ -7,7 +7,5 @@ runs/
 CLAUDE.md
 .claude/
 .pytest_cache/
-doc/agno.md                                                                                                                                                                                                                                                                      
-doc/env-management.md                                                                                                                                                                                                                                                            
-doc/litellm-endpoints.md                                                                                                                                                                                                                                                         
-doc/pi.md    
+docs/
+docs-local/
