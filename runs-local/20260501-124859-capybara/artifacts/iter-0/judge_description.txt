@@ -1,8 +1,0 @@
-## Required elements
-- **Capybara**: PRESENT — A large, brown rodent figure with characteristic blunt snout, small round ears, and closed eyes is the central subject of the image.
-- **Kimono**: PRESENT — The capybara is wearing a purple garment featuring traditional kimono elements: wide sleeves, a V-neck collar (eri), a yellow sash (obi) with a knot at the back, and floral patterns.
-- **Matcha tea**: PRESENT — A brown bowl containing green liquid is held in front of the face; steam rises from it, indicating hot tea.
-- **Drinking**: PRESENT — The capybara holds the bowl directly to its mouth with both paws, and the bowl obscures the lower face, clearly depicting the act of sipping.
-
-## Other observations
-The composition is centered and symmetrical. The background features a simple beige wall and tatami mat floor, providing appropriate context for the kimono/tea theme. A small whisk (chasen) floats near the right shoulder, which is a nice contextual detail but not strictly required by the spec. The lighting is soft with a shadow cast on the floor beneath the subject.

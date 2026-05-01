@@ -1,5 +1,0 @@
-(diff unavailable: Cmd('git') failed due to: exit code(128)
-  cmdline: git diff iter/4 iter/5
-  stderr: 'fatal: ambiguous argument 'iter/5': unknown revision or path not in the working tree.
-Use '--' to separate paths from revisions, like this:
-'git <command> [<revision>...] -- [<file>...]'')

@@ -1,7 +1,0 @@
-Now I have all the information needed. Let me create the specification document.
-
-Let me do a final verification pass to ensure all claims are backed by the code:
-
-All class names, method signatures, and field references have been verified against the source code. Here's the summary:
-
-**Created `document.md`** — a 252-line technical specification for `theloop` that covers: (1) system overview as a closed agentic loop with 8-step iteration pipeline; (2) all roles and components with verified class names (`Orchestrator`, `PiClient`, `Judge`, `Renderer`, `Reporter`, `Terminator`, `Workspace`, `Loop`) and their responsibilities; (3) the agno-backed planner/director hats and the openai SDK-backed judge; (4) the adapter pattern with the `TaskAdapter` ABC and all four concrete adapters (`SVGAdapter`, `WebAppAdapter`, `DocAdapter`, `GenericAdapter`) with their `has_visual_artifact` flags and runtime checks; (5) LiteLLM proxy architecture with clear distinction between `LITELLM_BASE_URL` (proxy) and `api_base` (upstream llama.cpp); (6) Playwright/Chromium rendering details; (7) concrete examples of hat interaction and loop flow; and (8) complete file layout. No class names, methods, or fields were invented — every claim was verified via grep against the source files.
