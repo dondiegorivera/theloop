@@ -1,0 +1,56 @@
+diff --git a/artifact.svg b/artifact.svg
+index b8b36f8..1e65a21 100644
+--- a/artifact.svg
++++ b/artifact.svg
+@@ -501,18 +501,18 @@
+   </g>
+ 
+   <!-- ==================== MAIN HANDS ==================== -->
+-  <!-- Time set to approximately 10:10:35 -->
++  <!-- Time set to 10:00 -->
+ 
+-  <!-- Hour hand (pointing at ~10:10, so slightly past 10) -->
+-  <g id="hour-hand" filter="url(#handShadow)">
++  <!-- Hour hand (pointing at 10 o'clock) -->
++  <g id="hour-hand" filter="url(#handShadow)" transform="rotate(300,400,400)">
+     <!-- Dauphine-style hour hand -->
+     <path d="M 396 400 L 394 310 L 398 290 L 400 285 L 402 290 L 406 310 L 404 400 Z" fill="url(#hourHandGrad)" stroke="#111" stroke-width="0.5"/>
+     <!-- Hour hand highlight -->
+     <path d="M 398 400 L 396 310 L 399 295 L 400 290 L 401 295 L 404 310 L 402 400 Z" fill="#4a4a6a" opacity="0.5"/>
+   </g>
+ 
+-  <!-- Minute hand (pointing at ~10 minutes = 60 degrees from 12) -->
+-  <g id="minute-hand" filter="url(#handShadow)">
++  <!-- Minute hand (pointing at 2 o'clock = 60 degrees from 12) -->
++  <g id="minute-hand" filter="url(#handShadow)" transform="rotate(60,400,400)">
+     <!-- Dauphine-style minute hand -->
+     <path d="M 395 400 L 393 240 L 397 215 L 400 208 L 403 215 L 407 240 L 405 400 Z" fill="url(#minuteHandGrad)" stroke="#111" stroke-width="0.5"/>
+     <!-- Minute hand highlight -->
+@@ -545,6 +545,27 @@
+     <ellipse cx="480" cy="500" rx="60" ry="40" fill="white" transform="rotate(20,480,500)"/>
+   </g>
+ 
++  <!-- ==================== BALANCE WHEEL ASSEMBLY ==================== -->
++  <g id="balance-wheel" filter="url(#dropShadow)">
++    <!-- Balance wheel outer rim -->
++    <circle cx="570" cy="570" r="30" fill="none" stroke="#b8860b" stroke-width="3"/>
++    <!-- Balance wheel inner rim -->
++    <circle cx="570" cy="570" r="26" fill="none" stroke="#d4a843" stroke-width="1"/>
++    <!-- Balance wheel spokes -->
++    <line x1="540" y1="570" x2="600" y2="570" stroke="#b8860b" stroke-width="2"/>
++    <line x1="570" y1="540" x2="570" y2="600" stroke="#b8860b" stroke-width="2"/>
++    <line x1="549" y1="549" x2="591" y2="591" stroke="#b8860b" stroke-width="1.5"/>
++    <line x1="549" y1="591" x2="591" y2="549" stroke="#b8860b" stroke-width="1.5"/>
++    <!-- Balance wheel center jewel -->
++    <circle cx="570" cy="570" r="4" fill="#cc2200" stroke="#888" stroke-width="0.5"/>
++    <!-- Hairspring (spiral) -->
++    <path d="M 570 570 C 575 570, 575 565, 570 565 C 563 565, 563 573, 570 573 C 578 573, 578 562, 570 562 C 560 562, 560 576, 570 576 C 581 576, 581 559, 570 559 C 557 559, 557 579, 570 579 C 584 579, 584 556, 570 556" fill="none" stroke="#4a90d9" stroke-width="0.8" opacity="0.7"/>
++    <!-- Hairspring fork -->
++    <line x1="570" y1="556" x2="570" y2="540" stroke="#4a90d9" stroke-width="0.8" opacity="0.7"/>
++    <!-- Stud -->
++    <circle cx="570" cy="540" r="2" fill="#888" stroke="#666" stroke-width="0.5"/>
++  </g>
++
+   <!-- ==================== DECORATIVE ENGRAVINGS ON CASE ==================== -->
+   <g id="case-engravings" opacity="0.15">
+     <!-- Floral/scrollwork pattern around the case -->

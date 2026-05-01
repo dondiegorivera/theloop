@@ -1,0 +1,11 @@
+## Required elements
+- **Case & Crown**: PRESENT — A circular outer case with metallic gradient fill is centered in the frame. A crown (winder knob) is located at the 12 o'clock position, attached to a stem extending into the case. A subtle bezel ring surrounds the dial.
+- **Dial**: PRESENT — The dial face is cream-colored with a radius of approximately 170px. It features Roman numerals (I through XII) positioned inside thick hour markers at 12, 3, 6, and 9 o'clock, and thinner lines elsewhere. Minute tick marks are visible around the outer edge.
+- **Hands**: PRESENT — Three hands originate from the center. The hour hand points near 10 o'clock, the minute hand near 2 o'clock, and a thin red second hand points near 7 o'clock.
+- **Sub-dials**: PARTIAL — A small seconds sub-dial is present at the 6 o'clock position with its own hand. However, the power reserve indicator at 12 o'clock displays an arc that appears to show approximately 30% charge (green section), rather than the requested ~60%.
+- **Movement**: PARTIAL — The bottom half of the watch features a cutaway revealing gears and a balance wheel near the bottom-right. However, only two distinct gear sizes are clearly visible in the main cluster; the requirement for "at least 3 visible gears of different sizes" is not fully met as the third element is indistinct or missing.
+- **Chain**: MISSING — The spec requires a short chain (3-4 links) attached to the crown curving upward and outward. The artifact shows only three detached, floating circles above the crown, which do not constitute a connected chain.
+- **Style**: PRESENT — The image uses a metallic/brass color palette with clean line art and shading. It is centered in the 600x600 viewBox.
+
+## Other observations
+The artifact is a high-quality SVG illustration of a pocket watch. The composition is balanced, but the "chain" element is rendered as disconnected floating rings rather than a linked chain attached to the crown. Additionally, the power reserve indicator's fill level does not match the specific percentage requested in the spec. The movement area shows some detail but lacks the complexity of three distinct gear sizes.

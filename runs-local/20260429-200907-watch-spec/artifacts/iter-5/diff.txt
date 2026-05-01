@@ -1,0 +1,142 @@
+diff --git a/artifact.svg b/artifact.svg
+index 9db8b2f..9d53b8d 100644
+--- a/artifact.svg
++++ b/artifact.svg
+@@ -59,6 +59,14 @@
+       <stop offset="100%" stop-color="#e0d4b8"/>
+     </radialGradient>
+ 
++    <!-- Gold chain gradient -->
++    <linearGradient id="chainGrad" x1="0" y1="0" x2="0" y2="1">
++      <stop offset="0%" stop-color="#FFD700"/>
++      <stop offset="30%" stop-color="#DAA520"/>
++      <stop offset="70%" stop-color="#B8860B"/>
++      <stop offset="100%" stop-color="#8B6914"/>
++    </linearGradient>
++
+     <!-- Shadow filter -->
+     <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+       <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.35"/>
+@@ -318,11 +326,6 @@
+       </g>
+     </g>
+ 
+-    <!-- Brand text area -->
+-    <g id="brandArea">
+-      <text x="200" y="108" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#5a4a30" font-style="italic">CHRONOMÈTRE</text>
+-      <text x="200" y="120" text-anchor="middle" font-family="Georgia, serif" font-size="7" fill="#7a6a50">GENÈVE</text>
+-    </g>
+ 
+     <!-- ==================== ROMAN NUMERALS ==================== -->
+     <g id="romanNumerals" font-family="Georgia, 'Times New Roman', serif" font-size="13" fill="#2a3a5a" text-anchor="middle" dominant-baseline="central">
+@@ -378,21 +381,51 @@
+     <circle cx="200" cy="20" r="18" fill="none" stroke="#8a7a5a" stroke-width="1.5"/>
+   </g>
+ 
+-  <!-- Crown Chain -->
+-  <g id="crownChain" filter="url(#shadow)">
+-    <!-- Chain attachment loop on crown ring -->
+-    <circle cx="218" cy="18" r="3" fill="none" stroke="#b8a478" stroke-width="1.5"/>
+-    <!-- Chain links (Roman numerals styled as metallic links) -->
+-    <text x="222" y="30" text-anchor="middle" dominant-baseline="central" font-family="'Courier New', monospace" font-size="10" font-weight="bold" fill="#d4a830" stroke="#8a6810" stroke-width="0.5" transform="rotate(12,222,30)">I</text>
+-    <text x="226" y="42" text-anchor="middle" dominant-baseline="central" font-family="'Courier New', monospace" font-size="10" font-weight="bold" fill="#d4a830" stroke="#8a6810" stroke-width="0.5" transform="rotate(22,226,42)">V</text>
+-    <text x="228" y="54" text-anchor="middle" dominant-baseline="central" font-family="'Courier New', monospace" font-size="10" font-weight="bold" fill="#d4a830" stroke="#8a6810" stroke-width="0.5" transform="rotate(32,228,54)">X</text>
+-    <text x="227" y="66" text-anchor="middle" dominant-baseline="central" font-family="'Courier New', monospace" font-size="10" font-weight="bold" fill="#d4a830" stroke="#8a6810" stroke-width="0.5" transform="rotate(38,227,66)">L</text>
+-    <text x="224" y="78" text-anchor="middle" dominant-baseline="central" font-family="'Courier New', monospace" font-size="10" font-weight="bold" fill="#d4a830" stroke="#8a6810" stroke-width="0.5" transform="rotate(30,224,78)">C</text>
+-    <text x="220" y="90" text-anchor="middle" dominant-baseline="central" font-family="'Courier New', monospace" font-size="10" font-weight="bold" fill="#d4a830" stroke="#8a6810" stroke-width="0.5" transform="rotate(18,220,90)">D</text>
+-    <text x="215" y="102" text-anchor="middle" dominant-baseline="central" font-family="'Courier New', monospace" font-size="10" font-weight="bold" fill="#d4a830" stroke="#8a6810" stroke-width="0.5" transform="rotate(8,215,102)">M</text>
+-    <!-- Chain end decorative ring -->
+-    <circle cx="210" cy="114" r="4" fill="none" stroke="#b8a478" stroke-width="1.5"/>
+-    <circle cx="210" cy="114" r="2" fill="#d4a830" stroke="#8a6810" stroke-width="0.5"/>
++  <!-- ==================== GOLD CHAIN ==================== -->
++  <g id="goldChain" filter="url(#shadow)">
++    <!-- Chain attachment loop on crown ring (right side) -->
++    <circle cx="218" cy="18" r="3" fill="none" stroke="#DAA520" stroke-width="2"/>
++
++    <!-- Link 1 -->
++    <ellipse cx="218" cy="34" rx="5.5" ry="9" fill="none" stroke="#DAA520" stroke-width="2.5"/>
++    <ellipse cx="218" cy="34" rx="3.5" ry="7" fill="none" stroke="#B8860B" stroke-width="0.8"/>
++    <path d="M214,28 Q218,24 222,28" fill="none" stroke="#FFD700" stroke-width="0.5" opacity="0.6"/>
++
++    <!-- Link 2 -->
++    <ellipse cx="219" cy="52" rx="5.5" ry="9" fill="none" stroke="#DAA520" stroke-width="2.5"/>
++    <ellipse cx="219" cy="52" rx="3.5" ry="7" fill="none" stroke="#B8860B" stroke-width="0.8"/>
++    <path d="M215,46 Q219,42 223,46" fill="none" stroke="#FFD700" stroke-width="0.5" opacity="0.6"/>
++
++    <!-- Link 3 -->
++    <ellipse cx="220" cy="70" rx="5.5" ry="9" fill="none" stroke="#DAA520" stroke-width="2.5"/>
++    <ellipse cx="220" cy="70" rx="3.5" ry="7" fill="none" stroke="#B8860B" stroke-width="0.8"/>
++    <path d="M216,64 Q220,60 224,64" fill="none" stroke="#FFD700" stroke-width="0.5" opacity="0.6"/>
++
++    <!-- Link 4 -->
++    <ellipse cx="221" cy="88" rx="5.5" ry="9" fill="none" stroke="#DAA520" stroke-width="2.5"/>
++    <ellipse cx="221" cy="88" rx="3.5" ry="7" fill="none" stroke="#B8860B" stroke-width="0.8"/>
++    <path d="M217,82 Q221,78 225,82" fill="none" stroke="#FFD700" stroke-width="0.5" opacity="0.6"/>
++
++    <!-- Link 5 -->
++    <ellipse cx="221" cy="106" rx="5.5" ry="9" fill="none" stroke="#DAA520" stroke-width="2.5"/>
++    <ellipse cx="221" cy="106" rx="3.5" ry="7" fill="none" stroke="#B8860B" stroke-width="0.8"/>
++    <path d="M217,100 Q221,96 225,100" fill="none" stroke="#FFD700" stroke-width="0.5" opacity="0.6"/>
++
++    <!-- Link 6 -->
++    <ellipse cx="220" cy="124" rx="5.5" ry="9" fill="none" stroke="#DAA520" stroke-width="2.5"/>
++    <ellipse cx="220" cy="124" rx="3.5" ry="7" fill="none" stroke="#B8860B" stroke-width="0.8"/>
++    <path d="M216,118 Q220,114 224,118" fill="none" stroke="#FFD700" stroke-width="0.5" opacity="0.6"/>
++
++    <!-- Link 7 -->
++    <ellipse cx="219" cy="142" rx="5.5" ry="9" fill="none" stroke="#DAA520" stroke-width="2.5"/>
++    <ellipse cx="219" cy="142" rx="3.5" ry="7" fill="none" stroke="#B8860B" stroke-width="0.8"/>
++    <path d="M215,136 Q219,132 223,136" fill="none" stroke="#FFD700" stroke-width="0.5" opacity="0.6"/>
++
++    <!-- End decorative ring -->
++    <circle cx="218" cy="160" r="7" fill="none" stroke="#DAA520" stroke-width="2.5"/>
++    <circle cx="218" cy="160" r="5" fill="none" stroke="#B8860B" stroke-width="0.8"/>
++    <circle cx="218" cy="160" r="2.5" fill="#DAA520" stroke="#B8860B" stroke-width="0.5"/>
++    <circle cx="217" cy="159" r="1" fill="#FFD700" opacity="0.5"/>
+   </g>
+ 
+   <!-- ==================== DIAL BACKGROUND ==================== -->
+@@ -470,8 +503,6 @@
+     <line x1="257" y1="320" x2="263" y2="320" stroke="#4a3a2a" stroke-width="0.5"/>
+     <line x1="260" y1="317" x2="260" y2="323" stroke="#4a3a2a" stroke-width="0.5"/>
+ 
+-    <!-- Engraved serial number area -->
+-    <text x="200" y="340" text-anchor="middle" font-family="monospace" font-size="6" fill="#5a5a7a">No. 4782</text>
+ 
+     <!-- Additional gear train detail - small pinion -->
+     <circle cx="255" cy="240" r="5" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
+@@ -490,13 +521,9 @@
+   <!-- ==================== HOUR MARKERS ==================== -->
+   <use href="#hourMarkers" x="0" y="0"/>
+ 
+-  <!-- ==================== BRAND TEXT ==================== -->
+-  <use href="#brandArea" x="0" y="0"/>
+ 
+   <!-- ==================== POWER RESERVE INDICATOR ==================== -->
+   <g id="powerReserve">
+-    <!-- Label -->
+-    <text x="200" y="40" text-anchor="middle" font-family="Georgia, serif" font-size="7" fill="#5a4a30" letter-spacing="1.5">POWER RESERVE</text>
+     <!-- Arc track (background) -->
+     <path d="M 178,70 A 22,22 0 0,0 222,70" fill="none" stroke="#c4b490" stroke-width="3" stroke-linecap="round"/>
+     <!-- Arc fill (power level - ~75% full) -->
+@@ -512,9 +539,7 @@
+     <!-- Hand pivot -->
+     <circle cx="200" cy="70" r="3" fill="#cc2222"/>
+     <circle cx="200" cy="70" r="1.5" fill="#ff4444"/>
+-    <!-- End labels -->
+-    <text x="175" y="79" text-anchor="middle" font-family="Georgia, serif" font-size="5" fill="#7a6a50">0</text>
+-    <text x="225" y="79" text-anchor="middle" font-family="Georgia, serif" font-size="5" fill="#7a6a50">42h</text>
++
+   </g>
+ 
+   <!-- ==================== SUB-DIAL (Small Seconds at 6 o'clock) ==================== -->
+@@ -533,8 +558,7 @@
+     <!-- Sub-dial center -->
+     <circle cx="200" cy="275" r="2" fill="#cc2222"/>
+     <circle cx="200" cy="275" r="1" fill="#ff4444"/>
+-    <!-- Sub-dial label -->
+-    <text x="200" y="288" text-anchor="middle" font-family="Georgia, serif" font-size="5" fill="#5a4a30">SECONDS</text>
++
+   </g>
+ 
+   <!-- ==================== WATCH HANDS ==================== -->

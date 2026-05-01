@@ -1,0 +1,23 @@
+## Required elements
+- **Circular outer case**: PRESENT — A large circular metallic casing is visible, centered in the frame.
+- **Metallic gradient fill**: PRESENT — The case exhibits a gold/brass gradient shading consistent with metal.
+- **Crown (winder knob)**: PRESENT — A knurled knob is attached at the 12 o'clock position.
+- **Stem**: PARTIAL — A stem connects the crown to the case, but it appears to terminate abruptly or merge into the dial area without clearly extending "into" the case depth as described.
+- **Subtle bezel ring**: PRESENT — A distinct raised ring is visible around the outer edge of the dial.
+- **White/cream-colored dial face**: PARTIAL — The upper half of the dial is cream-colored, but the lower half is open/skeletonized (dark background), so the "dial face" is not a single continuous white circle.
+- **12 hour markers**: PRESENT — Thick lines are visible at 12, 3, 6, and 9; thinner lines appear at other positions.
+- **Roman numerals**: MISSING — The dial features text ("CHRONOMÈTRE", "GENEVE") but no Roman numerals (I through XII) are visible.
+- **Minute tick marks**: PARTIAL — Minute ticks are visible on the outer edge of the upper cream section, but they do not continue around the full 360 degrees due to the skeletonized lower half.
+- **Hour hand**: PRESENT — A short, thick dark blue hand points near the 10 o'clock position.
+- **Minute hand**: PRESENT — A longer, thinner dark blue hand points near the 2 o'clock position.
+- **Second hand**: PRESENT — A thin red hand is visible pointing near the 7 o'clock position.
+- **Hands originating from center**: PRESENT — All three hands pivot from the exact center of the dial.
+- **Small seconds sub-dial**: PRESENT — A small white dial with a red hand is located at the 6 o'clock position within the skeletonized area.
+- **Power reserve indicator**: PRESENT — An arc gauge labeled "POWER RESERVE" is visible at the 12 o'clock position, showing a green/red needle.
+- **Open/skeletonized lower portion**: PRESENT — The bottom half of the watch face is transparent/open, revealing gears.
+- **Visible gears (at least 3)**: PRESENT — Multiple gold gears of varying sizes are visible in the lower section.
+- **Balance wheel**: PARTIAL — A circular component resembling a balance wheel is visible on the right side, but it lacks the distinct oscillating hairspring coil usually associated with this part.
+- **Chain**: MISSING — There is no chain attached to the crown; the area above the watch is empty dark background.
+
+## Other observations
+The artifact is a high-quality SVG illustration of a pocket watch. The style is realistic and detailed, utilizing gradients for metallic effects. The composition is centered. However, it fails to include the Roman numerals and the chain, which were explicitly requested in the spec. The skeletonized design effectively replaces the lower dial face with movement components.

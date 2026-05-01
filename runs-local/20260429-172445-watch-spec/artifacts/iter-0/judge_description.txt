@@ -1,0 +1,12 @@
+## Required elements
+- **Case & Crown**: MISSING — The artifact is a blank white canvas with a small central placeholder box containing the text "edit artifact.svg". No circular case, metallic gradient, crown, or bezel ring is visible.
+- **Dial**: MISSING — There is no dial face, hour markers, Roman numerals, or minute tick marks present in the image.
+- **Hands**: MISSING — No hour, minute, or second hands are visible; the center of the composition is empty.
+- **Sub-dials**: MISSING — No small seconds sub-dial or power reserve indicator is rendered.
+- **Movement**: MISSING — The bottom half of the watch area contains no gears, teeth, or balance wheel.
+- **Chain**: MISSING — There is no chain attached to the crown or visible anywhere in the composition.
+- **Style**: MISSING — The image does not display a metallic/brass color palette, line art, or shading; it is a blank placeholder.
+- **SVG Validity**: PARTIAL — While the file likely parses as XML (given the text rendering), the visual content is entirely absent of the requested SVG graphic elements.
+
+## Other observations
+The artifact provided is effectively empty regarding the prompt's requirements. It appears to be a default "file not found" or "placeholder" image often used in development environments when an SVG file is referenced but contains no drawing commands, or simply failed to render. The only visual element is a small grey square with the text "edit artifact.svg" centered on it. There are no graphical representations of a pocket watch, mechanical components, or any other elements described in the spec.

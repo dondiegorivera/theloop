@@ -1,0 +1,90 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 10
+score_threshold: 0.95
+no_improvement_for: 7
+---
+
+# Mechanical Pocket Watch
+Draw a detailed mechanical pocket watch, viewed from the front, centered in a 600×600 viewBox. The watch must include ALL of the following:
+
+## Case & Crown
+- A circular outer case (radius ~200) with a metallic gradient fill
+- A crown (winder knob) at the top (12 o'clock position) attached to a short stem that extends into the case
+- A subtle bezel ring around the outer edge
+
+## Dial
+- A white or cream-colored dial face (radius ~170)
+- 12 hour markers: thick lines at 12, 3, 6, 9 o'clock; thinner lines at the other hours
+- Roman numerals (I through XII) positioned just inside the hour markers
+- Minute tick marks around the outer edge of the dial (60 ticks, every 6°)
+
+## Hands
+- An hour hand (shorter, thicker) pointing near the 10 o'clock position
+- A minute hand (longer, thinner) pointing near the 2 o'clock position
+- A thin second hand (red or dark) pointing near the 7 o'clock position
+- All three hands originating from the exact center of the dial
+
+## Sub-dials
+- A small seconds sub-dial at the 6 o'clock position (radius ~30) with its own tiny hand
+- A power reserve indicator sub-dial at the 12 o'clock position (radius ~25) with an arc showing ~60% charge
+
+## Movement (visible through caseback or cutaway)
+- At least 3 visible gears of different sizes with teeth, positioned below the dial area (bottom half of the watch)
+- The gears should overlap realistically and show different sizes (large, medium, small)
+- A balance wheel visible near the bottom-right of the movement area
+
+## Chain
+- A short chain (3-4 links) attached to the crown, curving upward and outward from the top of the watch
+
+## Style
+- Metallic/brass color palette for the case and gears
+- Clean line art with subtle shading
+- The entire composition must be centered and balanced
+- The SVG must parse as valid XML
+
+The result should look like a realistic, detailed illustration of a vintage mechanical pocket watch — not a cartoon or simplified icon.
+
+## Iteration history
+- iter 1: Draw the detailed mechanical pocket watch with all specified elements including case, dial, hands, sub-dials, movement gears, and chain. → A complete, realistic SVG illustration of a vintage pocket watch with correct proportions, metallic styling, and visible movement details.
+- iter 2: Redraw the dial to include the small seconds sub-dial, correct hand positions, and add Roman numerals and minute ticks. → A complete dial with correct hands, markings, and sub-dial.
+
+## Iteration directive
+Goal: Update `generate_artifact.py` to regenerate `artifact.svg` with a corrected dial featuring Roman numerals, minute tick marks, a small seconds sub-dial at 6 o'clock, and hands positioned at 10, 2, and 7.
+
+Read `generate_artifact.py` and `artifact.svg` to understand the current structure. Then, edit `generate_artifact.py` to implement the following specific changes for the dial and hands:
+
+1.  **Dial Face**: Ensure the main dial face is cream/white (radius ~170, centered at 300,300).
+2.  **Minute Ticks**: Add 60 minute tick marks around the outer edge of the dial (every 6 degrees). Use a `<g>` with rotation or a path for efficiency.
+3.  **Hour Markers & Roman Numerals**:
+    *   Draw 12 hour markers: thick lines at 12, 3, 6, 9; thinner lines at other hours.
+    *   Add Roman numerals (I through XII) positioned just inside the hour markers. Ensure they are legible and correctly oriented.
+4.  **Small Seconds Sub-dial**:
+    *   Add a sub-dial at the 6 o'clock position (center approx 300, 470, radius ~30).
+    *   Include its own tiny second hand.
+5.  **Hands**:
+    *   **Hour Hand**: Shorter, thicker, pointing near 10 o'clock (angle ~300° or -60° from vertical).
+    *   **Minute Hand**: Longer, thinner, pointing near 2 o'clock (angle ~60° from vertical).
+    *   **Second Hand**: Thin, red or dark, pointing near 7 o'clock (angle ~210° from vertical).
+    *   All three main hands must originate from the exact center (300, 300).
+6.  **Power Reserve Sub-dial**: Ensure the sub-dial at 12 o'clock (radius ~25) shows an arc indicating ~60% charge.
+
+Keep the existing case, crown, chain, and movement gears (3 visible gears + balance wheel) as they are, unless structural changes are needed to accommodate the new dial elements. Ensure the SVG remains valid XML (close all tags, quote attributes).
+
+Run `python generate_artifact.py` to generate the new `artifact.svg`.
+
+Acceptance Criteria:
+- SVG parses as valid XML.
+- Dial has 60 minute ticks, 12 hour markers, and Roman numerals I-XII.
+- Small seconds sub-dial exists at 6 o'clock with its own hand.
+- Hands are at 10, 2, and 7 o'clock positions respectively.
+- Power reserve sub-dial at 12 o'clock shows ~60% charge.
+- Case, crown, chain, and movement gears remain intact and detailed.
+
+Use **relative paths only** for `read` / `write` / `edit` / `create` (e.g. `artifact.svg`, not `/abs/path/artifact.svg`); pi's working directory is the workspace root.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration.

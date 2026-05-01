@@ -1,0 +1,19 @@
+Now let me validate the SVG parses as valid XML:
+
+All checks pass. The `artifact.svg` has been created with:
+
+- **Valid XML** — parses cleanly, all 28 `<g>` groups properly closed
+- **Case** — 200px radius with metallic brass radial gradient, bezel ring, and drop shadow
+- **Crown** — ridged winder knob at 12 o'clock with stem entering the case
+- **Chain** — 4 links curving upward from the crown
+- **Dial** — cream/white 170px radius with radial gradient
+  - 60 minute tick marks (every 6°)
+  - 12 hour markers (thick at 12/3/6/9, thin elsewhere)
+  - Roman numerals I–XII
+- **Hands** — all centered at (300,300):
+  - Hour hand pointing near 10 o'clock
+  - Minute hand pointing near 2 o'clock
+  - Red second hand pointing near 7 o'clock
+- **Sub-dials** — power reserve at 12 o'clock (60% charge arc) and small seconds at 6 o'clock
+- **Movement** — 4 visible gears (large, medium, small, barrel) with teeth, plus a balance wheel with hairspring at bottom-right, all on a Geneva-striped plate with bridge and screws
+- **Style** — metallic brass palette, clean line art, subtle shading and glass reflection

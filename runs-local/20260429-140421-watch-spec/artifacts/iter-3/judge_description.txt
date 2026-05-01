@@ -1,0 +1,12 @@
+## Required elements
+
+- **Case & Crown**: PRESENT — The artifact shows a circular outer case with metallic shading and a gold crown at the 12 o'clock position. A stem connects the crown to the case body.
+- **Dial**: PARTIAL — The dial face is cream-colored, but it fails two specific requirements: (1) It displays only 10 Roman numerals (I through X are visible; XI and XII are missing or illegible), whereas the spec requires all 12. (2) The minute tick marks around the outer edge appear to be grouped in sets of 5 rather than distinct individual ticks for every minute, failing the "exactly 60 ticks" requirement.
+- **Hands**: PARTIAL — The hour hand points near 10 o'clock and the minute hand near 2 o'clock as requested. However, the second hand is blue (spec requires red or dark) and appears to point near the 4 o'clock position rather than the specified 7 o'clock position.
+- **Sub-dials**: PARTIAL — A power reserve sub-dial is present at the 12 o'clock position with a needle. However, the small seconds sub-dial is located at the 6 o'clock position but lacks its own "tiny hand" (the center appears empty or the hand is not visible).
+- **Movement**: MISSING — The spec requires visible gears and a balance wheel in the bottom half of the watch. The artifact shows a solid, opaque dial face with no cutaway or transparency revealing any internal movement components.
+- **Chain**: MISSING — The spec requires a short chain attached to the crown curving upward. The image shows only the crown; there is no chain attached.
+
+## Other observations
+
+The overall style is realistic and polished, resembling a high-end chronometer illustration. However, the artifact fails to meet several critical structural requirements regarding the internal mechanics (movement) and accessories (chain). The Roman numeral count is incomplete, and the specific time indicated by the second hand does not match the spec's instruction.

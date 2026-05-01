@@ -1,0 +1,12 @@
+## Required elements
+- **Case & Crown**: PRESENT — A circular outer case with a metallic gold/brass gradient is visible, centered in the frame. A crown (winder knob) is present at the 12 o'clock position, attached to a stem that extends into the case. A subtle bezel ring surrounds the dial.
+- **Dial**: PRESENT — The dial face is cream-colored with a radius of approximately 170 units relative to the center. It features Roman numerals (I through XII) positioned inside the hour markers.
+- **Hour Markers**: PARTIAL — Thick lines are visible at 12, 3, 6, and 9 o'clock positions. Thinner lines are present for other hours, but a precise count of exactly 60 minute tick marks is not visually verifiable due to image resolution; however, the density suggests they are present.
+- **Hands**: PRESENT — Three hands originate from the geometric center (300, 300). The hour hand points near 10 o'clock, the minute hand near 2 o'clock, and a thin red second hand points near 7 o'clock. They appear to have correct relative thicknesses.
+- **Sub-dials**: PRESENT — A small seconds sub-dial is visible at the 6 o'clock position with its own hand. A power reserve indicator is at the 12 o'clock position, showing an arc that appears to represent approximately 60% charge (roughly 216° filled).
+- **Movement**: PARTIAL — The bottom half of the watch shows a cutaway view revealing gears. At least three gears of different sizes are visible with rendered teeth. However, a distinct balance wheel with a clearly visible coiled hairspring is not distinctly identifiable in the bottom-right area; the details are somewhat obscured or stylized.
+- **Chain**: PRESENT — A short chain consisting of 3-4 links is attached to the crown and curves upward and outward from the top of the watch.
+- **Style**: PRESENT — The image uses a metallic/brass color palette, clean line art with shading, and is centered. It resembles a realistic illustration rather than a cartoon.
+
+## Other observations
+The artifact is an SVG image rendered within a dark background. The composition is balanced and centered. The text on the sub-dials ("POWER", "SECONDS") is legible. The overall aesthetic matches the "vintage mechanical pocket watch" description well. The only significant ambiguity lies in the precise rendering of the balance wheel and hairspring, which are required but not clearly distinct in the provided image.

@@ -1,0 +1,24 @@
+I can see the SVG structure clearly. The dial is a single `<circle>` at `cx="200" cy="200" r="130"` that covers the gears, and the crown attachment uses a single `<circle>` connector with chain links. Let me make both changes.
+
+Let me verify the changes are correct by reading the modified sections:
+
+Both changes are complete and verified. Here's a summary:
+
+### 1. Dial Transparency (Lower Half)
+- Replaced the single `<circle>` dial with two `<path>` semicircles:
+  - **Upper half** (`M 70 200 A 130 130 0 0 1 330 200 Z`): fully opaque, retains original cream gradient and inner shadow
+  - **Lower half** (`M 330 200 A 130 130 0 0 1 70 200 Z`): `opacity="0.35"`, revealing the movement gears (balance wheel, barrel, pinion, etc.) underneath
+
+### 2. Crown Attachment Redesign
+- Removed the old single-loop chain connector (circles + connecting lines)
+- Replaced with **4 interlocking oval links** (`<ellipse>` elements):
+  - Link 1 at cy=47 (attached to crown base)
+  - Link 2 at cy=40 (interlocks with link 1)
+  - Link 3 at cy=33 (interlocks with link 2)
+  - Link 4 at cy=26 (connects to chain ring at y=38)
+- Each link has a double-stroke: gold gradient outline + subtle highlight overlay for metallic depth
+
+### Verification
+- ✅ Valid XML (confirmed via `xml.etree.ElementTree`)
+- ✅ No unintended elements altered
+- ✅ Chain ring, crown, and all other components untouched

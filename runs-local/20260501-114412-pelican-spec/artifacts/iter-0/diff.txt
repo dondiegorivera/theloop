@@ -1,0 +1,240 @@
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..7cc7e1c
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,9 @@
++# SVG task workspace
++
++The rendered artifact lives at `artifact.svg`. For detailed or repetitive
++SVGs, edit `generate_artifact.py` and run `python generate_artifact.py`
++instead of writing a huge SVG directly. Use direct `artifact.svg` edits only
++for small incremental fixes.
++
++Tools available: read, write, edit, bash. The renderer screenshots
++`index.html` at 1536×1152 after each iteration.
+diff --git a/artifact.svg b/artifact.svg
+new file mode 100644
+index 0000000..f240753
+--- /dev/null
++++ b/artifact.svg
+@@ -0,0 +1,59 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
++  <rect width="400" height="300" fill="#f0f4e8"/>
++  <line x1="20" y1="242" x2="380" y2="242" stroke="#8a9a7b" stroke-width="2"/>
++  <circle cx="120" cy="200" r="40" fill="none" stroke="#333" stroke-width="3"/>
++  <line x1="120" y1="200" x2="157.0" y2="200.0" stroke="#666" stroke-width="1"/>
++  <line x1="120" y1="200" x2="146.2" y2="226.2" stroke="#666" stroke-width="1"/>
++  <line x1="120" y1="200" x2="120.0" y2="237.0" stroke="#666" stroke-width="1"/>
++  <line x1="120" y1="200" x2="93.8" y2="226.2" stroke="#666" stroke-width="1"/>
++  <line x1="120" y1="200" x2="83.0" y2="200.0" stroke="#666" stroke-width="1"/>
++  <line x1="120" y1="200" x2="93.8" y2="173.8" stroke="#666" stroke-width="1"/>
++  <line x1="120" y1="200" x2="120.0" y2="163.0" stroke="#666" stroke-width="1"/>
++  <line x1="120" y1="200" x2="146.2" y2="173.8" stroke="#666" stroke-width="1"/>
++  <circle cx="280" cy="200" r="40" fill="none" stroke="#333" stroke-width="3"/>
++  <line x1="280" y1="200" x2="317.0" y2="200.0" stroke="#666" stroke-width="1"/>
++  <line x1="280" y1="200" x2="306.2" y2="226.2" stroke="#666" stroke-width="1"/>
++  <line x1="280" y1="200" x2="280.0" y2="237.0" stroke="#666" stroke-width="1"/>
++  <line x1="280" y1="200" x2="253.8" y2="226.2" stroke="#666" stroke-width="1"/>
++  <line x1="280" y1="200" x2="243.0" y2="200.0" stroke="#666" stroke-width="1"/>
++  <line x1="280" y1="200" x2="253.8" y2="173.8" stroke="#666" stroke-width="1"/>
++  <line x1="280" y1="200" x2="280.0" y2="163.0" stroke="#666" stroke-width="1"/>
++  <line x1="280" y1="200" x2="306.2" y2="173.8" stroke="#666" stroke-width="1"/>
++  <line x1="200" y1="200" x2="170" y2="130" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
++  <line x1="170" y1="130" x2="260" y2="130" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
++  <line x1="260" y1="130" x2="200" y2="200" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
++  <line x1="200" y1="200" x2="120" y2="200" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
++  <line x1="170" y1="130" x2="120" y2="200" stroke="#c0392b" stroke-width="3" stroke-linecap="round"/>
++  <line x1="260" y1="130" x2="280" y2="200" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>
++  <line x1="170" y1="130" x2="168" y2="118" stroke="#555" stroke-width="3" stroke-linecap="round"/>
++  <ellipse cx="162" cy="116" rx="18" ry="5" fill="#2c3e50"/>
++  <line x1="260" y1="130" x2="265" y2="110" stroke="#555" stroke-width="3" stroke-linecap="round"/>
++  <path d="M 250 112 Q 265 105 278 112" fill="none" stroke="#555" stroke-width="3" stroke-linecap="round"/>
++  <line x1="200" y1="200" x2="215" y2="218" stroke="#444" stroke-width="3" stroke-linecap="round"/>
++  <rect x="208" y="216" width="14" height="5" rx="2" fill="#555"/>
++  <line x1="200" y1="200" x2="185" y2="182" stroke="#444" stroke-width="3" stroke-linecap="round"/>
++  <rect x="178" y="178" width="14" height="5" rx="2" fill="#555"/>
++  <circle cx="200" cy="200" r="5" fill="#444"/>
++  <ellipse cx="185" cy="95" rx="38" ry="30" fill="#f5f0e0" stroke="#333" stroke-width="2"/>
++  <path d="M 155 85 Q 170 70 195 80 Q 200 95 185 105 Q 165 100 155 85 Z" fill="#e8dcc8" stroke="#333" stroke-width="1.5"/>
++  <path d="M 148 100 L 125 110 L 130 118 L 148 108 Z" fill="#d4c8b0" stroke="#333" stroke-width="1.5"/>
++  <path d="M 148 95 L 122 100 L 128 108 L 148 103 Z" fill="#d4c8b0" stroke="#333" stroke-width="1.5"/>
++  <path d="M 210 80 Q 230 60 245 55 Q 250 52 252 50" fill="none" stroke="#333" stroke-width="18" stroke-linecap="round"/>
++  <path d="M 210 80 Q 230 60 245 55 Q 250 52 252 50" fill="none" stroke="#f5f0e0" stroke-width="14" stroke-linecap="round"/>
++  <circle cx="252" cy="48" r="14" fill="#f5f0e0" stroke="#333" stroke-width="2"/>
++  <circle cx="256" cy="44" r="3" fill="#fff" stroke="#333" stroke-width="1"/>
++  <circle cx="257" cy="44" r="1.5" fill="#111"/>
++  <path d="M 264 46 L 310 50 L 308 54 L 264 52 Z" fill="#f0c040" stroke="#333" stroke-width="1.5"/>
++  <path d="M 264 52 Q 280 72 295 68 Q 305 62 308 54 Z" fill="#f0a030" stroke="#333" stroke-width="1.5"/>
++  <path d="M 195 120 L 205 165 L 215 218" fill="none" stroke="#e89030" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
++  <ellipse cx="215" cy="220" rx="8" ry="4" fill="#e89030" stroke="#333" stroke-width="1"/>
++  <path d="M 180 120 L 175 155 L 185 182" fill="none" stroke="#e89030" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
++  <ellipse cx="185" cy="184" rx="8" ry="4" fill="#e89030" stroke="#333" stroke-width="1"/>
++  <path d="M 200 85 Q 220 75 245 108" fill="none" stroke="#e8dcc8" stroke-width="8" stroke-linecap="round"/>
++  <path d="M 200 85 Q 220 75 245 108" fill="none" stroke="#333" stroke-width="1" stroke-linecap="round"/>
++  <path d="M 195 88 Q 215 80 250 110" fill="none" stroke="#e8dcc8" stroke-width="8" stroke-linecap="round"/>
++  <path d="M 195 88 Q 215 80 250 110" fill="none" stroke="#333" stroke-width="1" stroke-linecap="round"/>
++  <ellipse cx="248" cy="110" rx="6" ry="4" fill="#e89030" stroke="#333" stroke-width="1"/>
++  <ellipse cx="253" cy="112" rx="6" ry="4" fill="#e89030" stroke="#333" stroke-width="1"/>
++</svg>
+\ No newline at end of file
+diff --git a/generate_artifact.py b/generate_artifact.py
+new file mode 100644
+index 0000000..16b1886
+--- /dev/null
++++ b/generate_artifact.py
+@@ -0,0 +1,132 @@
++#!/usr/bin/env python3
++"""Generate an SVG of a pelican riding a bicycle."""
++
++import math
++
++def generate_svg():
++    lines = []
++    lines.append('<?xml version="1.0" encoding="UTF-8"?>')
++    lines.append('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">')
++
++    # Clean background
++    lines.append('  <rect width="400" height="300" fill="#f0f4e8"/>')
++
++    # Ground line
++    lines.append('  <line x1="20" y1="242" x2="380" y2="242" stroke="#8a9a7b" stroke-width="2"/>')
++
++    # === BICYCLE WHEELS ===
++    # Rear wheel
++    lines.append('  <circle cx="120" cy="200" r="40" fill="none" stroke="#333" stroke-width="3"/>')
++    # Rear wheel spokes
++    for angle in range(0, 360, 45):
++        rad = math.radians(angle)
++        x2 = 120 + 37 * math.cos(rad)
++        y2 = 200 + 37 * math.sin(rad)
++        lines.append(f'  <line x1="120" y1="200" x2="{x2:.1f}" y2="{y2:.1f}" stroke="#666" stroke-width="1"/>')
++
++    # Front wheel
++    lines.append('  <circle cx="280" cy="200" r="40" fill="none" stroke="#333" stroke-width="3"/>')
++    # Front wheel spokes
++    for angle in range(0, 360, 45):
++        rad = math.radians(angle)
++        x2 = 280 + 37 * math.cos(rad)
++        y2 = 200 + 37 * math.sin(rad)
++        lines.append(f'  <line x1="280" y1="200" x2="{x2:.1f}" y2="{y2:.1f}" stroke="#666" stroke-width="1"/>')
++
++    # === BICYCLE FRAME ===
++    # Seat tube: bottom bracket to seat
++    lines.append('  <line x1="200" y1="200" x2="170" y2="130" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>')
++    # Top tube: seat tube to head tube
++    lines.append('  <line x1="170" y1="130" x2="260" y2="130" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>')
++    # Down tube: head tube to bottom bracket
++    lines.append('  <line x1="260" y1="130" x2="200" y2="200" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>')
++    # Chain stay: bottom bracket to rear axle
++    lines.append('  <line x1="200" y1="200" x2="120" y2="200" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>')
++    # Seat stay: seat tube to rear axle
++    lines.append('  <line x1="170" y1="130" x2="120" y2="200" stroke="#c0392b" stroke-width="3" stroke-linecap="round"/>')
++    # Fork: head tube to front axle
++    lines.append('  <line x1="260" y1="130" x2="280" y2="200" stroke="#c0392b" stroke-width="4" stroke-linecap="round"/>')
++
++    # Seat post and saddle
++    lines.append('  <line x1="170" y1="130" x2="168" y2="118" stroke="#555" stroke-width="3" stroke-linecap="round"/>')
++    lines.append('  <ellipse cx="162" cy="116" rx="18" ry="5" fill="#2c3e50"/>')
++
++    # Handlebars
++    lines.append('  <line x1="260" y1="130" x2="265" y2="110" stroke="#555" stroke-width="3" stroke-linecap="round"/>')
++    lines.append('  <path d="M 250 112 Q 265 105 278 112" fill="none" stroke="#555" stroke-width="3" stroke-linecap="round"/>')
++
++    # Crankset and pedals
++    # Crank arm 1 (going down-right)
++    lines.append('  <line x1="200" y1="200" x2="215" y2="218" stroke="#444" stroke-width="3" stroke-linecap="round"/>')
++    # Pedal 1
++    lines.append('  <rect x="208" y="216" width="14" height="5" rx="2" fill="#555"/>')
++    # Crank arm 2 (going up-left)
++    lines.append('  <line x1="200" y1="200" x2="185" y2="182" stroke="#444" stroke-width="3" stroke-linecap="round"/>')
++    # Pedal 2
++    lines.append('  <rect x="178" y="178" width="14" height="5" rx="2" fill="#555"/>')
++    # Bottom bracket circle
++    lines.append('  <circle cx="200" cy="200" r="5" fill="#444"/>')
++
++    # === PELICAN ===
++    # Body (large, over the seat, leaning forward)
++    lines.append('  <ellipse cx="185" cy="95" rx="38" ry="30" fill="#f5f0e0" stroke="#333" stroke-width="2"/>')
++
++    # Wing (folded on body)
++    lines.append('  <path d="M 155 85 Q 170 70 195 80 Q 200 95 185 105 Q 165 100 155 85 Z" fill="#e8dcc8" stroke="#333" stroke-width="1.5"/>')
++
++    # Tail feathers
++    lines.append('  <path d="M 148 100 L 125 110 L 130 118 L 148 108 Z" fill="#d4c8b0" stroke="#333" stroke-width="1.5"/>')
++    lines.append('  <path d="M 148 95 L 122 100 L 128 108 L 148 103 Z" fill="#d4c8b0" stroke="#333" stroke-width="1.5"/>')
++
++    # Neck (curved, leaning forward) - draw outline first, then fill
++    lines.append('  <path d="M 210 80 Q 230 60 245 55 Q 250 52 252 50" fill="none" stroke="#333" stroke-width="18" stroke-linecap="round"/>')
++    lines.append('  <path d="M 210 80 Q 230 60 245 55 Q 250 52 252 50" fill="none" stroke="#f5f0e0" stroke-width="14" stroke-linecap="round"/>')
++
++    # Head
++    lines.append('  <circle cx="252" cy="48" r="14" fill="#f5f0e0" stroke="#333" stroke-width="2"/>')
++
++    # Eye
++    lines.append('  <circle cx="256" cy="44" r="3" fill="#fff" stroke="#333" stroke-width="1"/>')
++    lines.append('  <circle cx="257" cy="44" r="1.5" fill="#111"/>')
++
++    # Long beak (upper)
++    lines.append('  <path d="M 264 46 L 310 50 L 308 54 L 264 52 Z" fill="#f0c040" stroke="#333" stroke-width="1.5"/>')
++
++    # Throat pouch (lower beak / pouch)
++    lines.append('  <path d="M 264 52 Q 280 72 295 68 Q 305 62 308 54 Z" fill="#f0a030" stroke="#333" stroke-width="1.5"/>')
++
++    # === PELICAN LEGS ===
++    # Left leg (to lower pedal at 215, 218)
++    lines.append('  <path d="M 195 120 L 205 165 L 215 218" fill="none" stroke="#e89030" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>')
++    # Left foot
++    lines.append('  <ellipse cx="215" cy="220" rx="8" ry="4" fill="#e89030" stroke="#333" stroke-width="1"/>')
++
++    # Right leg (to upper pedal at 185, 182)
++    lines.append('  <path d="M 180 120 L 175 155 L 185 182" fill="none" stroke="#e89030" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>')
++    # Right foot
++    lines.append('  <ellipse cx="185" cy="184" rx="8" ry="4" fill="#e89030" stroke="#333" stroke-width="1"/>')
++
++    # === PELICAN WINGS (reaching for handlebars) ===
++    # Left wing reaching forward
++    lines.append('  <path d="M 200 85 Q 220 75 245 108" fill="none" stroke="#e8dcc8" stroke-width="8" stroke-linecap="round"/>')
++    lines.append('  <path d="M 200 85 Q 220 75 245 108" fill="none" stroke="#333" stroke-width="1" stroke-linecap="round"/>')
++
++    # Right wing reaching forward
++    lines.append('  <path d="M 195 88 Q 215 80 250 110" fill="none" stroke="#e8dcc8" stroke-width="8" stroke-linecap="round"/>')
++    lines.append('  <path d="M 195 88 Q 215 80 250 110" fill="none" stroke="#333" stroke-width="1" stroke-linecap="round"/>')
++
++    # Wing tips (webbed hands on handlebars)
++    lines.append('  <ellipse cx="248" cy="110" rx="6" ry="4" fill="#e89030" stroke="#333" stroke-width="1"/>')
++    lines.append('  <ellipse cx="253" cy="112" rx="6" ry="4" fill="#e89030" stroke="#333" stroke-width="1"/>')
++
++    lines.append('</svg>')
++    return '\n'.join(lines)
++
++def main():
++    svg_content = generate_svg()
++    with open("artifact.svg", "w", encoding="utf-8") as f:
++        f.write(svg_content)
++    print("Generated artifact.svg successfully.")
++
++if __name__ == "__main__":
++    main()
+diff --git a/index.html b/index.html
+new file mode 100644
+index 0000000..fa58ccd
+--- /dev/null
++++ b/index.html
+@@ -0,0 +1,15 @@
++<!doctype html>
++<html>
++<head>
++<meta charset="utf-8">
++<title>artifact preview</title>
++<style>
++  html, body { margin: 0; padding: 0; height: 100%; background: #fff; }
++  body { display: flex; align-items: center; justify-content: center; }
++  img { max-width: 92vw; max-height: 92vh; }
++</style>
++</head>
++<body>
++  <img src="artifact.svg" alt="artifact">
++</body>
++</html>

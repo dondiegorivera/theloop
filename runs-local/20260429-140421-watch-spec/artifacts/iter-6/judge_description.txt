@@ -1,0 +1,29 @@
+## Required elements
+
+- **Circular outer case**: PRESENT — A large circular metallic casing surrounds the dial, centered in the frame.
+- **Metallic gradient fill (case)**: PRESENT — The case exhibits a silver/grey gradient with shading suggesting a metallic finish.
+- **Crown at 12 o'clock**: PARTIAL — A gold knob is visible at the top center, but it appears to float above the watch body without a connecting stem extending into the case.
+- **Stem**: MISSING — There is no visible stem connecting the crown to the case; the crown is detached from the main structure.
+- **Bezel ring**: PRESENT — A distinct metallic ring separates the outer case from the dial face.
+- **Dial face (white/cream)**: PRESENT — The background of the dial is a cream/off-white color.
+- **Semi-transparent lower half**: PARTIAL — The lower half of the dial is transparent, revealing gears, but the transition is not a clean horizontal cut; it appears as a gradient fade or irregular shape rather than a defined "lower half" clip-path.
+- **12 hour markers (thick 12/3/6/9)**: PRESENT — Thick black lines are visible at the cardinal positions.
+- **12 hour markers (thin others)**: PARTIAL — Thin lines are present, but they appear to be missing or extremely faint at the 4 and 8 o'clock positions.
+- **12 Roman numerals**: PRESENT — All 12 numerals (I through XII) are clearly visible and legible.
+- **Minute tick marks (60 ticks)**: PARTIAL — A track of minute markers is visible, but it does not appear to contain exactly 60 distinct ticks; the resolution is low and some segments are merged or missing.
+- **Hour hand (shorter, thicker, ~300°/10 o'clock)**: PRESENT — The gold hour hand points towards the 10 o'clock position.
+- **Minute hand (longer, thinner, ~60°/2 o'clock)**: PRESENT — The blue minute hand points towards the 2 o'clock position.
+- **Second hand (thin, red/dark, 210°/7 o'clock)**: PRESENT — A thin red hand points exactly to the 7 o'clock position.
+- **Hands originating from center**: PRESENT — All three hands pivot from the exact center of the dial.
+- **Small seconds sub-dial (6 o'clock)**: PRESENT — A sub-dial is present at the bottom with a small red hand.
+- **Power reserve indicator (12 o'clock)**: PRESENT — A sub-dial labeled "POWER RESERVE" is visible at the top.
+- **Arc showing ~60% charge**: PARTIAL — The arc on the power reserve dial is visible but appears to indicate a much lower value (perhaps 10-20%) rather than 60%.
+- **Visible gears (>=3)**: PRESENT — Multiple gold gears are visible through the transparent section.
+- **Gears with teeth**: PRESENT — The gear shapes clearly show teeth.
+- **Gear opacity >= 0.8**: PARTIAL — The gears are visible but appear semi-transparent or washed out against the background, likely failing the high-opacity requirement.
+- **Balance wheel (bottom-right)**: MISSING — There is no distinct balance wheel structure visible in the bottom-right area; only generic gear shapes are present.
+- **Chain (3-4 links)**: MISSING — No chain is attached to the crown or visible anywhere on the watch.
+
+## Other observations
+
+The artifact depicts a high-quality, realistic illustration of a pocket watch. However, it fails several structural requirements regarding the attachment of the crown and the presence of the chain. The "movement" gears are rendered with low opacity, making them look like faint watermarks rather than solid mechanical parts. The power reserve indicator is present but inaccurate in its reading. The overall composition is centered and balanced, but the missing chain and detached crown are significant omissions relative to the spec.

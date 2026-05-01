@@ -1,0 +1,13 @@
+## Required elements
+- **Pelican (recognizable):** PRESENT — A large white bird body with a distinct head, eye, and tail feathers is visible in the center of the composition.
+- **Long beak:** PRESENT — A long, yellow-orange beak extends to the right from the pelican's head.
+- **Throat pouch:** PRESENT — A distinct orange shape hangs beneath the lower mandible of the beak.
+- **Large body:** PRESENT — The white torso is large and bulbous, occupying the central space above the bicycle frame.
+- **Two wheels (similar size):** PRESENT — Two circular wheels with spokes are visible at the bottom left and right; they appear to be of equal diameter.
+- **Frame:** PRESENT — A red tubular structure connects the two wheel hubs, the seat post area, and the handlebar stem.
+- **Handlebars:** PRESENT — Black curved bars are visible near the pelican's head/neck area.
+- **Feet near pedals:** PRESENT — Two orange legs extend downward from the body to the central crank area; feet shapes are positioned directly on top of the pedal cranks.
+- **Posture leaning slightly forward:** PRESENT — The pelican's neck and upper body angle forward toward the handlebars rather than sitting upright.
+
+## Other observations
+The composition is clean with a flat, vector-art style. The background is a solid light color. The bicycle frame geometry is stylized but structurally coherent (diamond shape). The pelican's legs are long and thin, connecting clearly to the pedals. There are no visible clipping issues or text elements. The rendering is fully contained within the image boundaries.

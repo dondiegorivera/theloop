@@ -1,0 +1,26 @@
+I can see the SVG structure clearly. Let me make the three required changes:
+
+1. **Hour hand** — currently drawn pointing to 12 o'clock; needs `rotate(300, 200, 200)` to point to 10 o'clock
+2. **Minute hand** — currently drawn pointing to 12 o'clock; needs `rotate(60, 200, 200)` to point to 2 o'clock
+3. **Minute ticks** — currently 36 ticks; needs exactly 60 ticks at 6° intervals
+
+Now let me verify the changes are correct:
+
+All acceptance criteria verified:
+
+| Criterion | Status |
+|---|---|
+| SVG parses as valid XML | PASS |
+| Hour hand points to 10 o'clock (300°) | PASS |
+| Minute hand points to 2 o'clock (60°) | PASS |
+| Exactly 60 minute tick marks at 6° intervals | PASS |
+
+The second tick group (12 ticks at 30° intervals) is the sub-dial at 6 o'clock — that's expected and unrelated to the main minute track.
+
+**Summary of changes made to `artifact.svg`:**
+
+1. **Hour hand** — Added `transform="rotate(300, 200, 200)"` to the hour hand `<g>` element, rotating it 300° clockwise from 12 o'clock (the 10 o'clock position).
+
+2. **Minute hand** — Added `transform="rotate(60, 200, 200)"` to the minute hand `<g>` element, rotating it 60° clockwise from 12 o'clock (the 2 o'clock position).
+
+3. **Minute tick marks** — Replaced the 36 irregularly-spaced minor ticks with exactly 60 ticks at uniform 6° intervals (0°, 6°, 12°, …, 354°), covering the full 360° circle.

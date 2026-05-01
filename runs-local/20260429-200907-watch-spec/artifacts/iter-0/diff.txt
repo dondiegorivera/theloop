@@ -1,0 +1,581 @@
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..9c5ae13
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,8 @@
++# SVG task workspace
++
++The artifact pi should iteratively edit lives at `artifact.svg`. The
++preview wrapper at `index.html` opens it in the browser; do not touch
++the wrapper unless you need a different presentation surface.
++
++Tools available: read, write, edit, bash. The renderer screenshots
++`index.html` at 1536×1152 after each iteration.
+diff --git a/artifact.svg b/artifact.svg
+new file mode 100644
+index 0000000..e48b171
+--- /dev/null
++++ b/artifact.svg
+@@ -0,0 +1,540 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
++  <defs>
++    <!-- Metallic case gradient -->
++    <radialGradient id="caseGrad" cx="50%" cy="40%" r="60%">
++      <stop offset="0%" stop-color="#e8dcc8"/>
++      <stop offset="40%" stop-color="#c9b896"/>
++      <stop offset="80%" stop-color="#a08c6a"/>
++      <stop offset="100%" stop-color="#7a6a50"/>
++    </radialGradient>
++
++    <!-- Case rim highlight -->
++    <radialGradient id="rimGrad" cx="45%" cy="35%" r="55%">
++      <stop offset="0%" stop-color="#f0e6d0"/>
++      <stop offset="50%" stop-color="#d4c4a0"/>
++      <stop offset="100%" stop-color="#8a7a5a"/>
++    </radialGradient>
++
++    <!-- Crown gradient -->
++    <linearGradient id="crownGrad" x1="0" y1="0" x2="0" y2="1">
++      <stop offset="0%" stop-color="#d4c4a0"/>
++      <stop offset="50%" stop-color="#b8a478"/>
++      <stop offset="100%" stop-color="#8a7a5a"/>
++    </linearGradient>
++
++    <!-- Gold/brass gear gradient -->
++    <radialGradient id="goldGrad" cx="50%" cy="40%" r="55%">
++      <stop offset="0%" stop-color="#f0d878"/>
++      <stop offset="40%" stop-color="#d4a830"/>
++      <stop offset="80%" stop-color="#b88818"/>
++      <stop offset="100%" stop-color="#8a6810"/>
++    </radialGradient>
++
++    <!-- Darker brass for depth -->
++    <radialGradient id="brassGrad" cx="50%" cy="40%" r="55%">
++      <stop offset="0%" stop-color="#d4b858"/>
++      <stop offset="50%" stop-color="#a88828"/>
++      <stop offset="100%" stop-color="#7a6018"/>
++    </radialGradient>
++
++    <!-- Blued steel hand gradient -->
++    <linearGradient id="bluedSteel" x1="0" y1="0" x2="1" y2="1">
++      <stop offset="0%" stop-color="#2a3a5a"/>
++      <stop offset="30%" stop-color="#1a2a4a"/>
++      <stop offset="70%" stop-color="#0e1e3a"/>
++      <stop offset="100%" stop-color="#0a1428"/>
++    </linearGradient>
++
++    <!-- Dial cream gradient -->
++    <radialGradient id="dialGrad" cx="50%" cy="45%" r="55%">
++      <stop offset="0%" stop-color="#fdf8ee"/>
++      <stop offset="60%" stop-color="#f5edd8"/>
++      <stop offset="100%" stop-color="#e8dcc0"/>
++    </radialGradient>
++
++    <!-- Sub-dial gradient -->
++    <radialGradient id="subDialGrad" cx="50%" cy="50%" r="50%">
++      <stop offset="0%" stop-color="#f8f0e0"/>
++      <stop offset="100%" stop-color="#e0d4b8"/>
++    </radialGradient>
++
++    <!-- Shadow filter -->
++    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
++      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#000" flood-opacity="0.35"/>
++    </filter>
++
++    <!-- Inner shadow for depth -->
++    <filter id="innerShadow">
++      <feOffset dx="0" dy="2"/>
++      <feGaussianBlur stdDeviation="3" result="offset-blur"/>
++      <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/>
++      <feFlood flood-color="#000" flood-opacity="0.3" result="color"/>
++      <feComposite operator="in" in="color" in2="inverse" result="shadow"/>
++      <feComposite operator="over" in="shadow" in2="SourceGraphic"/>
++    </filter>
++
++    <!-- Gear tooth path generator (reusable) -->
++    <g id="gear12teeth">
++      <circle cx="0" cy="0" r="28" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.5"/>
++      <circle cx="0" cy="0" r="24" fill="none" stroke="#8a6810" stroke-width="0.5"/>
++      <!-- 12 teeth -->
++      <path d="M-3,-24 L-5,-30 L-1,-30 L1,-24 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M3,-24 L5,-30 L1,-30 L-1,-24 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M12,-22 L14,-28 L10,-29 L8,-23 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-12,-22 L-14,-28 L-10,-29 L-8,-23 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M22,-12 L28,-14 L29,-10 L23,-8 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-22,-12 L-28,-14 L-29,-10 L-23,-8 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M24,3 L30,5 L30,1 L24,-1 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-24,3 L-30,5 L-30,1 L-24,-1 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M22,12 L28,14 L29,10 L23,8 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-22,12 L-28,14 L-29,10 L-23,8 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M12,22 L14,28 L10,29 L8,23 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-12,22 L-14,28 L-10,29 L-8,23 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <!-- Center hole -->
++      <circle cx="0" cy="0" r="6" fill="#1a1a2a" stroke="#6a5010" stroke-width="0.5"/>
++      <circle cx="0" cy="0" r="3" fill="#2a2a3a"/>
++      <!-- Spokes -->
++      <line x1="0" y1="-6" x2="0" y2="-22" stroke="#8a6810" stroke-width="1.5"/>
++      <line x1="0" y1="6" x2="0" y2="22" stroke="#8a6810" stroke-width="1.5"/>
++      <line x1="-6" y1="0" x2="-22" y2="0" stroke="#8a6810" stroke-width="1.5"/>
++      <line x1="6" y1="0" x2="22" y2="0" stroke="#8a6810" stroke-width="1.5"/>
++      <line x1="-4.2" y1="-4.2" x2="-15.5" y2="-15.5" stroke="#8a6810" stroke-width="1.2"/>
++      <line x1="4.2" y1="-4.2" x2="15.5" y2="-15.5" stroke="#8a6810" stroke-width="1.2"/>
++      <line x1="-4.2" y1="4.2" x2="-15.5" y2="15.5" stroke="#8a6810" stroke-width="1.2"/>
++      <line x1="4.2" y1="4.2" x2="15.5" y2="15.5" stroke="#8a6810" stroke-width="1.2"/>
++    </g>
++
++    <g id="gear8teeth">
++      <circle cx="0" cy="0" r="20" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.5"/>
++      <circle cx="0" cy="0" r="17" fill="none" stroke="#8a6810" stroke-width="0.5"/>
++      <!-- 8 teeth -->
++      <path d="M-2.5,-17 L-4,-22 L0,-22 L2.5,-17 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M17,-2.5 L22,-4 L22,0 L17,2.5 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M2.5,17 L4,22 L0,22 L-2.5,17 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-17,2.5 L-22,4 L-22,0 L-17,-2.5 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M12,-12 L15.5,-15.5 L14,-14 L10.5,-10.5 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-12,12 L-15.5,15.5 L-14,14 L-10.5,10.5 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M12,12 L15.5,15.5 L14,14 L10.5,10.5 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-12,-12 L-15.5,-15.5 L-14,-14 L-10.5,-10.5 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <circle cx="0" cy="0" r="5" fill="#1a1a2a" stroke="#6a5010" stroke-width="0.5"/>
++      <circle cx="0" cy="0" r="2.5" fill="#2a2a3a"/>
++      <line x1="0" y1="-5" x2="0" y2="-15" stroke="#8a6810" stroke-width="1.2"/>
++      <line x1="0" y1="5" x2="0" y2="15" stroke="#8a6810" stroke-width="1.2"/>
++      <line x1="-5" y1="0" x2="-15" y2="0" stroke="#8a6810" stroke-width="1.2"/>
++      <line x1="5" y1="0" x2="15" y2="0" stroke="#8a6810" stroke-width="1.2"/>
++    </g>
++
++    <g id="gear16teeth">
++      <circle cx="0" cy="0" r="35" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.5"/>
++      <circle cx="0" cy="0" r="30" fill="none" stroke="#8a6810" stroke-width="0.5"/>
++      <!-- 16 teeth -->
++      <path d="M-2,-30 L-3.5,-36 L3.5,-36 L2,-30 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M8.7,-28.5 L10.5,-34.5 L5.5,-33 L7,-27 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M20,-26 L22,-32 L17,-30.5 L15.5,-24.5 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M30,-17.5 L35.5,-19 L32,-14 L28.5,-12 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M35,-5 L40.5,-6 L37,-2 L33.5,0 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M30,10 L35.5,11.5 L32,16 L28.5,14 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M20,26 L25.5,27.5 L22,32 L18.5,24.5 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M8.7,28.5 L14.5,30 L10.5,34.5 L7,27 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-8.7,28.5 L-14.5,30 L-10.5,34.5 L-7,27 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-20,26 L-25.5,27.5 L-22,32 L-18.5,24.5 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-30,10 L-35.5,11.5 L-32,16 L-28.5,14 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-35,-5 L-40.5,-6 L-37,-2 L-33.5,0 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-30,-17.5 L-35.5,-19 L-32,-14 L-28.5,-12 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-20,-26 L-25.5,-27.5 L-22,-32 L-18.5,-24.5 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-8.7,-28.5 L-14.5,-30 L-10.5,-34.5 L-7,-27 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-2,-30 L-3.5,-36 L3.5,-36 L2,-30 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <circle cx="0" cy="0" r="7" fill="#1a1a2a" stroke="#6a5010" stroke-width="0.5"/>
++      <circle cx="0" cy="0" r="3.5" fill="#2a2a3a"/>
++      <line x1="0" y1="-7" x2="0" y2="-27" stroke="#8a6810" stroke-width="1.5"/>
++      <line x1="0" y1="7" x2="0" y2="27" stroke="#8a6810" stroke-width="1.5"/>
++      <line x1="-7" y1="0" x2="-27" y2="0" stroke="#8a6810" stroke-width="1.5"/>
++      <line x1="7" y1="0" x2="27" y2="0" stroke="#8a6810" stroke-width="1.5"/>
++      <line x1="-5" y1="-5" x2="-19" y2="-19" stroke="#8a6810" stroke-width="1.2"/>
++      <line x1="5" y1="-5" x2="19" y2="-19" stroke="#8a6810" stroke-width="1.2"/>
++      <line x1="-5" y1="5" x2="-19" y2="19" stroke="#8a6810" stroke-width="1.2"/>
++      <line x1="5" y1="5" x2="19" y2="19" stroke="#8a6810" stroke-width="1.2"/>
++    </g>
++
++    <g id="gear6teeth">
++      <circle cx="0" cy="0" r="14" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.5"/>
++      <circle cx="0" cy="0" r="11.5" fill="none" stroke="#8a6810" stroke-width="0.5"/>
++      <path d="M-2,-11.5 L-3,-16 L3,-16 L2,-11.5 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M10,-8.7 L13.5,-11 L11,-7 L8.5,-4.5 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-10,-8.7 L-13.5,-11 L-11,-7 L-8.5,-4.5 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M14,0 L18.5,-1 L16,3 L12,4 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-14,0 L-18.5,-1 L-16,3 L-12,4 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M10,8.7 L13.5,11 L11,7 L8.5,4.5 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-10,8.7 L-13.5,11 L-11,7 L-8.5,4.5 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <circle cx="0" cy="0" r="4" fill="#1a1a2a" stroke="#6a5010" stroke-width="0.5"/>
++      <circle cx="0" cy="0" r="2" fill="#2a2a3a"/>
++      <line x1="0" y1="-4" x2="0" y2="-9" stroke="#8a6810" stroke-width="1"/>
++      <line x1="0" y1="4" x2="0" y2="9" stroke="#8a6810" stroke-width="1"/>
++      <line x1="-4" y1="0" x2="-9" y2="0" stroke="#8a6810" stroke-width="1"/>
++      <line x1="4" y1="0" x2="9" y2="0" stroke="#8a6810" stroke-width="1"/>
++    </g>
++
++    <g id="gear20teeth">
++      <circle cx="0" cy="0" r="42" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.5"/>
++      <circle cx="0" cy="0" r="37" fill="none" stroke="#8a6810" stroke-width="0.5"/>
++      <!-- 20 teeth -->
++      <path d="M-1.8,-37 L-3,-43 L3,-43 L1.8,-37 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M7.2,-36.3 L8.5,-42.5 L4,-41 L5.5,-35 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M18,-32.4 L19.5,-38.5 L15,-37 L13.5,-31 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M28.5,-25.9 L30.5,-32 L26,-30 L24.5,-24 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M36.3,-17.3 L38.5,-23.5 L34,-21 L32.5,-15 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M40.5,-6.5 L43,-13 L38.5,-10 L37,-4.5 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M39,5 L41.5,11 L37,8 L35.5,2.5 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M32.4,18 L34.5,24 L30,21 L28.5,15 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M25.9,28.5 L28,34.5 L24,32 L22.5,26 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M17.3,36.3 L19.5,42 L15,39.5 L13.5,33.5 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M6.5,40.5 L8.5,46 L4,43 L2.5,37 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-6.5,40.5 L-8.5,46 L-4,43 L-2.5,37 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-17.3,36.3 L-19.5,42 L-15,39.5 L-13.5,33.5 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-25.9,28.5 L-28,34.5 L-24,32 L-22.5,26 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-32.4,18 L-34.5,24 L-30,21 L-28.5,15 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-39,5 L-41.5,11 L-37,8 L-35.5,2.5 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-40.5,-6.5 L-43,-13 L-38.5,-10 L-37,-4.5 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-36.3,-17.3 L-38.5,-23.5 L-34,-21 L-32.5,-15 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-28.5,-25.9 L-30.5,-32 L-26,-30 L-24.5,-24 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <path d="M-18,-32.4 L-19.5,-38.5 L-15,-37 L-13.5,-31 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <circle cx="0" cy="0" r="8" fill="#1a1a2a" stroke="#6a5010" stroke-width="0.5"/>
++      <circle cx="0" cy="0" r="4" fill="#2a2a3a"/>
++      <line x1="0" y1="-8" x2="0" y2="-33" stroke="#8a6810" stroke-width="1.5"/>
++      <line x1="0" y1="8" x2="0" y2="33" stroke="#8a6810" stroke-width="1.5"/>
++      <line x1="-8" y1="0" x2="-33" y2="0" stroke="#8a6810" stroke-width="1.5"/>
++      <line x1="8" y1="0" x2="33" y2="0" stroke="#8a6810" stroke-width="1.5"/>
++      <line x1="-5.7" y1="-5.7" x2="-23" y2="-23" stroke="#8a6810" stroke-width="1.2"/>
++      <line x1="5.7" y1="-5.7" x2="23" y2="-23" stroke="#8a6810" stroke-width="1.2"/>
++      <line x1="-5.7" y1="5.7" x2="-23" y2="23" stroke="#8a6810" stroke-width="1.2"/>
++      <line x1="5.7" y1="5.7" x2="23" y2="23" stroke="#8a6810" stroke-width="1.2"/>
++      <line x1="-8" y1="-3" x2="-32" y2="-12" stroke="#8a6810" stroke-width="1"/>
++      <line x1="8" y1="-3" x2="32" y2="-12" stroke="#8a6810" stroke-width="1"/>
++      <line x1="-8" y1="3" x2="-32" y2="12" stroke="#8a6810" stroke-width="1"/>
++      <line x1="8" y1="3" x2="32" y2="12" stroke="#8a6810" stroke-width="1"/>
++    </g>
++
++    <!-- Balance wheel -->
++    <g id="balanceWheel">
++      <circle cx="0" cy="0" r="18" fill="none" stroke="url(#goldGrad)" stroke-width="3"/>
++      <circle cx="0" cy="0" r="15" fill="none" stroke="#8a6810" stroke-width="0.5"/>
++      <circle cx="0" cy="0" r="3" fill="#1a1a2a" stroke="#6a5010" stroke-width="0.5"/>
++      <!-- Hairspring hint -->
++      <path d="M0,-3 C2,-6 5,-6 5,-3 C5,0 2,0 0,3 C-2,6 -5,6 -5,3 C-5,0 -2,0 0,-3" fill="none" stroke="#4a6a8a" stroke-width="0.5"/>
++      <!-- Impulse pin -->
++      <circle cx="8" cy="-8" r="1.5" fill="#d4a830" stroke="#6a5010" stroke-width="0.3"/>
++    </g>
++
++    <!-- Jewel bearing -->
++    <g id="jewel">
++      <circle cx="0" cy="0" r="3" fill="#cc2244" stroke="#881133" stroke-width="0.5"/>
++      <circle cx="0" cy="0" r="1.5" fill="#ff4466" opacity="0.6"/>
++      <circle cx="-0.5" cy="-0.5" r="0.8" fill="#ff8899" opacity="0.4"/>
++    </g>
++
++    <!-- Clip spring / regulator -->
++    <g id="regulator">
++      <path d="M-12,0 Q-6,-8 0,-8 Q6,-8 12,0" fill="none" stroke="url(#goldGrad)" stroke-width="2" stroke-linecap="round"/>
++      <rect x="-3" y="-12" width="6" height="6" rx="1" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.3"/>
++      <line x1="0" y1="-12" x2="0" y2="-18" stroke="url(#goldGrad)" stroke-width="1.5"/>
++    </g>
++
++    <!-- Mainspring barrel -->
++    <g id="mainspringBarrel">
++      <circle cx="0" cy="0" r="22" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.5"/>
++      <circle cx="0" cy="0" r="18" fill="none" stroke="#8a6810" stroke-width="0.5"/>
++      <circle cx="0" cy="0" r="6" fill="#1a1a2a" stroke="#6a5010" stroke-width="0.5"/>
++      <!-- Mainspring coils hint -->
++      <circle cx="0" cy="0" r="10" fill="none" stroke="#a88828" stroke-width="0.8"/>
++      <circle cx="0" cy="0" r="14" fill="none" stroke="#a88828" stroke-width="0.8"/>
++      <circle cx="0" cy="0" r="16" fill="none" stroke="#a88828" stroke-width="0.5"/>
++    </g>
++
++    <!-- Escapement bridge -->
++    <g id="escapementBridge">
++      <path d="M-20,-10 Q0,-20 20,-10 L15,10 Q0,5 -15,10 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.5" opacity="0.7"/>
++      <circle cx="0" cy="-5" r="3" fill="#cc2244" stroke="#881133" stroke-width="0.3"/>
++      <circle cx="-12" cy="5" r="2.5" fill="#cc2244" stroke="#881133" stroke-width="0.3"/>
++      <circle cx="12" cy="5" r="2.5" fill="#cc2244" stroke="#881133" stroke-width="0.3"/>
++    </g>
++
++    <!-- Plate/bridge decoration -->
++    <g id="plateDecor">
++      <path d="M-30,-15 Q0,-25 30,-15 L25,15 Q0,10 -25,15 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.5" opacity="0.5"/>
++      <!-- Côtes de Genève hint -->
++      <path d="M-20,-10 Q0,-18 20,-10" fill="none" stroke="#c4a040" stroke-width="0.5" opacity="0.5"/>
++      <path d="M-22,-5 Q0,-13 22,-5" fill="none" stroke="#c4a040" stroke-width="0.5" opacity="0.5"/>
++      <path d="M-24,0 Q0,-8 24,0" fill="none" stroke="#c4a040" stroke-width="0.5" opacity="0.5"/>
++      <path d="M-25,5 Q0,-3 25,5" fill="none" stroke="#c4a040" stroke-width="0.5" opacity="0.5"/>
++    </g>
++
++    <!-- Dial chapter ring -->
++    <g id="chapterRing">
++      <circle cx="0" cy="0" r="155" fill="none" stroke="#8a7a5a" stroke-width="2"/>
++      <circle cx="0" cy="0" r="150" fill="none" stroke="#a09070" stroke-width="0.5"/>
++    </g>
++
++    <!-- Hour markers -->
++    <g id="hourMarkers">
++      <!-- 12 o'clock -->
++      <line x1="200" y1="52" x2="200" y2="68" stroke="#2a3a5a" stroke-width="3" stroke-linecap="round"/>
++      <!-- 1 o'clock -->
++      <line x1="278" y1="62" x2="270" y2="76" stroke="#2a3a5a" stroke-width="2" stroke-linecap="round"/>
++      <!-- 2 o'clock -->
++      <line x1="338" y1="122" x2="324" y2="130" stroke="#2a3a5a" stroke-width="2" stroke-linecap="round"/>
++      <!-- 3 o'clock -->
++      <line x1="348" y1="200" x2="332" y2="200" stroke="#2a3a5a" stroke-width="3" stroke-linecap="round"/>
++      <!-- 4 o'clock -->
++      <line x1="338" y1="278" x2="324" y2="270" stroke="#2a3a5a" stroke-width="2" stroke-linecap="round"/>
++      <!-- 5 o'clock -->
++      <line x1="278" y1="338" x2="270" y2="324" stroke="#2a3a5a" stroke-width="2" stroke-linecap="round"/>
++      <!-- 6 o'clock -->
++      <line x1="200" y1="348" x2="200" y2="332" stroke="#2a3a5a" stroke-width="3" stroke-linecap="round"/>
++      <!-- 7 o'clock -->
++      <line x1="122" y1="338" x2="130" y2="324" stroke="#2a3a5a" stroke-width="2" stroke-linecap="round"/>
++      <!-- 8 o'clock -->
++      <line x1="62" y1="278" x2="76" y2="270" stroke="#2a3a5a" stroke-width="2" stroke-linecap="round"/>
++      <!-- 9 o'clock -->
++      <line x1="52" y1="200" x2="68" y2="200" stroke="#2a3a5a" stroke-width="3" stroke-linecap="round"/>
++      <!-- 10 o'clock -->
++      <line x1="62" y1="122" x2="76" y2="130" stroke="#2a3a5a" stroke-width="2" stroke-linecap="round"/>
++      <!-- 11 o'clock -->
++      <line x1="122" y1="62" x2="130" y2="76" stroke="#2a3a5a" stroke-width="2" stroke-linecap="round"/>
++      <!-- Minute markers (smaller ticks) -->
++      <g stroke="#8a7a5a" stroke-width="0.8" stroke-linecap="round">
++        <line x1="200" y1="54" x2="200" y2="59"/>
++        <line x1="276" y1="64" x2="272" y2="70"/>
++        <line x1="334" y1="124" x2="328" y2="128"/>
++        <line x1="346" y1="198" x2="341" y2="198"/>
++        <line x1="334" y1="276" x2="328" y2="272"/>
++        <line x1="276" y1="336" x2="272" y2="330"/>
++        <line x1="200" y1="346" x2="200" y2="341"/>
++        <line x1="124" y1="336" x2="128" y2="330"/>
++        <line x1="66" y1="276" x2="72" y2="272"/>
++        <line x1="54" y1="202" x2="59" y2="202"/>
++        <line x1="66" y1="124" x2="72" y2="128"/>
++        <line x1="124" y1="64" x2="128" y2="70"/>
++      </g>
++    </g>
++
++    <!-- Brand text area -->
++    <g id="brandArea">
++      <text x="200" y="108" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#5a4a30" font-style="italic">CHRONOMÈTRE</text>
++      <text x="200" y="120" text-anchor="middle" font-family="Georgia, serif" font-size="7" fill="#7a6a50">GENÈVE</text>
++    </g>
++
++    <!-- Glass reflection -->
++    <g id="glassReflection">
++      <ellipse cx="140" cy="100" rx="60" ry="35" fill="white" opacity="0.08" transform="rotate(-20,140,100)"/>
++      <ellipse cx="120" cy="80" rx="30" ry="15" fill="white" opacity="0.05" transform="rotate(-20,120,80)"/>
++    </g>
++  </defs>
++
++  <!-- Background -->
++  <rect x="0" y="0" width="400" height="400" fill="#1a1a2a"/>
++
++  <!-- ==================== OUTER CASE ==================== -->
++  <g filter="url(#shadow)">
++    <!-- Main case body -->
++    <circle cx="200" cy="200" r="180" fill="url(#caseGrad)" stroke="#6a5a3a" stroke-width="2"/>
++    <!-- Case rim highlight -->
++    <circle cx="200" cy="200" r="178" fill="none" stroke="#e0d4b8" stroke-width="1.5" opacity="0.4"/>
++    <!-- Inner bevel -->
++    <circle cx="200" cy="200" r="175" fill="none" stroke="#a09070" stroke-width="1"/>
++    <!-- Outer edge shadow -->
++    <circle cx="200" cy="200" r="180" fill="none" stroke="#5a4a30" stroke-width="3" opacity="0.3"/>
++  </g>
++
++  <!-- Crown -->
++  <g filter="url(#shadow)">
++    <!-- Crown base -->
++    <rect x="185" y="18" width="30" height="22" rx="4" fill="url(#crownGrad)" stroke="#6a5a3a" stroke-width="1"/>
++    <!-- Crown ridges -->
++    <line x1="190" y1="20" x2="190" y2="38" stroke="#8a7a5a" stroke-width="0.5"/>
++    <line x1="195" y1="20" x2="195" y2="38" stroke="#8a7a5a" stroke-width="0.5"/>
++    <line x1="200" y1="20" x2="200" y2="38" stroke="#8a7a5a" stroke-width="0.5"/>
++    <line x1="205" y1="20" x2="205" y2="38" stroke="#8a7a5a" stroke-width="0.5"/>
++    <line x1="210" y1="20" x2="210" y2="38" stroke="#8a7a5a" stroke-width="0.5"/>
++    <!-- Crown top -->
++    <ellipse cx="200" cy="18" rx="15" ry="5" fill="url(#crownGrad)" stroke="#6a5a3a" stroke-width="1"/>
++    <!-- Crown ring -->
++    <circle cx="200" cy="20" r="18" fill="none" stroke="#8a7a5a" stroke-width="1.5"/>
++  </g>
++
++  <!-- ==================== DIAL BACKGROUND ==================== -->
++  <!-- Upper half - solid cream dial -->
++  <path d="M 45,200 A 155,155 0 0,1 355,200 Z" fill="url(#dialGrad)" stroke="#8a7a5a" stroke-width="1"/>
++
++  <!-- Lower half - skeletonized movement background (dark plate) -->
++  <path d="M 45,200 A 155,155 0 0,0 355,200 Z" fill="#1a1a2a" stroke="#8a7a5a" stroke-width="1"/>
++
++  <!-- ==================== SKELETONIZED MOVEMENT (LOWER HALF) ==================== -->
++  <g id="skeletonizedMovement">
++    <!-- Main plate -->
++    <path d="M 50,200 A 150,150 0 0,0 350,200 Z" fill="#1e1e30" stroke="#3a3a50" stroke-width="0.5"/>
++
++    <!-- Decorative bridge across movement -->
++    <use href="#plateDecor" x="200" y="260"/>
++
++    <!-- Mainspring barrel (left side) -->
++    <use href="#mainspringBarrel" x="120" y="270"/>
++
++    <!-- Center wheel (large, center-left) -->
++    <use href="#gear20teeth" x="175" y="260"/>
++
++    <!-- Third wheel -->
++    <use href="#gear16teeth" x="240" y="280"/>
++
++    <!-- Fourth wheel (seconds) -->
++    <use href="#gear12teeth" x="280" y="250"/>
++
++    <!-- Escape wheel -->
++    <use href="#gear8teeth" x="310" y="220"/>
++
++    <!-- Balance wheel (right side) -->
++    <use href="#balanceWheel" x="320" y="270"/>
++
++    <!-- Escapement bridge -->
++    <use href="#escapementBridge" x="310" y="245"/>
++
++    <!-- Regulator -->
++    <use href="#regulator" x="320" y="250"/>
++
++    <!-- Jewel bearings -->
++    <use href="#jewel" x="120" y="270"/>
++    <use href="#jewel" x="175" y="260"/>
++    <use href="#jewel" x="240" y="280"/>
++    <use href="#jewel" x="280" y="250"/>
++    <use href="#jewel" x="310" y="220"/>
++    <use href="#jewel" x="320" y="270"/>
++
++    <!-- Additional small gear (pallet fork area) -->
++    <use href="#gear6teeth" x="295" y="235"/>
++
++    <!-- Additional bridge detail -->
++    <path d="M 100,240 Q 140,230 180,245 L 175,265 Q 140,255 105,260 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.5" opacity="0.6"/>
++    <use href="#jewel" x="140" y="248"/>
++
++    <!-- Barrel bridge -->
++    <path d="M 85,245 Q 100,235 130,240 L 125,290 Q 100,285 85,275 Z" fill="url(#goldGrad)" stroke="#6a5010" stroke-width="0.5" opacity="0.5"/>
++
++    <!-- Screws on bridges -->
++    <circle cx="110" cy="255" r="2" fill="#8a7a5a" stroke="#6a5a3a" stroke-width="0.3"/>
++    <line x1="108" y1="255" x2="112" y2="255" stroke="#4a3a2a" stroke-width="0.5"/>
++    <line x1="110" y1="253" x2="110" y2="257" stroke="#4a3a2a" stroke-width="0.5"/>
++
++    <circle cx="165" cy="252" r="2" fill="#8a7a5a" stroke="#6a5a3a" stroke-width="0.3"/>
++    <line x1="163" y1="252" x2="167" y2="252" stroke="#4a3a2a" stroke-width="0.5"/>
++    <line x1="165" y1="250" x2="165" y2="254" stroke="#4a3a2a" stroke-width="0.5"/>
++
++    <!-- Polished steel screws on main plate -->
++    <circle cx="200" cy="310" r="2.5" fill="#9a8a6a" stroke="#6a5a3a" stroke-width="0.3"/>
++    <line x1="197" y1="310" x2="203" y2="310" stroke="#4a3a2a" stroke-width="0.5"/>
++    <line x1="200" y1="307" x2="200" y2="313" stroke="#4a3a2a" stroke-width="0.5"/>
++
++    <circle cx="260" cy="320" r="2.5" fill="#9a8a6a" stroke="#6a5a3a" stroke-width="0.3"/>
++    <line x1="257" y1="320" x2="263" y2="320" stroke="#4a3a2a" stroke-width="0.5"/>
++    <line x1="260" y1="317" x2="260" y2="323" stroke="#4a3a2a" stroke-width="0.5"/>
++
++    <!-- Engraved serial number area -->
++    <text x="200" y="340" text-anchor="middle" font-family="monospace" font-size="6" fill="#5a5a7a">No. 4782</text>
++
++    <!-- Additional gear train detail - small pinion -->
++    <circle cx="255" cy="240" r="5" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.3"/>
++    <circle cx="255" cy="240" r="2" fill="#1a1a2a" stroke="#6a5010" stroke-width="0.3"/>
++    <!-- Pinion teeth -->
++    <path d="M253,235 L252,232 L256,232 L255,235 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.2"/>
++    <path d="M257,235 L258,232 L254,232 L255,235 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.2"/>
++    <path d="M260,238 L263,237 L262,241 L259,242 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.2"/>
++    <path d="M250,238 L247,237 L248,241 L251,242 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.2"/>
++    <path d="M255,245 L254,248 L256,248 L255,245 Z" fill="url(#brassGrad)" stroke="#6a5010" stroke-width="0.2"/>
++  </g>
++
++  <!-- ==================== CHAPTER RING ==================== -->
++  <use href="#chapterRing" x="200" y="200"/>
++
++  <!-- ==================== HOUR MARKERS ==================== -->
++  <use href="#hourMarkers" x="0" y="0"/>
++
++  <!-- ==================== BRAND TEXT ==================== -->
++  <use href="#brandArea" x="0" y="0"/>
++
++  <!-- ==================== SUB-DIAL (Small Seconds at 6 o'clock) ==================== -->
++  <g id="subDial">
++    <!-- Sub-dial background -->
++    <circle cx="200" cy="275" r="28" fill="url(#subDialGrad)" stroke="#8a7a5a" stroke-width="1"/>
++    <!-- Sub-dial inner ring -->
++    <circle cx="200" cy="275" r="25" fill="none" stroke="#a09070" stroke-width="0.5"/>
++    <!-- Sub-dial markers -->
++    <line x1="200" y1="250" x2="200" y2="254" stroke="#2a3a5a" stroke-width="1.5"/>
++    <line x1="200" y1="300" x2="200" y2="296" stroke="#2a3a5a" stroke-width="1.5"/>
++    <line x1="175" y1="275" x2="179" y2="275" stroke="#2a3a5a" stroke-width="1"/>
++    <line x1="225" y1="275" x2="221" y2="275" stroke="#2a3a5a" stroke-width="1"/>
++    <!-- Small seconds hand -->
++    <line x1="200" y1="275" x2="200" y2="255" stroke="#cc2222" stroke-width="1.2" stroke-linecap="round"/>
++    <!-- Sub-dial center -->
++    <circle cx="200" cy="275" r="2" fill="#cc2222"/>
++    <circle cx="200" cy="275" r="1" fill="#ff4444"/>
++    <!-- Sub-dial label -->
++    <text x="200" y="288" text-anchor="middle" font-family="Georgia, serif" font-size="5" fill="#5a4a30">SECONDS</text>
++  </g>
++
++  <!-- ==================== WATCH HANDS ==================== -->
++  <g id="hands" filter="url(#shadow)">
++    <!-- Hour hand (pointing at ~10:10 position) -->
++    <g transform="rotate(-60, 200, 200)">
++      <!-- Hour hand body -->
++      <path d="M197,200 L195,120 L197,115 L200,112 L203,115 L205,120 L203,200 Z" fill="url(#bluedSteel)" stroke="#0a1428" stroke-width="0.5"/>
++      <!-- Hour hand counterweight -->
++      <path d="M197,200 L196,215 L198,218 L200,220 L202,218 L204,215 L203,200 Z" fill="url(#bluedSteel)" stroke="#0a1428" stroke-width="0.5"/>
++      <!-- Highlight -->
++      <path d="M199,200 L198,125 L199,122 L200,120 L201,122 L200,200 Z" fill="white" opacity="0.15"/>
++    </g>
++
++    <!-- Minute hand (pointing at ~2 position = 60 minutes) -->
++    <g transform="rotate(60, 200, 200)">
++      <!-- Minute hand body (longer, thinner) -->
++      <path d="M198.5,200 L197.5,90 L198.5,82 L200,78 L201.5,82 L202.5,90 L201.5,200 Z" fill="url(#bluedSteel)" stroke="#0a1428" stroke-width="0.5"/>
++      <!-- Minute hand counterweight -->
++      <path d="M198.5,200 L198,218 L199.5,222 L200,224 L200.5,222 L202,218 L201.5,200 Z" fill="url(#bluedSteel)" stroke="#0a1428" stroke-width="0.5"/>
++      <!-- Highlight -->
++      <path d="M199.5,200 L199,95 L199.5,88 L200,85 L200.5,88 L200,200 Z" fill="white" opacity="0.15"/>
++    </g>
++
++    <!-- Second hand (sweeping, red) -->
++    <g transform="rotate(145, 200, 200)">
++      <!-- Second hand body (thin, red) -->
++      <line x1="200" y1="200" x2="200" y2="80" stroke="#cc2222" stroke-width="1" stroke-linecap="round"/>
++      <!-- Counterweight -->
++      <line x1="200" y1="200" x2="200" y2="230" stroke="#cc2222" stroke-width="1" stroke-linecap="round"/>
++      <!-- Counterweight circle -->
++      <circle cx="200" cy="228" r="3" fill="none" stroke="#cc2222" stroke-width="0.8"/>
++      <!-- Center ring -->
++      <circle cx="200" cy="200" r="4" fill="none" stroke="#cc2222" stroke-width="0.8"/>
++    </g>
++
++    <!-- Center cap -->
++    <circle cx="200" cy="200" r="5" fill="url(#bluedSteel)" stroke="#0a1428" stroke-width="0.5"/>
++    <circle cx="200" cy="200" r="3" fill="#1a2a4a"/>
++    <circle cx="199" cy="199" r="1" fill="white" opacity="0.3"/>
++  </g>
++
++  <!-- ==================== GLASS REFLECTION ==================== -->
++  <use href="#glassReflection" x="0" y="0"/>
++
++  <!-- ==================== CASE INNER RING (overlaps dial edge) ==================== -->
++  <circle cx="200" cy="200" r="157" fill="none" stroke="#c4b490" stroke-width="1.5" opacity="0.6"/>
++  <circle cx="200" cy="200" r="156" fill="none" stroke="#e0d4b8" stroke-width="0.5" opacity="0.3"/>
++
++  <!-- ==================== OUTER CASE DETAILS ==================== -->
++  <!-- Case back hint (visible through skeletonized area) -->
++  <path d="M 55,200 A 145,145 0 0,0 345,200" fill="none" stroke="#2a2a40" stroke-width="2" opacity="0.5"/>
++
++  <!-- Subtle case highlight arc -->
++  <path d="M 50,100 A 150,150 0 0,1 200,50" fill="none" stroke="#e8dcc8" stroke-width="2" opacity="0.3"/>
++
++  <!-- Lugs (top, for strap) -->
++  <path d="M 180,22 Q 175,10 185,5 L 215,5 Q 225,10 220,22 Z" fill="url(#caseGrad)" stroke="#6a5a3a" stroke-width="1"/>
++  <line x1="188" y1="8" x2="212" y2="8" stroke="#8a7a5a" stroke-width="0.5"/>
++</svg>
+diff --git a/index.html b/index.html
+new file mode 100644
+index 0000000..fa58ccd
+--- /dev/null
++++ b/index.html
+@@ -0,0 +1,15 @@
++<!doctype html>
++<html>
++<head>
++<meta charset="utf-8">
++<title>artifact preview</title>
++<style>
++  html, body { margin: 0; padding: 0; height: 100%; background: #fff; }
++  body { display: flex; align-items: center; justify-content: center; }
++  img { max-width: 92vw; max-height: 92vh; }
++</style>
++</head>
++<body>
++  <img src="artifact.svg" alt="artifact">
++</body>
++</html>

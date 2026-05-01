@@ -1,0 +1,67 @@
+diff --git a/artifact.svg b/artifact.svg
+index 5c0d47c..14bf398 100644
+--- a/artifact.svg
++++ b/artifact.svg
+@@ -234,7 +234,7 @@
+   <!-- Mechanical Gears - Lower half visible through open design -->
+   <g id="mechanical-gears" clip-path="url(#caseClip)">
+     <!-- Main gear (center-bottom area) -->
+-    <g id="gear-main" transform="translate(300, 380)">
++    <g id="gear-main" transform="translate(300, 465)">
+       <circle cx="0" cy="0" r="28" fill="none" stroke="url(#gearGrad)" stroke-width="2"/>
+       <circle cx="0" cy="0" r="22" fill="none" stroke="#b5a642" stroke-width="0.8"/>
+       <!-- Gear teeth -->
+@@ -260,7 +260,7 @@
+     </g>
+ 
+     <!-- Secondary gear (left side) -->
+-    <g id="gear-secondary" transform="translate(210, 410)">
++    <g id="gear-secondary" transform="translate(220, 475)">
+       <circle cx="0" cy="0" r="20" fill="none" stroke="url(#gearGrad)" stroke-width="2"/>
+       <circle cx="0" cy="0" r="15" fill="none" stroke="#b5a642" stroke-width="0.8"/>
+       <!-- Gear teeth -->
+@@ -282,7 +282,7 @@
+     </g>
+ 
+     <!-- Tertiary gear (right side) -->
+-    <g id="gear-tertiary" transform="translate(390, 400)">
++    <g id="gear-tertiary" transform="translate(380, 470)">
+       <circle cx="0" cy="0" r="16" fill="none" stroke="url(#gearGrad)" stroke-width="1.8"/>
+       <circle cx="0" cy="0" r="12" fill="none" stroke="#b5a642" stroke-width="0.7"/>
+       <!-- Gear teeth -->
+@@ -306,8 +306,8 @@
+     </g>
+ 
+     <!-- Connecting gear train bars -->
+-    <line x1="230" y1="410" x2="272" y2="395" stroke="#b5a642" stroke-width="2.5" stroke-linecap="round"/>
+-    <line x1="328" y1="395" x2="374" y2="400" stroke="#b5a642" stroke-width="2.5" stroke-linecap="round"/>
++    <line x1="240" y1="475" x2="272" y2="465" stroke="#b5a642" stroke-width="2.5" stroke-linecap="round"/>
++    <line x1="328" y1="465" x2="364" y2="470" stroke="#b5a642" stroke-width="2.5" stroke-linecap="round"/>
+   </g>
+ 
+   <!-- Balance Wheel (prominent, lower center) -->
+@@ -335,21 +335,21 @@
+   <!-- Watch hands (layered: hour bottom, minute middle, second top) -->
+   <g id="hands">
+     <!-- Hour hand (pointing near 10 o'clock) -->
+-    <g id="hour-hand">
++    <g id="hour-hand" transform="rotate(300, 300, 300)">
+       <path d="M297,300 L295,210 L298,205 L300,203 L302,205 L305,210 L303,300 Z" fill="#2a2a2a" stroke="#1a1a1a" stroke-width="0.5"/>
+       <!-- Hour hand counterweight -->
+       <path d="M297,300 L295,315 L298,318 L300,320 L302,318 L305,315 L303,300 Z" fill="#2a2a2a" stroke="#1a1a1a" stroke-width="0.5"/>
+     </g>
+ 
+     <!-- Minute hand (pointing near 2 o'clock) -->
+-    <g id="minute-hand">
++    <g id="minute-hand" transform="rotate(60, 300, 300)">
+       <path d="M298,300 L296,175 L298,170 L300,168 L302,170 L304,175 L302,300 Z" fill="#2a2a2a" stroke="#1a1a1a" stroke-width="0.5"/>
+       <!-- Minute hand counterweight -->
+       <path d="M298,300 L296,318 L298,322 L300,324 L302,322 L304,318 L302,300 Z" fill="#2a2a2a" stroke="#1a1a1a" stroke-width="0.5"/>
+     </g>
+ 
+     <!-- Second hand (pointing near 7 o'clock) -->
+-    <g id="second-hand">
++    <g id="second-hand" transform="rotate(210, 300, 300)">
+       <line x1="300" y1="300" x2="300" y2="165" stroke="#8b0000" stroke-width="1" stroke-linecap="round"/>
+       <!-- Second hand tail -->
+       <line x1="300" y1="300" x2="300" y2="340" stroke="#8b0000" stroke-width="1.5" stroke-linecap="round"/>

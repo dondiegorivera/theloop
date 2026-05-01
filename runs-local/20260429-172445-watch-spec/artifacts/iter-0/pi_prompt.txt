@@ -1,0 +1,21 @@
+Create a detailed, realistic vintage mechanical pocket watch illustration in `artifact.svg`. The SVG must be a valid XML document with all tags closed and attributes quoted. Use a 600x600 viewBox, centering the watch at (300, 300).
+
+**Structure & Components:**
+1.  **Case:** A circular metallic case (approx. radius 180) with a brushed steel or gold gradient. Include a crown at the top (12 o'clock position) and a bow for the chain.
+2.  **Dial:** A cream-colored inner dial (radius ~150).
+3.  **Markers:** Roman numerals (I through XII) positioned around the dial edge. Add small tick marks for minutes between the numerals.
+4.  **Hands:** Three hands (hour, minute, second) originating from the center (300, 300). Style them as ornate, blued-steel or gold spade/leaf hands. Position them to show a specific time (e.g., 10:10:30).
+5.  **Sub-dials:** Two smaller sub-dials (e.g., for seconds and power reserve) located at 6 o'clock and 3 o'clock positions within the main dial.
+6.  **Gear Train:** Visible through an aperture or as part of the design, showing interlocking gears with a balance wheel oscillating. Use metallic gradients (silver, brass, copper) to distinguish materials.
+7.  **Chain:** A gold chain attached to the bow at the top, extending upwards.
+
+**Styling:**
+- Use `<linearGradient>` and `<radialGradient>` for metallic shading and depth.
+- Apply drop shadows or inner shadows to create a 3D effect on the case and hands.
+- Ensure high contrast between the cream dial and dark markers/hands.
+
+**Acceptance Criteria:**
+- The SVG must parse without XML errors.
+- The watch is visually centered in the 600x600 viewBox.
+- All components (case, dial, hands, sub-dials, gears, chain) are present and distinct.
+- The illustration looks like a realistic vintage pocket watch.

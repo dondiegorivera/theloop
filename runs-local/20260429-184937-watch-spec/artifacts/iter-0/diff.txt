@@ -1,0 +1,434 @@
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..9c5ae13
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,8 @@
++# SVG task workspace
++
++The artifact pi should iteratively edit lives at `artifact.svg`. The
++preview wrapper at `index.html` opens it in the browser; do not touch
++the wrapper unless you need a different presentation surface.
++
++Tools available: read, write, edit, bash. The renderer screenshots
++`index.html` at 1536×1152 after each iteration.
+diff --git a/artifact.svg b/artifact.svg
+new file mode 100644
+index 0000000..5c0d47c
+--- /dev/null
++++ b/artifact.svg
+@@ -0,0 +1,392 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="100%" height="100%">
++  <defs>
++    <!-- Brass gradient for case -->
++    <radialGradient id="brassCase" cx="50%" cy="40%" r="55%">
++      <stop offset="0%" stop-color="#e8d48b"/>
++      <stop offset="40%" stop-color="#d4af37"/>
++      <stop offset="80%" stop-color="#b5a642"/>
++      <stop offset="100%" stop-color="#8b7500"/>
++    </radialGradient>
++    <!-- Inner case gradient -->
++    <radialGradient id="brassInner" cx="50%" cy="40%" r="55%">
++      <stop offset="0%" stop-color="#c9a83e"/>
++      <stop offset="60%" stop-color="#a8892e"/>
++      <stop offset="100%" stop-color="#7a6500"/>
++    </radialGradient>
++    <!-- Dial gradient -->
++    <radialGradient id="dialGrad" cx="50%" cy="45%" r="55%">
++      <stop offset="0%" stop-color="#fffef8"/>
++      <stop offset="70%" stop-color="#fdf5e6"/>
++      <stop offset="100%" stop-color="#f0e4cc"/>
++    </radialGradient>
++    <!-- Gear gradient -->
++    <linearGradient id="gearGrad" x1="0%" y1="0%" x2="100%" y2="100%">
++      <stop offset="0%" stop-color="#d4af37"/>
++      <stop offset="50%" stop-color="#b5a642"/>
++      <stop offset="100%" stop-color="#8b7500"/>
++    </linearGradient>
++    <!-- Shadow filter -->
++    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
++      <feDropShadow dx="2" dy="3" stdDeviation="4" flood-color="#333" flood-opacity="0.3"/>
++    </filter>
++    <!-- Clip path for case -->
++    <clipPath id="caseClip">
++      <circle cx="300" cy="300" r="195"/>
++    </clipPath>
++  </defs>
++
++  <!-- Chain (attached to crown) -->
++  <g id="chain" stroke="#d4af37" fill="none">
++    <path d="M300,100 C300,70 290,50 310,30 C330,10 310,-10 320,-30" stroke-width="3" stroke-linecap="round"/>
++    <ellipse cx="315" cy="-35" rx="8" ry="5" fill="none" stroke="#d4af37" stroke-width="2.5" transform="rotate(-15,315,-35)"/>
++    <path d="M320,-30 C330,-15 315,0 325,15 C335,30 320,45 325,60" stroke-width="3" stroke-linecap="round"/>
++    <ellipse cx="325" cy="65" rx="8" ry="5" fill="none" stroke="#d4af37" stroke-width="2.5" transform="rotate(10,325,65)"/>
++    <!-- Chain links -->
++    <ellipse cx="305" cy="80" rx="6" ry="4" fill="none" stroke="#b5a642" stroke-width="2" transform="rotate(-20,305,80)"/>
++    <ellipse cx="308" cy="65" rx="6" ry="4" fill="none" stroke="#b5a642" stroke-width="2" transform="rotate(-10,308,65)"/>
++    <ellipse cx="312" cy="50" rx="6" ry="4" fill="none" stroke="#b5a642" stroke-width="2" transform="rotate(5,312,50)"/>
++  </g>
++
++  <!-- Crown (at 12 o'clock) -->
++  <g id="crown">
++    <rect x="285" y="95" width="30" height="20" rx="3" fill="url(#brassCase)" stroke="#8b7500" stroke-width="1.5"/>
++    <rect x="288" y="90" width="24" height="8" rx="2" fill="#d4af37" stroke="#8b7500" stroke-width="1"/>
++    <!-- Crown ridges -->
++    <line x1="290" y1="92" x2="290" y2="97" stroke="#8b7500" stroke-width="0.8"/>
++    <line x1="295" y1="92" x2="295" y2="97" stroke="#8b7500" stroke-width="0.8"/>
++    <line x1="300" y1="92" x2="300" y2="97" stroke="#8b7500" stroke-width="0.8"/>
++    <line x1="305" y1="92" x2="305" y2="97" stroke="#8b7500" stroke-width="0.8"/>
++    <line x1="310" y1="92" x2="310" y2="97" stroke="#8b7500" stroke-width="0.8"/>
++    <!-- Crown top knob -->
++    <circle cx="300" cy="88" r="7" fill="#d4af37" stroke="#8b7500" stroke-width="1.5"/>
++    <circle cx="300" cy="88" r="3" fill="#b5a642" stroke="#8b7500" stroke-width="0.5"/>
++  </g>
++
++  <!-- Outer case -->
++  <g id="case" filter="url(#shadow)">
++    <circle cx="300" cy="300" r="200" fill="url(#brassCase)" stroke="#8b7500" stroke-width="2"/>
++    <!-- Case bezel ring -->
++    <circle cx="300" cy="300" r="195" fill="none" stroke="#c9a83e" stroke-width="3"/>
++    <circle cx="300" cy="300" r="190" fill="none" stroke="#8b7500" stroke-width="1"/>
++    <!-- Decorative case engraving ring -->
++    <circle cx="300" cy="300" r="185" fill="none" stroke="#a8892e" stroke-width="0.5" stroke-dasharray="4,3"/>
++  </g>
++
++  <!-- Dial background -->
++  <circle cx="300" cy="300" r="175" fill="url(#dialGrad)" stroke="#d4af37" stroke-width="1.5"/>
++
++  <!-- Inner dial ring -->
++  <circle cx="300" cy="300" r="170" fill="none" stroke="#d4af37" stroke-width="0.8"/>
++
++  <!-- Minute tick marks -->
++  <g id="minute-ticks" stroke="#555" stroke-width="0.8">
++    <!-- 60 minute ticks around the dial -->
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(6,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(12,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(18,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(24,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(30,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(36,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(42,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(48,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(54,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(60,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(66,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(72,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(78,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(84,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(90,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(96,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(102,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(108,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(114,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(120,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(126,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(132,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(138,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(144,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(150,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(156,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(162,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(168,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(174,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(180,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(186,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(192,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(198,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(204,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(210,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(216,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(222,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(228,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(234,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(240,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(246,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(252,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(258,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(264,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(270,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(276,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(282,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(288,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(294,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(300,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(306,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(312,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(318,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(324,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(330,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(336,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(342,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(348,300,300)"/>
++    <line x1="300" y1="130" x2="300" y2="138" transform="rotate(354,300,300)"/>
++  </g>
++
++  <!-- Bold hour ticks (every 5 minutes) -->
++  <g id="hour-ticks" stroke="#333" stroke-width="1.5">
++    <line x1="300" y1="128" x2="300" y2="140" transform="rotate(0,300,300)"/>
++    <line x1="300" y1="128" x2="300" y2="140" transform="rotate(30,300,300)"/>
++    <line x1="300" y1="128" x2="300" y2="140" transform="rotate(60,300,300)"/>
++    <line x1="300" y1="128" x2="300" y2="140" transform="rotate(90,300,300)"/>
++    <line x1="300" y1="128" x2="300" y2="140" transform="rotate(120,300,300)"/>
++    <line x1="300" y1="128" x2="300" y2="140" transform="rotate(150,300,300)"/>
++    <line x1="300" y1="128" x2="300" y2="140" transform="rotate(180,300,300)"/>
++    <line x1="300" y1="128" x2="300" y2="140" transform="rotate(210,300,300)"/>
++    <line x1="300" y1="128" x2="300" y2="140" transform="rotate(240,300,300)"/>
++    <line x1="300" y1="128" x2="300" y2="140" transform="rotate(270,300,300)"/>
++    <line x1="300" y1="128" x2="300" y2="140" transform="rotate(300,300,300)"/>
++    <line x1="300" y1="128" x2="300" y2="140" transform="rotate(330,300,300)"/>
++  </g>
++
++  <!-- Roman Numerals -->
++  <g id="roman-numerals" font-family="Georgia, 'Times New Roman', serif" font-size="22" fill="#2a2a2a" text-anchor="middle" dominant-baseline="central">
++    <text x="300" y="148">XII</text>
++    <text x="378" y="168">I</text>
++    <text x="432" y="222">II</text>
++    <text x="452" y="300">III</text>
++    <text x="432" y="378">IV</text>
++    <text x="378" y="432">V</text>
++    <text x="300" y="452">VI</text>
++    <text x="222" y="432">VII</text>
++    <text x="168" y="378">VIII</text>
++    <text x="148" y="300">IX</text>
++    <text x="168" y="222">X</text>
++    <text x="222" y="168">XI</text>
++  </g>
++
++  <!-- Brand text -->
++  <text x="300" y="210" font-family="Georgia, 'Times New Roman', serif" font-size="11" fill="#666" text-anchor="middle" letter-spacing="3">THE LOOP</text>
++  <text x="300" y="225" font-family="Georgia, 'Times New Roman', serif" font-size="8" fill="#888" text-anchor="middle" letter-spacing="2">SWISS MADE</text>
++
++  <!-- Sub-dial: Power Reserve at 12 o'clock area (upper center) -->
++  <g id="power-reserve">
++    <circle cx="300" cy="200" r="32" fill="#fdf5e6" stroke="#d4af37" stroke-width="1.2"/>
++    <circle cx="300" cy="200" r="29" fill="none" stroke="#ccc" stroke-width="0.5"/>
++    <!-- Power reserve ticks -->
++    <line x1="300" y1="172" x2="300" y2="176" stroke="#555" stroke-width="0.8"/>
++    <line x1="300" y1="172" x2="300" y2="176" transform="rotate(30,300,200)"/>
++    <line x1="300" y1="172" x2="300" y2="176" transform="rotate(60,300,200)"/>
++    <line x1="300" y1="172" x2="300" y2="176" transform="rotate(90,300,200)"/>
++    <line x1="300" y1="172" x2="300" y2="176" transform="rotate(120,300,200)"/>
++    <line x1="300" y1="172" x2="300" y2="176" transform="rotate(150,300,200)"/>
++    <line x1="300" y1="172" x2="300" y2="176" transform="rotate(180,300,200)"/>
++    <line x1="300" y1="172" x2="300" y2="176" transform="rotate(210,300,200)"/>
++    <line x1="300" y1="172" x2="300" y2="176" transform="rotate(240,300,200)"/>
++    <line x1="300" y1="172" x2="300" y2="176" transform="rotate(270,300,200)"/>
++    <line x1="300" y1="172" x2="300" y2="176" transform="rotate(300,300,200)"/>
++    <line x1="300" y1="172" x2="300" y2="176" transform="rotate(330,300,200)"/>
++    <!-- Power reserve labels -->
++    <text x="300" y="185" font-family="Georgia, serif" font-size="7" fill="#888" text-anchor="middle">POWER</text>
++    <text x="300" y="194" font-family="Georgia, serif" font-size="7" fill="#888" text-anchor="middle">RESERVE</text>
++    <!-- Power reserve hand (pointing to ~75%) -->
++    <line x1="300" y1="200" x2="318" y2="182" stroke="#2a2a2a" stroke-width="1.2" stroke-linecap="round"/>
++    <circle cx="300" cy="200" r="2.5" fill="#2a2a2a"/>
++    <!-- Scale labels -->
++    <text x="278" y="178" font-family="Georgia, serif" font-size="6" fill="#999" text-anchor="middle">42</text>
++    <text x="322" y="178" font-family="Georgia, serif" font-size="6" fill="#999" text-anchor="middle">0</text>
++    <text x="300" y="222" font-family="Georgia, serif" font-size="6" fill="#999" text-anchor="middle">21</text>
++  </g>
++
++  <!-- Sub-dial: Small Seconds at 6 o'clock -->
++  <g id="small-seconds">
++    <circle cx="300" cy="400" r="32" fill="#fdf5e6" stroke="#d4af37" stroke-width="1.2"/>
++    <circle cx="300" cy="400" r="29" fill="none" stroke="#ccc" stroke-width="0.5"/>
++    <!-- Small seconds ticks -->
++    <line x1="300" y1="372" x2="300" y2="376" stroke="#555" stroke-width="0.8"/>
++    <line x1="300" y1="372" x2="300" y2="376" transform="rotate(30,300,400)"/>
++    <line x1="300" y1="372" x2="300" y2="376" transform="rotate(60,300,400)"/>
++    <line x1="300" y1="372" x2="300" y2="376" transform="rotate(90,300,400)"/>
++    <line x1="300" y1="372" x2="300" y2="376" transform="rotate(120,300,400)"/>
++    <line x1="300" y1="372" x2="300" y2="376" transform="rotate(150,300,400)"/>
++    <line x1="300" y1="372" x2="300" y2="376" transform="rotate(180,300,400)"/>
++    <line x1="300" y1="372" x2="300" y2="376" transform="rotate(210,300,400)"/>
++    <line x1="300" y1="372" x2="300" y2="376" transform="rotate(240,300,400)"/>
++    <line x1="300" y1="372" x2="300" y2="376" transform="rotate(270,300,400)"/>
++    <line x1="300" y1="372" x2="300" y2="376" transform="rotate(300,300,400)"/>
++    <line x1="300" y1="372" x2="300" y2="376" transform="rotate(330,300,400)"/>
++    <!-- Small seconds hand (pointing to ~35 seconds) -->
++    <line x1="300" y1="400" x2="320" y2="418" stroke="#8b0000" stroke-width="0.8" stroke-linecap="round"/>
++    <circle cx="300" cy="400" r="2" fill="#8b0000"/>
++    <text x="300" y="385" font-family="Georgia, serif" font-size="6" fill="#999" text-anchor="middle">SECONDS</text>
++  </g>
++
++  <!-- Mechanical Gears - Lower half visible through open design -->
++  <g id="mechanical-gears" clip-path="url(#caseClip)">
++    <!-- Main gear (center-bottom area) -->
++    <g id="gear-main" transform="translate(300, 380)">
++      <circle cx="0" cy="0" r="28" fill="none" stroke="url(#gearGrad)" stroke-width="2"/>
++      <circle cx="0" cy="0" r="22" fill="none" stroke="#b5a642" stroke-width="0.8"/>
++      <!-- Gear teeth -->
++      <line x1="0" y1="-28" x2="0" y2="-34" stroke="#b5a642" stroke-width="2.5"/>
++      <line x1="0" y1="-28" x2="0" y2="-34" transform="rotate(30,0,0)"/>
++      <line x1="0" y1="-28" x2="0" y2="-34" transform="rotate(60,0,0)"/>
++      <line x1="0" y1="-28" x2="0" y2="-34" transform="rotate(90,0,0)"/>
++      <line x1="0" y1="-28" x2="0" y2="-34" transform="rotate(120,0,0)"/>
++      <line x1="0" y1="-28" x2="0" y2="-34" transform="rotate(150,0,0)"/>
++      <line x1="0" y1="-28" x2="0" y2="-34" transform="rotate(180,0,0)"/>
++      <line x1="0" y1="-28" x2="0" y2="-34" transform="rotate(210,0,0)"/>
++      <line x1="0" y1="-28" x2="0" y2="-34" transform="rotate(240,0,0)"/>
++      <line x1="0" y1="-28" x2="0" y2="-34" transform="rotate(270,0,0)"/>
++      <line x1="0" y1="-28" x2="0" y2="-34" transform="rotate(300,0,0)"/>
++      <line x1="0" y1="-28" x2="0" y2="-34" transform="rotate(330,0,0)"/>
++      <!-- Gear spokes -->
++      <line x1="-20" y1="0" x2="20" y2="0" stroke="#b5a642" stroke-width="1.5"/>
++      <line x1="0" y1="-20" x2="0" y2="20" stroke="#b5a642" stroke-width="1.5"/>
++      <line x1="-14" y1="-14" x2="14" y2="14" stroke="#b5a642" stroke-width="1.5"/>
++      <line x1="-14" y1="14" x2="14" y2="-14" stroke="#b5a642" stroke-width="1.5"/>
++      <circle cx="0" cy="0" r="6" fill="none" stroke="#8b7500" stroke-width="1.5"/>
++      <circle cx="0" cy="0" r="3" fill="#8b7500"/>
++    </g>
++
++    <!-- Secondary gear (left side) -->
++    <g id="gear-secondary" transform="translate(210, 410)">
++      <circle cx="0" cy="0" r="20" fill="none" stroke="url(#gearGrad)" stroke-width="2"/>
++      <circle cx="0" cy="0" r="15" fill="none" stroke="#b5a642" stroke-width="0.8"/>
++      <!-- Gear teeth -->
++      <line x1="0" y1="-20" x2="0" y2="-25" stroke="#b5a642" stroke-width="2"/>
++      <line x1="0" y1="-20" x2="0" y2="-25" transform="rotate(45,0,0)"/>
++      <line x1="0" y1="-20" x2="0" y2="-25" transform="rotate(90,0,0)"/>
++      <line x1="0" y1="-20" x2="0" y2="-25" transform="rotate(135,0,0)"/>
++      <line x1="0" y1="-20" x2="0" y2="-25" transform="rotate(180,0,0)"/>
++      <line x1="0" y1="-20" x2="0" y2="-25" transform="rotate(225,0,0)"/>
++      <line x1="0" y1="-20" x2="0" y2="-25" transform="rotate(270,0,0)"/>
++      <line x1="0" y1="-20" x2="0" y2="-25" transform="rotate(315,0,0)"/>
++      <!-- Spokes -->
++      <line x1="-13" y1="0" x2="13" y2="0" stroke="#b5a642" stroke-width="1.2"/>
++      <line x1="0" y1="-13" x2="0" y2="13" stroke="#b5a642" stroke-width="1.2"/>
++      <line x1="-9" y1="-9" x2="9" y2="9" stroke="#b5a642" stroke-width="1.2"/>
++      <line x1="-9" y1="9" x2="9" y2="-9" stroke="#b5a642" stroke-width="1.2"/>
++      <circle cx="0" cy="0" r="4" fill="none" stroke="#8b7500" stroke-width="1.2"/>
++      <circle cx="0" cy="0" r="2" fill="#8b7500"/>
++    </g>
++
++    <!-- Tertiary gear (right side) -->
++    <g id="gear-tertiary" transform="translate(390, 400)">
++      <circle cx="0" cy="0" r="16" fill="none" stroke="url(#gearGrad)" stroke-width="1.8"/>
++      <circle cx="0" cy="0" r="12" fill="none" stroke="#b5a642" stroke-width="0.7"/>
++      <!-- Gear teeth -->
++      <line x1="0" y1="-16" x2="0" y2="-20" stroke="#b5a642" stroke-width="1.8"/>
++      <line x1="0" y1="-16" x2="0" y2="-20" transform="rotate(36,0,0)"/>
++      <line x1="0" y1="-16" x2="0" y2="-20" transform="rotate(72,0,0)"/>
++      <line x1="0" y1="-16" x2="0" y2="-20" transform="rotate(108,0,0)"/>
++      <line x1="0" y1="-16" x2="0" y2="-20" transform="rotate(144,0,0)"/>
++      <line x1="0" y1="-16" x2="0" y2="-20" transform="rotate(180,0,0)"/>
++      <line x1="0" y1="-16" x2="0" y2="-20" transform="rotate(216,0,0)"/>
++      <line x1="0" y1="-16" x2="0" y2="-20" transform="rotate(252,0,0)"/>
++      <line x1="0" y1="-16" x2="0" y2="-20" transform="rotate(288,0,0)"/>
++      <line x1="0" y1="-16" x2="0" y2="-20" transform="rotate(324,0,0)"/>
++      <!-- Spokes -->
++      <line x1="-10" y1="0" x2="10" y2="0" stroke="#b5a642" stroke-width="1"/>
++      <line x1="0" y1="-10" x2="0" y2="10" stroke="#b5a642" stroke-width="1"/>
++      <line x1="-7" y1="-7" x2="7" y2="7" stroke="#b5a642" stroke-width="1"/>
++      <line x1="-7" y1="7" x2="7" y2="-7" stroke="#b5a642" stroke-width="1"/>
++      <circle cx="0" cy="0" r="3" fill="none" stroke="#8b7500" stroke-width="1"/>
++      <circle cx="0" cy="0" r="1.5" fill="#8b7500"/>
++    </g>
++
++    <!-- Connecting gear train bars -->
++    <line x1="230" y1="410" x2="272" y2="395" stroke="#b5a642" stroke-width="2.5" stroke-linecap="round"/>
++    <line x1="328" y1="395" x2="374" y2="400" stroke="#b5a642" stroke-width="2.5" stroke-linecap="round"/>
++  </g>
++
++  <!-- Balance Wheel (prominent, lower center) -->
++  <g id="balance-wheel" transform="translate(300, 440)">
++    <!-- Outer ring -->
++    <circle cx="0" cy="0" r="22" fill="none" stroke="#d4af37" stroke-width="2"/>
++    <circle cx="0" cy="0" r="20" fill="none" stroke="#b5a642" stroke-width="0.8"/>
++    <!-- Spokes -->
++    <line x1="-20" y1="0" x2="20" y2="0" stroke="#b5a642" stroke-width="1.2"/>
++    <line x1="0" y1="-20" x2="0" y2="20" stroke="#b5a642" stroke-width="1.2"/>
++    <line x1="-14" y1="-14" x2="14" y2="14" stroke="#b5a642" stroke-width="1.2"/>
++    <line x1="-14" y1="14" x2="14" y2="-14" stroke="#b5a642" stroke-width="1.2"/>
++    <!-- Hairspring (spiral) -->
++    <path d="M0,0 C3,0 5,3 5,5 C5,8 2,10 0,10 C-4,10 -7,7 -7,3 C-7,-2 -3,-6 2,-7 C8,-8 11,-4 11,2 C11,8 6,12 0,12 C-6,12 -10,7 -10,0 C-10,-7 -5,-12 3,-12 C11,-12 15,-5 15,3 C15,10 9,15 0,15" fill="none" stroke="#8b7500" stroke-width="0.8"/>
++    <!-- Center jewel -->
++    <circle cx="0" cy="0" r="3" fill="#c41e3a" stroke="#8b7500" stroke-width="0.8"/>
++    <circle cx="0" cy="0" r="1.5" fill="#e8304a"/>
++  </g>
++
++  <!-- Balance spring bridge -->
++  <path d="M270,440 L270,420 L330,420 L330,440" fill="none" stroke="#b5a642" stroke-width="1.5"/>
++  <line x1="275" y1="425" x2="325" y2="425" stroke="#b5a642" stroke-width="0.8"/>
++  <line x1="275" y1="435" x2="325" y2="435" stroke="#b5a642" stroke-width="0.8"/>
++
++  <!-- Watch hands (layered: hour bottom, minute middle, second top) -->
++  <g id="hands">
++    <!-- Hour hand (pointing near 10 o'clock) -->
++    <g id="hour-hand">
++      <path d="M297,300 L295,210 L298,205 L300,203 L302,205 L305,210 L303,300 Z" fill="#2a2a2a" stroke="#1a1a1a" stroke-width="0.5"/>
++      <!-- Hour hand counterweight -->
++      <path d="M297,300 L295,315 L298,318 L300,320 L302,318 L305,315 L303,300 Z" fill="#2a2a2a" stroke="#1a1a1a" stroke-width="0.5"/>
++    </g>
++
++    <!-- Minute hand (pointing near 2 o'clock) -->
++    <g id="minute-hand">
++      <path d="M298,300 L296,175 L298,170 L300,168 L302,170 L304,175 L302,300 Z" fill="#2a2a2a" stroke="#1a1a1a" stroke-width="0.5"/>
++      <!-- Minute hand counterweight -->
++      <path d="M298,300 L296,318 L298,322 L300,324 L302,322 L304,318 L302,300 Z" fill="#2a2a2a" stroke="#1a1a1a" stroke-width="0.5"/>
++    </g>
++
++    <!-- Second hand (pointing near 7 o'clock) -->
++    <g id="second-hand">
++      <line x1="300" y1="300" x2="300" y2="165" stroke="#8b0000" stroke-width="1" stroke-linecap="round"/>
++      <!-- Second hand tail -->
++      <line x1="300" y1="300" x2="300" y2="340" stroke="#8b0000" stroke-width="1.5" stroke-linecap="round"/>
++      <!-- Second hand tip circle -->
++      <circle cx="300" cy="165" r="2" fill="#8b0000"/>
++    </g>
++  </g>
++
++  <!-- Center pin -->
++  <g id="center-pin">
++    <circle cx="300" cy="300" r="5" fill="#d4af37" stroke="#8b7500" stroke-width="1"/>
++    <circle cx="300" cy="300" r="2.5" fill="#b5a642" stroke="#8b7500" stroke-width="0.5"/>
++    <circle cx="300" cy="300" r="1" fill="#8b7500"/>
++  </g>
++
++  <!-- Glass/crystal reflection (subtle) -->
++  <ellipse cx="260" cy="240" rx="50" ry="35" fill="white" opacity="0.06" transform="rotate(-20,260,240)"/>
++  <ellipse cx="340" cy="260" rx="25" ry="15" fill="white" opacity="0.04" transform="rotate(15,340,260)"/>
++
++  <!-- Case back screws (decorative, on the outer rim) -->
++  <g id="case-screws" fill="#8b7500" stroke="#6b5a00" stroke-width="0.5">
++    <circle cx="300" cy="105" r="3"/>
++    <circle cx="300" cy="105" r="1" fill="#6b5a00"/>
++    <circle cx="495" cy="300" r="3"/>
++    <circle cx="495" cy="300" r="1" fill="#6b5a00"/>
++    <circle cx="300" cy="495" r="3"/>
++    <circle cx="300" cy="495" r="1" fill="#6b5a00"/>
++    <circle cx="105" cy="300" r="3"/>
++    <circle cx="105" cy="300" r="1" fill="#6b5a00"/>
++    <circle cx="438" cy="162" r="3"/>
++    <circle cx="438" cy="162" r="1" fill="#6b5a00"/>
++    <circle cx="438" cy="438" r="3"/>
++    <circle cx="438" cy="438" r="1" fill="#6b5a00"/>
++    <circle cx="162" cy="438" r="3"/>
++    <circle cx="162" cy="438" r="1" fill="#6b5a00"/>
++    <circle cx="162" cy="162" r="3"/>
++    <circle cx="162" cy="162" r="1" fill="#6b5a00"/>
++  </g>
++
++</svg>
+\ No newline at end of file
+diff --git a/index.html b/index.html
+new file mode 100644
+index 0000000..fa58ccd
+--- /dev/null
++++ b/index.html
+@@ -0,0 +1,15 @@
++<!doctype html>
++<html>
++<head>
++<meta charset="utf-8">
++<title>artifact preview</title>
++<style>
++  html, body { margin: 0; padding: 0; height: 100%; background: #fff; }
++  body { display: flex; align-items: center; justify-content: center; }
++  img { max-width: 92vw; max-height: 92vh; }
++</style>
++</head>
++<body>
++  <img src="artifact.svg" alt="artifact">
++</body>
++</html>

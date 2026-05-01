@@ -1,0 +1,89 @@
+diff --git a/artifact.svg b/artifact.svg
+index eebfe79..b8b36f8 100644
+--- a/artifact.svg
++++ b/artifact.svg
+@@ -110,7 +110,7 @@
+ 
+     <!-- Gear tooth pattern -->
+     <g id="gearTooth">
+-      <path d="M -3,-14 L -1.5,-18 L 1.5,-18 L 3,-14 Z" fill="#b8860b" opacity="0.3"/>
++      <path d="M -3,-14 L -1.5,-18 L 1.5,-18 L 3,-14 Z" fill="#b8860b" opacity="1"/>
+     </g>
+ 
+     <!-- Decorative guilloche pattern -->
+@@ -210,9 +210,9 @@
+   </g>
+ 
+   <!-- ==================== BACKGROUND GEARS ==================== -->
+-  <g id="gears" opacity="0.12" clip-path="url(#dialClip)">
+-    <!-- Large gear 1 (upper left) -->
+-    <g transform="translate(280, 280)">
++  <g id="gears" opacity="1" clip-path="url(#dialClip)">
++    <!-- Large gear 1 (lower left) -->
++    <g transform="translate(280, 520)">
+       <circle cx="0" cy="0" r="60" fill="none" stroke="#b8860b" stroke-width="8"/>
+       <circle cx="0" cy="0" r="50" fill="none" stroke="#b8860b" stroke-width="2"/>
+       <circle cx="0" cy="0" r="15" fill="none" stroke="#b8860b" stroke-width="2"/>
+@@ -238,7 +238,7 @@
+     </g>
+ 
+     <!-- Medium gear 2 (lower right) -->
+-    <g transform="translate(520, 520)">
++    <g transform="translate(520, 540)">
+       <circle cx="0" cy="0" r="45" fill="none" stroke="#b8860b" stroke-width="6"/>
+       <circle cx="0" cy="0" r="37" fill="none" stroke="#b8860b" stroke-width="1.5"/>
+       <circle cx="0" cy="0" r="10" fill="none" stroke="#b8860b" stroke-width="1.5"/>
+@@ -265,8 +265,8 @@
+       <line x1="-26" y1="26" x2="26" y2="-26" stroke="#b8860b" stroke-width="2"/>
+     </g>
+ 
+-    <!-- Small gear 3 (upper right) -->
+-    <g transform="translate(540, 260)">
++    <!-- Small gear 3 (lower right) -->
++    <g transform="translate(540, 500)">
+       <circle cx="0" cy="0" r="35" fill="none" stroke="#b8860b" stroke-width="5"/>
+       <circle cx="0" cy="0" r="28" fill="none" stroke="#b8860b" stroke-width="1.5"/>
+       <circle cx="0" cy="0" r="8" fill="none" stroke="#b8860b" stroke-width="1.5"/>
+@@ -289,7 +289,7 @@
+     </g>
+ 
+     <!-- Small gear 4 (lower left) -->
+-    <g transform="translate(260, 540)">
++    <g transform="translate(260, 560)">
+       <circle cx="0" cy="0" r="30" fill="none" stroke="#b8860b" stroke-width="4"/>
+       <circle cx="0" cy="0" r="24" fill="none" stroke="#b8860b" stroke-width="1.5"/>
+       <circle cx="0" cy="0" r="7" fill="none" stroke="#b8860b" stroke-width="1.5"/>
+@@ -313,8 +313,8 @@
+       <line x1="-17" y1="17" x2="17" y2="-17" stroke="#b8860b" stroke-width="1.5"/>
+     </g>
+ 
+-    <!-- Tiny gear 5 (center-left) -->
+-    <g transform="translate(200, 400)">
++    <!-- Tiny gear 5 (lower left) -->
++    <g transform="translate(240, 520)">
+       <circle cx="0" cy="0" r="22" fill="none" stroke="#b8860b" stroke-width="3"/>
+       <circle cx="0" cy="0" r="17" fill="none" stroke="#b8860b" stroke-width="1"/>
+       <circle cx="0" cy="0" r="5" fill="none" stroke="#b8860b" stroke-width="1"/>
+@@ -448,10 +448,18 @@
+     <line x1="400" y1="175" x2="400" y2="190" transform="rotate(330,400,400)"/>
+   </g>
+ 
+-  <!-- ==================== BRAND TEXT ==================== -->
+-  <g id="brand-text">
+-    <text x="400" y="310" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#555" text-anchor="middle" letter-spacing="3">CHRONOMETER</text>
+-    <text x="400" y="328" font-family="Georgia, 'Times New Roman', serif" font-size="10" fill="#777" text-anchor="middle" letter-spacing="2">SWISS MADE</text>
++  <!-- ==================== CHARGE ARC SUB-DIAL (12 O'CLOCK) ==================== -->
++  <g id="charge-arc" filter="url(#innerShadow)">
++    <!-- Sub-dial outer ring -->
++    <circle cx="400" cy="310" r="34" fill="#f0e8d4" stroke="#c4b490" stroke-width="1"/>
++    <!-- Sub-dial inner recess -->
++    <circle cx="400" cy="310" r="32" fill="#f5f0e0"/>
++    <!-- Background track -->
++    <circle cx="400" cy="310" r="28" fill="none" stroke="#d4c4a0" stroke-width="5" opacity="0.5"/>
++    <!-- 60% charge arc (216°) starting from 12 o'clock, going clockwise -->
++    <circle cx="400" cy="310" r="28" fill="none" stroke="#27ae60" stroke-width="5" stroke-dasharray="113.1 188.5" stroke-dashoffset="0" transform="rotate(-90,400,310)" stroke-linecap="round"/>
++    <!-- Charge percentage label -->
++    <text x="400" y="314" font-family="Georgia, serif" font-size="10" fill="#555" text-anchor="middle">60%</text>
+   </g>
+ 
+   <!-- ==================== SUB-DIAL (SMALL SECONDS AT 6 O'CLOCK) ==================== -->

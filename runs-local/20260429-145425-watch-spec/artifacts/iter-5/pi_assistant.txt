@@ -1,0 +1,27 @@
+I can see the SVG clearly. Let me make both changes:
+
+1. **Minute markers**: Currently `stroke="#666" stroke-width="1" opacity="0.6"` — needs higher opacity and thickness.
+2. **Small seconds sub-dial**: Has 12 markers + non-standard numerals (60, 15, 30, 45) — needs a proper 60-tick seconds track.
+
+Let me verify the changes were applied correctly:
+
+Now let me validate the SVG parses as valid XML:
+
+All changes are complete and verified. Here's a summary:
+
+### Changes made to `artifact.svg`:
+
+**1. Minute Tick Marks** (line 371):
+- `stroke`: `#666` → `#333` (darker, higher contrast)
+- `stroke-width`: `1` → `1.5` (thicker)
+- `opacity`: `0.6` → `0.85` (more opaque)
+
+**2. Small Seconds Sub-dial** (lines 471–536):
+- Removed the old 12-marker group with `stroke="#555" stroke-width="1"`
+- Removed all 4 non-standard numeral text elements (`60`, `15`, `30`, `45`)
+- Replaced with a proper standard seconds track:
+  - **12 major ticks** (every 30°) — dark `#444`, `stroke-width="1.2"`, extending from r=466 to r=474
+  - **48 minor ticks** (every 6°, between major ticks) — lighter `#888`, `stroke-width="0.6"`, extending from r=467 to r=472
+- Center pin and second hand remain unchanged
+
+**Validation**: SVG parses as valid XML. No other parts of the SVG were altered.

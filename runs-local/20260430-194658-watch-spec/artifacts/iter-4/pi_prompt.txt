@@ -1,0 +1,89 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 10
+score_threshold: 0.9
+no_improvement_for: 5
+---
+
+# Mechanical Pocket Watch
+
+Draw a detailed mechanical pocket watch, viewed from the front, centered in a 600×600 viewBox. The watch must include ALL of the following:
+
+## Case & Crown
+- A circular outer case (radius ~200) with a metallic gradient fill
+- A crown (winder knob) at the top (12 o'clock position) attached to a short stem that extends clearly into the case structure
+- A subtle bezel ring around the outer edge
+
+## Dial
+- A white or cream-colored dial face (radius ~170)
+- 12 hour markers: thick lines at 12, 3, 6, 9 o'clock; thinner lines at the other hours
+- Roman numerals (I through XII) positioned just inside the hour markers
+- **Minute tick marks: Render exactly 60 thin lines spaced at precise 6° intervals around the outer edge of the dial. These must be clearly visible, distinct, and form a complete unbroken ring of ticks. Do not omit any ticks.**
+
+## Hands
+- An hour hand (shorter, thicker) pointing near the 10 o'clock position
+- A minute hand (longer, thinner) pointing near the 2 o'clock position
+- A thin second hand (red or dark) pointing near the 7 o'clock position
+- All three hands must originate from the exact geometric center of the dial (300, 300), with perfectly aligned pivots
+
+## Sub-dials
+- A small seconds sub-dial at the 6 o'clock position (radius ~30) with its own tiny hand
+- **Power reserve indicator at the 12 o'clock position (radius ~25): Draw a filled arc clearly showing approximately 60% charge (roughly 216° filled). Do not use text labels to indicate charge; the arc itself must represent the level. Ensure the arc is distinct and clearly visible.**
+
+## Movement (visible through caseback or cutaway)
+- At least 3 visible gears of different sizes with clearly rendered teeth, positioned below the dial area (bottom half of the watch)
+- The gears should overlap realistically and show different sizes (large, medium, small)
+- A balance wheel: a distinct, large circular rim (radius ~40) positioned clearly in the bottom-right movement area
+- **Hairspring: Draw a clearly visible, separate coiled hairspring spiral as a distinct, continuous expanding spiral path attached to the balance wheel center. Ensure it is unmistakably present, legible, and not obscured by other elements.**
+
+## Chain
+- A short chain (3-4 links) attached to the crown, curving upward and outward from the top of the watch
+
+## Style
+- Metallic/brass color palette for the case and gears
+- Clean line art with subtle shading
+- The entire composition must be centered and balanced
+- The SVG must parse as valid XML
+
+The result should look like a realistic, detailed illustration of a vintage mechanical pocket watch — not a cartoon or simplified icon.
+
+## Iteration history
+- iter 0: Establish complete, unambiguous visual specification for direct SVG generation → Ready for director to produce initial pocket watch illustration.
+- iter 1: Explicitly define the missing balance wheel with hairspring, enforce exact center pivot alignment for all hands, and mandate precise 60-minute tick marks → Resolve MISSING balance wheel and PARTIAL alignment/ticks to meet core mechanical accuracy requirements.
+- iter 2: Redraw the balance wheel and hairspring with a distinct circular rim and separate coiled spiral in the bottom-right movement area → Ensure the balance wheel assembly is unmistakably present and legible, resolving the PARTIAL classification.
+- iter 3: Add the 60 minute tick marks, replace the power reserve label with an arc, and redraw the hairspring as a distinct spiral → Resolve PARTIAL Dial, Sub-dials, and Movement elements by adding missing ticks, correcting the power reserve visualization, and clarifying the hairspring.
+- iter 4: Reinforce rendering of 60-minute tick marks, hairspring, and power reserve arc with explicit negative constraints against omission or text labels → Ensure critical mechanical details are drawn and visible.
+
+## Iteration directive
+Goal: Update `artifact.svg` to ensure the 60-minute tick marks form a complete, unbroken ring, the power reserve is a filled arc (no text) showing ~60% charge, and the hairspring is a distinct, visible spiral attached to the balance wheel.
+
+Read `artifact.svg` first. Then apply these specific edits:
+
+1.  **Minute Tick Marks**: Ensure there are exactly 60 thin lines spaced at 6° intervals around the outer edge of the dial (radius ~170). They must be clearly visible and form a complete ring. Do not omit any.
+2.  **Power Reserve Indicator**: At the 12 o'clock position (radius ~25), draw a filled arc representing approximately 60% charge (roughly 216° filled). **Remove any text labels** indicating charge; the arc itself must represent the level. Ensure it is distinct and visible.
+3.  **Hairspring**: In the bottom-right movement area, ensure the hairspring is a clearly visible, separate coiled spiral path attached to the balance wheel center. It must be unmistakably present, legible, and not obscured by other elements.
+4.  **Balance Wheel**: Ensure the balance wheel (radius ~40) is in the bottom-right movement area with a distinct circular rim.
+5.  **Hands**: All three hands (hour, minute, second) must originate from the exact geometric center (300, 300). Hour hand near 10 o'clock, minute hand near 2 o'clock, second hand near 7 o'clock.
+6.  **Dial**: White/cream face (radius ~170). 12 hour markers (thick at 12,3,6,9; thin elsewhere). Roman numerals (I-XII) inside markers.
+7.  **Case**: Circular outer case (radius ~200) with metallic gradient, crown at 12 o'clock with stem, subtle bezel ring.
+8.  **Movement**: At least 3 visible gears of different sizes below the dial.
+9.  **Chain**: Short chain (3-4 links) attached to the crown, curving upward/outward.
+
+Constraints:
+- Use **relative paths only** for `read` / `write` / `edit` (e.g. `artifact.svg`, not `/abs/path/artifact.svg`).
+- The SVG must parse as valid XML. Close every tag and quote every attribute.
+- Do not touch `index.html` or `README.md`.
+- Keep the composition centered and balanced in a 600x600 viewBox.
+
+Acceptance Criteria:
+- 60 distinct minute tick marks forming a complete ring.
+- Power reserve is a filled arc (~60% charge), no text.
+- Hairspring is a distinct, visible spiral attached to the balance wheel.
+- All hands pivot at (300, 300).
+- Valid XML.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration.

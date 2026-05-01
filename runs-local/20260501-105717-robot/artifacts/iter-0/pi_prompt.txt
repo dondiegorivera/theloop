@@ -1,0 +1,42 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 10
+score_threshold: 0.99
+no_improvement_for: 5
+---
+
+# A Victorian-era robot reading a newspaper in a cafe
+
+An svg image of a Victorian-era robot reading a newspaper in a cafe
+
+## Iteration history
+- iter 0: Draw the Victorian-era robot holding and reading a newspaper → Establish the main subject and cafe setting.
+
+## Iteration directive
+Goal: Create a detailed SVG of a Victorian-era robot seated at a cafe table, holding and reading a newspaper, with the cafe environment clearly visible.
+
+Edit `generate_artifact.py` to produce this scene. Do not write `artifact.svg` directly.
+
+**Required Elements:**
+1.  **Victorian Robot:** Brass/copper metallic body, visible gears, rivets, and steam-punk aesthetic. Seated posture.
+2.  **Newspaper:** Held in the robot's hands, open, with visible text lines or headlines (e.g., "The Daily Chronicle").
+3.  **Cafe Setting:** A table in front of the robot, a coffee cup or teapot on the table, and background elements suggesting a cafe (e.g., window, wall, other tables).
+
+**Implementation Details:**
+-   Use `<defs>` for reusable parts like gears or rivets if needed.
+-   Ensure proper layering: Background -> Table -> Robot -> Newspaper.
+-   Use distinct colors for brass (gold/orange tones), newspaper (off-white/cream), and cafe background (warm browns/creams).
+-   The robot should be the central focus.
+
+**Acceptance Criteria:**
+-   `artifact.svg` must be valid XML.
+-   The robot, newspaper, and cafe table are all present and recognizable.
+-   No console errors when parsing the SVG.
+
+Use **relative paths only** for `read` / `write` / `edit` and inside `bash` commands; pi's working directory is the workspace root, so run `python generate_artifact.py`, not `cd /abs/path && python ...`.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration. Use relative paths only, including inside bash commands; pi already runs from the workspace root, so do not `cd` to or reference `/src/...`, `/tmp/...`, or any other absolute workspace path.

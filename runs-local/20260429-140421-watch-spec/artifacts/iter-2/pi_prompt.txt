@@ -1,0 +1,35 @@
+Goal: Update `artifact.svg` to add a chain attached to the crown, ensure all 12 Roman numeral hour markers are present and correctly positioned, and implement a power reserve indicator sub-dial at the 12 o'clock position.
+
+Files to edit:
+- `artifact.svg`
+
+Files to leave alone:
+- `index.html`
+- `README.md`
+
+Concrete changes:
+1. **Chain attached to the crown**:
+   - Locate the crown element (typically near the top-right of the watch case, e.g., around x=200, y=50).
+   - Add a chain element (e.g., a series of small circles or a path resembling a chain link) that connects to the crown.
+   - Ensure the chain extends outward from the crown, suggesting it is attached.
+
+2. **Complete all 12 Roman numerals**:
+   - Verify that all 12 hour markers (I through XII) are present.
+   - Ensure they are positioned correctly around the dial, evenly spaced at 30-degree intervals.
+   - Check that each numeral is properly formatted as a Roman numeral (e.g., "III" for 3, "IV" for 4, "XII" for 12).
+   - Ensure text elements are properly closed and attributes are quoted.
+
+3. **Power reserve indicator sub-dial at 12 o'clock**:
+   - Add a sub-dial at the 12 o'clock position (centered around the top of the main dial, e.g., cx=200, cy=100).
+   - The sub-dial should include a scale (e.g., 0-72 hours) and a hand or indicator showing the current power reserve.
+   - Ensure the sub-dial is visually distinct from the main dial but consistent with the overall design.
+   - Add any necessary labels or ticks for the power reserve scale.
+
+Acceptance criteria:
+- The SVG must parse as valid XML.
+- All tags must be properly closed.
+- All attributes must be quoted.
+- No console errors or XML parsing errors should occur when the SVG is loaded.
+- The chain is visibly attached to the crown.
+- All 12 Roman numerals are present and correctly positioned.
+- The power reserve indicator sub-dial is present at the 12 o'clock position and visually distinct.

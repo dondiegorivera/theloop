@@ -1,0 +1,11 @@
+## Required elements
+- **Case & Crown**: PRESENT — The artifact shows a circular outer case with a gold/brass gradient fill (radius ~200). A crown is visible at the 12 o'clock position, and a subtle bezel ring surrounds the dial.
+- **Dial**: PARTIAL — The dial face is cream-colored (radius ~170) and features Roman numerals (I through XII) and minute tick marks. However, the hour markers are inconsistent: while 12, 3, 6, and 9 have thick lines, the other hours use thin lines that are visually indistinguishable from the minute ticks, failing the "thick vs thin" distinction requirement.
+- **Hands**: MISSING — The spec requires an hour hand pointing near 10 o'clock and a minute hand near 2 o'clock. The artifact shows both hands pointing straight up at 12:00 (or 6:00), which contradicts the specific time requirement.
+- **Sub-dials**: PARTIAL — A power reserve indicator is present at the 12 o'clock position with an arc. However, the sub-dial at the 6 o'clock position is missing; instead, there are three gears arranged in a triangle (left, center, right) which do not resemble a standard seconds sub-dial.
+- **Movement**: PARTIAL — The spec requires visible gears positioned *below* the dial area (bottom half of the watch). The artifact shows gears located *on* the dial face itself (overlapping the numerals VII and V), violating the spatial constraint.
+- **Chain**: PRESENT — A short chain with 3-4 links is attached to the crown, curving upward and outward.
+- **Style**: PRESENT — The image uses a metallic/brass color palette, clean line art, and appears centered in the viewBox.
+
+## Other observations
+The artifact depicts a pocket watch but fails to meet specific functional requirements regarding timekeeping (hands position) and layout (gears on dial vs below). The "sub-dial" at 6 o'clock is replaced by a cluster of gears that obscures the Roman numeral VI, which is a significant visual defect. The hands are perfectly aligned vertically, suggesting a default or error state rather than the requested time.

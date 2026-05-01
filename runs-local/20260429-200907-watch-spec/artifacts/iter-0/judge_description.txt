@@ -1,0 +1,24 @@
+## Required elements
+- **Circular outer case**: PRESENT — A large circular metallic structure dominates the center, with a visible rim and shading consistent with a radius of ~200 relative to the 600x600 canvas.
+- **Metallic gradient fill (case)**: PRESENT — The outer ring displays a gold/brass gradient with highlights and shadows simulating a metallic surface.
+- **Crown**: PRESENT — A knurled knob is visible at the top center (12 o'clock position).
+- **Stem**: PARTIAL — While the crown is present, the stem connecting it to the internal mechanism is not clearly visible; it appears to be occluded by the case rim or dial.
+- **Bezel ring**: PRESENT — A distinct raised ring surrounds the inner dial area.
+- **Dial face**: PRESENT — The upper half of the watch features a cream-colored background with text "CHRONOMÈTRE GENEVE".
+- **12 hour markers**: PARTIAL — Thick lines are visible at 12, 3, 6, and 9 o'clock. However, the other 8 hour markers (e.g., 1, 2, 4, etc.) are missing from the dial face.
+- **Roman numerals**: MISSING — There are no Roman numerals (I through XII) visible on the dial; only the brand text is present.
+- **Minute tick marks**: PARTIAL — Minute ticks are visible around the outer edge of the upper dial, but they do not appear to form a complete 60-tick circle as the lower half is open.
+- **Hour hand**: PRESENT — A short, thick dark blue hand points towards the 10 o'clock position.
+- **Minute hand**: PRESENT — A longer, thinner dark blue hand points towards the 2 o'clock position.
+- **Second hand**: PRESENT — A thin red hand is visible pointing near the 7 o'clock position.
+- **Hands origin**: PRESENT — All three hands appear to originate from the exact center of the dial.
+- **Small seconds sub-dial**: PRESENT — A small white circular dial with a red hand is located at the 6 o'clock position within the movement area.
+- **Power reserve indicator**: MISSING — There is no visible arc or gauge indicating power reserve at the 12 o'clock position; that space contains only the brand text.
+- **Skeletonized lower portion**: PRESENT — The bottom half of the watch face is open, revealing the internal mechanism against a dark background.
+- **Visible gears (3+)**: PRESENT — Multiple gold gears of varying sizes are visible in the lower section.
+- **Gear teeth**: PRESENT — The gears clearly show toothed edges.
+- **Balance wheel**: PARTIAL — A circular component resembling a balance wheel is visible on the right side, but its specific oscillating mechanism details are indistinct.
+- **Chain**: MISSING — There is no chain attached to the crown; the area above the watch is empty.
+
+## Other observations
+The artifact depicts a high-quality illustration of a pocket watch with a "half-hunter" or skeletonized aesthetic. The composition is centered and balanced. The color palette matches the requested metallic/brass theme for the case and gears, with a cream dial and dark blue hands. The text "CHRONOMÈTRE GENEVE" adds realism but replaces the required Roman numerals. The image appears to be a rasterized rendering of an SVG rather than raw code, which is acceptable given the context of visual verification.

@@ -1,0 +1,14 @@
+## Required elements
+
+- **Case & Crown**: PRESENT — A circular outer case with gold/brass gradient fill is visible, centered in the frame. A crown (winder knob) is present at the 12 o'clock position, connected to a stem extending into the case. A subtle bezel ring surrounds the dial.
+- **Dial**: PARTIAL — The dial face is cream-colored with Roman numerals (I through XII). However, the minute tick marks are extremely faint and low contrast against the background; they do not appear to meet the "increased visibility" or specific opacity/stroke-width requirements clearly enough to be distinct.
+- **Hands**: PRESENT — Three hands originate from the center. The hour hand points near 10 o'clock, the minute hand near 2 o'clock, and a thin red second hand points near 7 o'clock.
+- **Sub-dials**: PARTIAL — A small seconds sub-dial is present at the 6 o'clock position with its own hand. A power reserve indicator is present at the 12 o'clock position; however, it displays text ("60%") rather than a purely graphical arc as requested.
+- **Movement (Gears)**: PRESENT — Multiple gears of varying sizes are visible in the bottom half of the watch face (below the center). They appear to have teeth and distinct metallic coloring.
+- **Balance Wheel**: MISSING — There is no distinct large wheel with a hairspring located at the bottom-right (approx coordinates 550, 550) as specified. The gears visible are clustered more centrally or to the left/right but do not form the specific balance wheel assembly described.
+- **Chain**: PRESENT — A short chain consisting of 3-4 links is attached to the crown and curves upward out of the frame.
+- **Style**: PRESENT — The image uses a metallic/brass color palette, clean line art, and shading consistent with a realistic illustration rather than a cartoon.
+
+## Other observations
+
+The artifact is a high-quality SVG rendering of a pocket watch. The composition is centered within a black background. While the gears are visible through the dial (skeletonized style), the specific requirement for a balance wheel at the bottom right is not met; instead, there is a cluster of gears on the right side that resembles a mainspring barrel or train but lacks the defining hairspring detail. The power reserve indicator relies on text ("60%") rather than a graphical arc, which deviates from the spec's instruction to use a graphical arc and avoid text. The minute track is present but visually weak compared to the bold hour markers.

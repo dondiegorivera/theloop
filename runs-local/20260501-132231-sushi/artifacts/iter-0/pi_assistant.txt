@@ -1,0 +1,6 @@
+Done. `generate_artifact.py` runs cleanly and produces `artifact.svg` with:
+
+- **Go-kart**: red chassis, 4 wheels, steering wheel, seat, engine block, exhaust, front/rear wings, bumpers
+- **Sushi roll**: maki-style cylinder with nori wrap, rice, cucumber filling, and crab center — positioned in the driver's seat with arms gripping the steering wheel
+- **Sunglasses**: dark lenses with bridge, arms, and reflections on the sushi's front face
+- **Scene**: sky background, road with dashed lane markings, speed lines for motion

@@ -1,0 +1,17 @@
+Now I can see the issues. The feet are simple ellipses with no webbing, and the composition could use more padding. Let me fix both.
+
+Valid XML. Let me verify the key changes look correct:
+
+All changes are in place:
+
+1. **Webbed feet**: Both feet are now drawn as polygons with 3 distinct toes connected by webbing membrane, plus toe-separation lines for clarity. The left foot grips the lower pedal (pushing down), the right foot grips the upper pedal (pulling up).
+
+2. **Composition & clipping**: Viewbox expanded from `0 0 400 300` to `-10 -5 460 310`, giving ~10px padding on all sides. Background rect and ground line adjusted to match.
+
+3. **Polish**: The feet polygons use `stroke-linejoin="round"` for smooth toe-webbing corners, and the leg paths connect cleanly to the foot bases.
+
+The SVG is valid and all improvements are in place:
+
+- **Webbed feet**: Both feet are now 7-point polygons forming 3 toes with webbing membrane between them, plus toe-separation lines for clarity. Left foot grips the lower pedal (pushing down at y=218), right foot grips the upper pedal (pulling up at y=180).
+- **Composition**: Viewbox expanded from `0 0 400 300` to `-10 -5 460 310`, providing ~10px padding on all sides. No elements are clipped — the beak tip (x=328), tail (x=132), wheel bottoms (y=240), and handlebars (y=105) all have comfortable margins.
+- **Polish**: Feet use `stroke-linejoin="round"` for smooth webbing corners. Legs connect cleanly to foot bases without awkward overlaps.

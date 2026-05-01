@@ -1,0 +1,50 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 10
+score_threshold: 0.99
+no_improvement_for: 5
+---
+
+# A Victorian-era robot reading a newspaper in a cafe
+
+An svg image of a Victorian-era robot reading a newspaper in a cafe
+
+## Iteration history
+- iter 0: Draw a Victorian-era robot sitting at a cafe table, holding and reading a newspaper, with cafe background elements like a coffee cup and window to establish the setting. → Establish the core subject and environment.
+- iter 1: Generate the complete SVG scene featuring a Victorian-era robot seated at a cafe table, holding a newspaper, with a coffee cup and cafe background elements like a window and chairs. → Render all missing core elements.
+
+## Iteration directive
+Generate a complete SVG scene of a Victorian-era robot seated at a cafe table, holding a newspaper, with a coffee cup and cafe background elements (window, chairs) by editing `generate_artifact.py` and running it.
+
+**Goal:** Produce a detailed, valid `artifact.svg` via the Python generator. The scene must include:
+1.  **Victorian-era robot:** Brass/copper tones, gears, rivets, steam-punk aesthetic, seated posture.
+2.  **Newspaper:** Held in the robot's hands, visible text lines or columns, slightly angled.
+3.  **Cafe Table:** Wooden or dark surface, positioned in front of the robot.
+4.  **Coffee Cup:** On the table, near the robot, with a saucer.
+5.  **Background:** Cafe setting with a window (showing outside or light), chairs, and ambient details.
+
+**Instructions:**
+1.  Edit `generate_artifact.py` to define the full scene structure. Use functions or loops for repetitive elements like gears, rivets, or newspaper text lines to keep the code concise.
+2.  Ensure all SVG tags are properly closed and attributes are quoted. The output must be valid XML.
+3.  Run `python generate_artifact.py` to generate `artifact.svg`.
+4.  Verify the output by checking that `artifact.svg` exists and is non-empty. Use `grep` to confirm key elements like `<rect>` for the table, `<circle>` for gears, or `<path>` for the robot body are present.
+
+**Constraints:**
+-   Do **not** edit `index.html` or `README.md`.
+-   Do **not** write directly to `artifact.svg` with a huge string; use the generator.
+-   Use **relative paths only** for all file operations and bash commands.
+-   Do not install packages or create PNGs.
+-   Keep the generator code clean and modular.
+
+**Acceptance Criteria:**
+-   `artifact.svg` is generated and valid XML.
+-   The robot is clearly Victorian-era (brass, gears).
+-   The robot is holding a newspaper.
+-   A coffee cup is on the table.
+-   Background includes a window and chairs.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration. Use relative paths only, including inside bash commands; pi already runs from the workspace root, so do not `cd` to or reference `/src/...`, `/tmp/...`, or any other absolute workspace path.

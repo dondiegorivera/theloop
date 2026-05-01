@@ -1,0 +1,44 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 10
+score_threshold: 0.99
+no_improvement_for: 5
+---
+
+# A Victorian-era robot reading a newspaper in a cafe
+
+An svg image of a Victorian-era robot reading a newspaper in a cafe
+
+## Iteration history
+- iter 0: Draw a Victorian-era robot holding and reading a newspaper, placed within a cafe environment featuring period-appropriate details like a table, coffee cup, and background ambiance. → Establish the core subject and setting to satisfy the primary prompt requirements.
+- iter 1: All required elements are present and correctly rendered; perform final aesthetic polish on textures, shading, and lighting consistency to enhance the Victorian atmosphere. → Ensure maximum visual fidelity and meet the 0.99 score threshold.
+
+## Iteration directive
+Refine the aesthetic quality of the Victorian-era robot reading a newspaper in a cafe by enhancing textures, shading, and lighting consistency in `generate_artifact.py`, then regenerate `artifact.svg`.
+
+**Goal:** Improve visual fidelity to meet the 0.99 score threshold. Focus on:
+1.  **Victorian Atmosphere:** Enhance period-appropriate details (brass/gold tones on the robot, rich wood textures on the table, warm ambient lighting).
+2.  **Shading & Lighting:** Ensure consistent light source direction. Add subtle gradients or shadows to the robot's metallic parts, the newspaper, and the coffee cup to create depth.
+3.  **Composition:** Verify the robot, newspaper, table, and coffee cup are well-proportioned and centered.
+
+**Instructions:**
+1.  **Do NOT read `artifact.svg` directly.** It is large and generated.
+2.  **Edit `generate_artifact.py`:**
+    *   Locate the sections defining the robot's body parts, the newspaper, the table, and the background.
+    *   Enhance the `fill`, `stroke`, and `opacity` attributes to create richer textures and more realistic shading.
+    *   Add or refine `<filter>` or `<linearGradient>` definitions if needed for metallic sheen or soft shadows.
+    *   Ensure all tags are properly closed and attributes are quoted.
+3.  **Run the generator:** Execute `python generate_artifact.py` to update `artifact.svg`.
+4.  **Validate:** Use `grep` or `xmllint` (if available) to ensure `artifact.svg` is valid XML. Check for any obvious visual artifacts by inspecting the file size or structure if necessary, but rely on the generator's logic.
+
+**Constraints:**
+*   Use **relative paths only** for all file operations and bash commands.
+*   Do not touch `index.html` or `README.md`.
+*   Do not install packages or create PNGs.
+*   Keep edits focused on aesthetic refinement; do not change the core structure or elements.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration. Use relative paths only, including inside bash commands; pi already runs from the workspace root, so do not `cd` to or reference `/src/...`, `/tmp/...`, or any other absolute workspace path.

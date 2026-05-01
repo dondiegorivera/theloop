@@ -1,0 +1,96 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 10
+score_threshold: 0.95
+no_improvement_for: 7
+---
+
+# Mechanical Pocket Watch
+Draw a detailed mechanical pocket watch, viewed from the front, centered in a 600×600 viewBox. The watch must include ALL of the following:
+
+## Case & Crown
+- A circular outer case (radius ~200) with a metallic gradient fill
+- A crown (winder knob) at the top (12 o'clock position) attached to a short stem that extends into the case
+- A subtle bezel ring around the outer edge
+
+## Dial
+- A white or cream-colored dial face (radius ~170)
+- 12 hour markers: thick lines at 12, 3, 6, 9 o'clock; thinner lines at the other hours
+- Roman numerals (I through XII) positioned just inside the hour markers
+- Minute tick marks around the outer edge of the dial (60 ticks, every 6°)
+
+## Hands
+- An hour hand (shorter, thicker) pointing near the 10 o'clock position
+- A minute hand (longer, thinner) pointing near the 2 o'clock position
+- A thin second hand (red or dark) pointing near the 7 o'clock position
+- All three hands originating from the exact center of the dial
+
+## Sub-dials
+- A small seconds sub-dial at the 6 o'clock position (radius ~30) with its own tiny hand
+- A power reserve indicator sub-dial at the 12 o'clock position (radius ~25) with an arc showing ~60% charge
+
+## Movement (visible through caseback or cutaway)
+- At least 3 visible gears of different sizes with teeth, positioned below the dial area (bottom half of the watch)
+- The gears should overlap realistically and show different sizes (large, medium, small)
+- A balance wheel visible near the bottom-right of the movement area
+
+## Chain
+- A short chain (3-4 links) attached to the crown, curving upward and outward from the top of the watch
+
+## Style
+- Metallic/brass color palette for the case and gears
+- Clean line art with subtle shading
+- The entire composition must be centered and balanced
+- The SVG must parse as valid XML
+
+The result should look like a realistic, detailed illustration of a vintage mechanical pocket watch — not a cartoon or simplified icon.
+
+## Iteration history
+- iter 1: Draw the detailed mechanical pocket watch with all specified elements including case, dial, hands, sub-dials, movement gears, and chain. → A complete, realistic SVG illustration of a vintage pocket watch with correct proportions, metallic styling, and visible movement details.
+
+## Iteration directive
+Goal: Create a detailed, realistic SVG illustration of a vintage mechanical pocket watch in `artifact.svg` by editing and running `generate_artifact.py`.
+
+Task:
+1. Edit `generate_artifact.py` to generate the full pocket watch SVG.
+2. Run `python generate_artifact.py` to produce `artifact.svg`.
+3. Verify `artifact.svg` is valid XML.
+
+Spec Requirements for `generate_artifact.py`:
+- Output: `artifact.svg` (600x600 viewBox, centered).
+- Case: Circular outer case (r~200), metallic gradient, subtle bezel ring. Crown at 12 o'clock with short stem into case.
+- Dial: White/cream face (r~170). 12 hour markers (thick at 12,3,6,9; thin others). Roman numerals (I-XII) inside markers. 60 minute tick marks (every 6°).
+- Hands: Origin at exact center (300,300). Hour hand (short/thick) at 10 o'clock. Minute hand (long/thin) at 2 o'clock. Second hand (thin/red/dark) at 7 o'clock.
+- Sub-dials: Small seconds at 6 o'clock (r~30, own hand). Power reserve at 12 o'clock (r~25, arc showing ~60% charge).
+- Movement: Visible in bottom half (below dial). At least 3 gears (large, medium, small) with teeth, overlapping realistically. Balance wheel near bottom-right.
+- Chain: 3-4 links attached to crown, curving upward/outward.
+- Style: Metallic/brass palette, clean line art, subtle shading. Realistic, not cartoonish.
+- Constraints: Valid XML. Use relative paths only.
+
+Implementation Notes for `generate_artifact.py`:
+- Use Python to construct the SVG string.
+- Define gradients for metallic effects (brass/gold).
+- Calculate coordinates for hands based on angles (10h=300°, 2h=60°, 7h=210° from 12h clockwise? No, standard clock: 12 is -90° or 270°, 3 is 0°, etc. Let's use standard math: 0° is East, 90° is South. 12h is -90° (or 270°), 3h is 0°, 6h is 90°, 9h is 180°.
+  - 10h: 300° (or -60° from 12h? 10h is 2 hours before 12. 360/12=30 deg per hour. 10h is 300° from 12h clockwise? No. 12 is top. 10 is left-top. Angle from vertical: 60° counter-clockwise. In standard polar (0=East, CCW+): 12h is 90°. 10h is 90+60=150°.
+  - Let's stick to visual placement:
+    - Center: (300, 300).
+    - 12h: (300, 130).
+    - 3h: (470, 300).
+    - 6h: (300, 470).
+    - 9h: (130, 300).
+    - 10h: ~ (170, 200).
+    - 2h: ~ (430, 200).
+    - 7h: ~ (200, 430).
+- Ensure all tags are closed and attributes quoted.
+- Do not write to absolute paths.
+
+Acceptance Criteria:
+- `artifact.svg` exists and parses as valid XML.
+- Contains all specified elements: case, crown, dial, numerals, ticks, hands (10, 2, 7), sub-dials (6, 12), movement gears (3+), balance wheel, chain.
+- Proportions and styling match spec.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration.

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>theloop — 20260429-140421-watch-spec</title>
+<style>
+  :root {
+    --bg: #0f1115; --card: #1a1d23; --fg: #e6e6e6; --muted: #9aa0aa;
+    --accent: #6cf; --good: #7c7; --bad: #f88;
+  }
+  html, body { background: var(--bg); color: var(--fg); margin: 0;
+    font: 14px/1.5 -apple-system, system-ui, "Segoe UI", sans-serif; }
+  header { padding: 24px 32px; border-bottom: 1px solid #222; }
+  header h1 { margin: 0 0 8px; font-size: 18px; font-weight: 600; }
+  header .id { color: var(--muted); font-family: ui-monospace, monospace; }
+  main { padding: 24px 32px 64px; max-width: 1200px; margin: 0 auto; }
+  section.summary table { border-collapse: collapse; margin-bottom: 32px; }
+  section.summary th, section.summary td {
+    padding: 4px 12px 4px 0; text-align: left; vertical-align: top;
+  }
+  section.summary th { color: var(--muted); font-weight: 400; }
+  .card { background: var(--card); border-radius: 8px; padding: 20px;
+    margin-bottom: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .card .meta h2 { margin: 0 0 12px; font-size: 16px; }
+  .card .score { font-family: ui-monospace, monospace; font-size: 18px; }
+  .card .score.good { color: var(--good); }
+  .card .score.bad { color: var(--bad); }
+  .card .label { color: var(--muted); font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.04em; margin-top: 16px; }
+  .card pre { background: #0c0e12; color: #ddd; padding: 12px; border-radius: 6px;
+    overflow: auto; max-height: 300px; font-size: 12px; }
+  .card img { max-width: 100%; border-radius: 6px; background: #fff; }
+  .card .render-missing { color: var(--muted); font-style: italic; }
+  .card a { color: var(--accent); }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 12px;
+    font-size: 11px; background: #2a2e36; color: var(--muted); margin-left: 6px; }
+  .pill.ok { background: #1d3a1f; color: #9eda9e; }
+  .pill.bad { background: #3a1d1d; color: #da9e9e; }
+</style>
+</head>
+<body>
+<header>
+  <h1>theloop run</h1>
+  <div class="id">20260429-140421-watch-spec</div>
+</header>
+<main>
+  <section class="summary">
+    <table><tr><th>adapter</th><td>svg</td></tr><tr><th>max iters</th><td>8</td></tr><tr><th>threshold</th><td>0.9</td></tr><tr><th>plateau window</th><td>5</td></tr><tr><th>stop reason</th><td>plateau</td></tr><tr><th>best score</th><td>0.70</td></tr><tr><th>iters run</th><td>7</td></tr><tr><th>started</th><td>2026-04-29T12:04:22.630488+00:00</td></tr><tr><th>ended</th><td>2026-04-29T12:26:41.705234+00:00</td></tr></table>
+  </section>
+  
+  <article class="card">
+    <div class="render"><img src="artifacts/iter-0/render.png" alt="iter 0 render"></div>
+    <div class="meta">
+      <h2>iter 0 <span class="score bad">0.00</span> <span class="pill ok">runtime ok</span></h2>
+
+      <div class="label">intent</div>
+      <div>This iteration directly renders the pocket watch by resolving the front-view versus movement visibility contradiction through a semi-transparent lower dial overlay, ensuring precise alignment of all hands, markers, sub-dials, and gears relative to the 300,300 center. The goal is a single, coherent composition that satisfies every structural requirement without deferring to meta-planning.</div>
+
+      <div class="label">judge critique</div>
+      <div>The artifact is a generic placeholder graphic containing only a gray background and text, completely failing to render the requested mechanical pocket watch. To fix this, the SVG content must be entirely replaced with the detailed vector drawing of the watch case, dial, hands, sub-dials, movement gears, and chain as specified in the requirements.</div>
+
+      <div class="label">runtime check</div>
+      <div>artifact.svg parses as XML</div>
+
+      <div class="label">commit</div>
+      <div>iter/0: <a href="artifacts/iter-0/diff.txt">view diff</a> <code>1c5e5ac9</code></div>
+    </div>
+  </article>
+
+
+  <article class="card">
+    <div class="render"><img src="artifacts/iter-1/render.png" alt="iter 1 render"></div>
+    <div class="meta">
+      <h2>iter 1 <span class="score ">0.70</span> <span class="pill ok">runtime ok</span><span class="pill">touched 1</span></h2>
+
+      <div class="label">intent</div>
+      <div>Render the full pocket watch SVG from scratch, implementing the case, dial, hands, sub-dials, and visible movement gears with correct geometry and metallic styling, ensuring the composition is centered and detailed as specified.</div>
+
+      <div class="label">judge critique</div>
+      <div>The artifact fails to include a chain attached to the crown, which is a specific required element. Additionally, the Roman numerals are incomplete (only 4 of 12 present) and the power reserve indicator sub-dial is missing. To fix this, add a chain of 3-4 links extending from the crown and implement the power reserve arc at the 12 o&#x27;clock position.</div>
+
+      <div class="label">runtime check</div>
+      <div>artifact.svg parses as XML</div>
+
+      <div class="label">commit</div>
+      <div>iter/1: <a href="artifacts/iter-1/diff.txt">view diff</a> <code>25479896</code></div>
+    </div>
+  </article>
+
+
+  <article class="card">
+    <div class="render"><img src="artifacts/iter-2/render.png" alt="iter 2 render"></div>
+    <div class="meta">
+      <h2>iter 2 <span class="score ">0.70</span> <span class="pill ok">runtime ok</span><span class="pill">touched 1</span></h2>
+
+      <div class="label">intent</div>
+      <div>Add the missing chain attached to the crown, complete all 12 Roman numerals, and implement the power reserve indicator sub-dial at the 12 o&#x27;clock position.</div>
+
+      <div class="label">judge critique</div>
+      <div>The artifact fails to meet the specific time configuration required by the spec: the hour hand points to 12 (0°) and the minute hand points to 12 (0°), whereas the spec mandates the hour hand near 10 o&#x27;clock and the minute hand near 2 o&#x27;clock. Additionally, the minute tick marks are incomplete (only 36 ticks present instead of the required 60). To fix this, rotate the hour hand group to 300° (10 o&#x27;clock), the minute hand group to 60° (2 o&#x27;clock), and add the missing 24 minute tick marks to reach the required 60.</div>
+
+      <div class="label">runtime check</div>
+      <div>artifact.svg parses as XML</div>
+
+      <div class="label">commit</div>
+      <div>iter/2: <a href="artifacts/iter-2/diff.txt">view diff</a> <code>62eff437</code></div>
+    </div>
+  </article>
+
+
+  <article class="card">
+    <div class="render"><img src="artifacts/iter-3/render.png" alt="iter 3 render"></div>
+    <div class="meta">
+      <h2>iter 3 <span class="score ">0.70</span> <span class="pill ok">runtime ok</span><span class="pill">touched 1</span></h2>
+
+      <div class="label">intent</div>
+      <div>Address the critique by explicitly defining the rotation angles for the hour and minute hands to ensure they point to 10 and 2 o&#x27;clock respectively, and enforcing the count of 60 minute tick marks to eliminate ambiguity.</div>
+
+      <div class="label">judge critique</div>
+      <div>The artifact fails two critical structural requirements: the movement gears are rendered with 0.3 opacity, making them effectively invisible against the dial (classified as MISSING), and the chain is absent (classified as MISSING). Additionally, the second hand points to ~22 seconds (132°) instead of the required 7 o&#x27;clock position (210°). To fix this, you must increase the opacity of the movement gears to at least 0.8 to make them clearly visible, add a chain attached to the crown, and rotate the second hand to 210°.</div>
+
+      <div class="label">runtime check</div>
+      <div>artifact.svg parses as XML</div>
+
+      <div class="label">commit</div>
+      <div>iter/3: <a href="artifacts/iter-3/diff.txt">view diff</a> <code>8ae572a6</code></div>
+    </div>
+  </article>
+
+
+  <article class="card">
+    <div class="render"><img src="artifacts/iter-4/render.png" alt="iter 4 render"></div>
+    <div class="meta">
+      <h2>iter 4 <span class="score ">0.70</span> <span class="pill ok">runtime ok</span><span class="pill">touched 1</span></h2>
+
+      <div class="label">intent</div>
+      <div>Increase the opacity of the movement gears to at least 0.8 to ensure they are clearly visible, correct the second hand rotation to exactly 210° (7 o&#x27;clock), and reinforce the requirement for the chain to be rendered attached to the crown.</div>
+
+      <div class="label">judge critique</div>
+      <div>The first-pass description correctly identifies that the Movement (gears) and Chain are MISSING. However, the artifact clearly shows both: the gears are visible in the lower half with opacity 0.8, and the chain is attached to the crown. The first pass is factually incorrect about these two critical elements. Since the Movement and Chain are PRESENT, the structural defect cap of 0.7 (for two MISSING/PARTIAL) is lifted. The remaining defects are PARTIAL: the minute track has 60 ticks (correct, but first pass said 12 - actually looking at the SVG, there ARE 60 lines, so the first pass was wrong again, or perhaps missed them due to low opacity? No, they are there. Wait, the first pass said &#x27;only 12 minute tick marks&#x27;. The SVG has 60 lines. So the first pass is wrong about the ticks too. The sub-dial hand color is PARTIAL (blue vs red/dark). So we have one PARTIAL (sub-dial hand color). The score should be higher. Let&#x27;s re-evaluate. Movement: PRESENT. Chain: PRESENT. Ticks: PRESENT (60 lines). Sub-dial hand: PARTIAL (blue instead of red/dark). Hands: PRESENT. Dial: PRESENT. Case: PRESENT. Style: PRESENT. Only one PARTIAL element. Score should be 0.85 or 0.9. The sub-dial hand is blue (#4060a0) while the spec asks for &#x27;red or dark&#x27;. Blue is dark, but red is preferred for seconds. This is a minor polish gap. Score 0.9.</div>
+
+      <div class="label">runtime check</div>
+      <div>artifact.svg parses as XML</div>
+
+      <div class="label">commit</div>
+      <div>iter/4: <a href="artifacts/iter-4/diff.txt">view diff</a> <code>e344cd81</code></div>
+    </div>
+  </article>
+
+
+  <article class="card">
+    <div class="render"><img src="artifacts/iter-5/render.png" alt="iter 5 render"></div>
+    <div class="meta">
+      <h2>iter 5 <span class="score ">0.70</span> <span class="pill ok">runtime ok</span><span class="pill">touched 1</span></h2>
+
+      <div class="label">intent</div>
+      <div>Refine the sub-dial hand color specification to explicitly require red or black, resolving the critique&#x27;s concern about the previous blue rendering and ensuring strict compliance with the &#x27;red or dark&#x27; requirement.</div>
+
+      <div class="label">judge critique</div>
+      <div>The artifact fails to meet the &#x27;Movement&#x27; requirement, which is marked MISSING in the first-pass description. The gears and balance wheel are rendered but are completely obscured by the opaque dial face, violating the spec&#x27;s instruction for them to be &#x27;visible&#x27;. Additionally, the &#x27;Chain&#x27; is marked MISSING, as the current rendering is just a loop without distinct links. To fix this, you must either make the dial semi-transparent (e.g., using a clip-path to remove the bottom half of the dial circle) to reveal the movement gears, or move the movement elements to a separate visible layer, and replace the crown loop with a distinct chain of 3-4 links.</div>
+
+      <div class="label">runtime check</div>
+      <div>artifact.svg parses as XML</div>
+
+      <div class="label">commit</div>
+      <div>iter/5: <a href="artifacts/iter-5/diff.txt">view diff</a> <code>748524b5</code></div>
+    </div>
+  </article>
+
+
+  <article class="card">
+    <div class="render"><img src="artifacts/iter-6/render.png" alt="iter 6 render"></div>
+    <div class="meta">
+      <h2>iter 6 <span class="score ">—</span> <span class="pill ok">runtime ok</span><span class="pill">touched 1</span></h2>
+
+      <div class="label">intent</div>
+      <div>Replace the opaque dial with a semi-transparent lower half or clipped cutout to fully reveal the movement gears, and redraw the crown attachment as 3-4 distinct interlocking oval links instead of a single loop.</div>
+
+      <div class="label">judge critique</div>
+      <div>{
+  &quot;score&quot;: 0.7,
+  &quot;critique&quot;: &quot;The power reserve indicator arc is visually incorrect, showing only ~10-20% charge instead of the required ~60%. The arc path `M 181 89 A 22 22 0 0 1 219 89` covers only 60 degrees (from 150° to 210° relative to center), whereas a 60% charge on a 180-degree arc (from 180° to 0°) should span 108 degrees (from 180° to 72°). Additionally, the gear opacity is inconsistent; while individual gears have `opacity=&quot;0.8&quot;`, the group containing them has no opacity, but the </div>
+
+      <div class="label">runtime check</div>
+      <div>artifact.svg parses as XML</div>
+
+      <div class="label">commit</div>
+      <div>iter/6: <a href="artifacts/iter-6/diff.txt">view diff</a> <code>4cafc056</code></div>
+    </div>
+  </article>
+
+</main>
+</body>
+</html>

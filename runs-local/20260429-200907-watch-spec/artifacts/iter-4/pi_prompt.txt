@@ -1,0 +1,18 @@
+Goal: Update `artifact.svg` to explicitly render the bicycle chain using Roman numerals (I, V, X, L, C, D, M) as the primary visual motif, replacing any previous brand names or generic text, while ensuring strict XML compliance.
+
+Specific Changes:
+1.  **Replace Chain Text**: Locate the text elements currently representing the bicycle chain. Replace their content with a sequence of Roman numerals (e.g., "I V X L C D M" or a stylized pattern thereof). Do not use Arabic numerals (1, 2, 3) or brand names (e.g., "Shimano", "SRAM").
+2.  **Visual Descriptors**: Enhance the visual appearance of these Roman numeral characters to resemble chain links. This may involve:
+    *   Adjusting the `font-family` to a monospaced or blocky serif font if not already present.
+    *   Adding `stroke` and `fill` attributes to make the characters look like metallic links.
+    *   Using `<tspan>` elements to apply specific styling to individual numerals if needed for a "linked" effect.
+3.  **Remove Ambiguity**: Ensure no other text elements in the SVG contain ambiguous labels that could be mistaken for chain components. If there are other text elements, verify they are clearly distinct (e.g., labels for wheels or frame parts) and do not interfere with the chain's Roman numeral theme.
+
+Acceptance Criteria:
+- The SVG file parses as valid XML.
+- All tags are properly closed.
+- All attributes are quoted.
+- The chain area contains only Roman numerals (I, V, X, L, C, D, M) and no other text.
+- The Roman numerals are visually distinct and styled to resemble chain links.
+- No brand names or Arabic numerals appear in the chain area.
+- Use **relative paths only** for `read` / `write` / `edit` (e.g., `artifact.svg`, not `/abs/path/artifact.svg`); pi's working directory is the workspace root.

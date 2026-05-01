@@ -1,0 +1,78 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 10
+score_threshold: 0.95
+no_improvement_for: 7
+---
+
+# Mechanical Pocket Watch
+Draw a detailed mechanical pocket watch, viewed from the front, centered in a 600×600 viewBox. The watch must include ALL of the following:
+
+## Case & Crown
+- A circular outer case (radius ~200) with a metallic gradient fill
+- A crown (winder knob) at the top (12 o'clock position) attached to a short stem that extends visibly into the case
+- A subtle bezel ring around the outer edge
+
+## Dial
+- A white or cream-colored dial face (radius ~170)
+- 12 hour markers: thick lines at 12, 3, 6, 9 o'clock; thinner lines at the other hours
+- Roman numerals (I through XII) positioned just inside the hour markers
+- Minute tick marks around the outer edge of the dial (60 ticks, every 6°)
+
+## Hands
+- An hour hand (shorter, thicker) pointing near the 10 o'clock position
+- A minute hand (longer, thinner) pointing near the 2 o'clock position
+- A thin second hand (red or dark) pointing near the 7 o'clock position
+- All three hands originating from the exact center of the dial
+
+## Sub-dials
+- A small seconds sub-dial at the 6 o'clock position (radius ~30) with its own tiny hand
+- A power reserve indicator sub-dial at the 12 o'clock position (radius ~25) with a needle and an arc clearly showing approximately 60% charge (216 degrees), resembling a standard mechanical gauge
+
+## Movement (visible through caseback or cutaway)
+- At least 3 visible gears of distinctly different sizes (large, medium, small) with teeth, positioned below the dial area (bottom half of the watch)
+- The gears should overlap realistically and show different sizes
+- A balance wheel visible near the bottom-right of the movement area
+
+## Chain
+- A short chain (3-4 links) attached to the crown, curving upward and outward from the top of the watch. Each link must be physically connected to the next, forming a continuous chain structure visibly anchored to the crown.
+
+## Style
+- Metallic/brass color palette for the case and gears
+- Clean line art with subtle shading
+- The entire composition must be centered and balanced
+- The SVG must parse as valid XML
+
+The result should look like a realistic, detailed illustration of a vintage mechanical pocket watch — not a cartoon or simplified icon.
+
+## Iteration history
+- iter 0: Draw a detailed mechanical pocket watch, front view, centered in 600x600, including case, dial, hands, sub-dials, movement, and chain. → First credible attempt at the subject.
+- iter 1: Replace Arabic numerals with Roman numerals I-XII and add a distinct balance wheel near the bottom-right of the movement area. → Improved accuracy of dial markings and movement details.
+- iter 2: Replace floating circles with a connected chain attached to the crown and clarify power reserve and gear size requirements. → Fix missing chain element and refine partial elements.
+- iter 3: Redesign power reserve sub-dial with needle and 216-degree arc to clearly show 60% charge. → Fix partial power reserve indicator.
+
+## Iteration directive
+Goal: Update `generate_artifact.py` to render the power reserve sub-dial with a precise 216-degree arc (60% charge) and a distinct needle, and ensure the chain is physically anchored to the crown.
+
+1. **Locate Generator Logic**: Use `rg` or `grep` to find the section in `generate_artifact.py` that draws the power reserve sub-dial (likely near the top, around y=100-150) and the chain/crown attachment.
+2. **Fix Power Reserve Sub-dial**:
+   - Ensure the arc path covers exactly 216 degrees (from -108° to +108° relative to vertical, or equivalent start/end points).
+   - Draw a distinct needle originating from the sub-dial center, pointing to the end of the 216-degree arc.
+   - Verify the arc color contrasts with the background (e.g., dark red or black) to clearly show the "charge" level.
+3. **Fix Chain Attachment**:
+   - Locate the crown and chain generation code.
+   - Ensure the first link of the chain is geometrically connected to the crown stem/knob. It should not float; the path should start exactly at the crown's attachment point.
+   - Verify the chain curves upward and outward with 3-4 distinct, connected links.
+4. **Run & Verify**:
+   - Run `python generate_artifact.py`.
+   - Check `artifact.svg` for valid XML (no unclosed tags).
+   - Use `grep` to confirm the presence of the power reserve arc and chain elements.
+   - Ensure no other elements (dial, hands, gears) were accidentally removed or distorted.
+
+Use **relative paths only** for `read` / `write` / `edit` (e.g. `artifact.svg`, not `/abs/path/artifact.svg`); pi's working directory is the workspace root.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration.

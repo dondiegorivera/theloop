@@ -1,0 +1,43 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 10
+score_threshold: 0.99
+no_improvement_for: 5
+---
+
+# A Victorian-era robot reading a newspaper in a cafe
+
+An svg image of a Victorian-era robot reading a newspaper in a cafe
+
+## Iteration history
+- iter 0: Render a Victorian-era robot seated at a cafe table, actively reading a spread newspaper, surrounded by period-appropriate cafe details like a porcelain cup, saucer, and a large window to establish the setting. → Establish the core subject and setting.
+- iter 1: Reposition the robot's eyes and tilt its head downward to clearly direct its gaze at the newspaper, correcting the partial 'reading' action. → Establish active reading posture and narrative focus.
+- iter 2: Rotate the robot's head downward and explicitly reposition the eye elements to face the newspaper, ensuring the gaze clearly indicates active reading rather than staring at the viewer. → Fix the partial 'reading' classification by aligning gaze with the paper.
+
+## Iteration directive
+Goal: Modify `generate_artifact.py` to rotate the robot's head downward and reposition its eyes to face the newspaper, ensuring the gaze clearly indicates active reading.
+
+Context: The current SVG shows a Victorian-era robot in a cafe. The head and eyes are currently oriented such that the robot appears to be staring at the viewer or straight ahead, rather than reading the newspaper on the table.
+
+Instructions:
+1.  **Do not read `artifact.svg` directly.** It is large and generated.
+2.  Inspect `generate_artifact.py` to locate the code defining the robot's head and eyes. Use `rg` or `grep` to find relevant sections (e.g., "head", "eye", "face", "transform").
+3.  Edit `generate_artifact.py` to:
+    *   Apply a rotation transform to the head group (or individual head elements) to tilt it downward towards the newspaper.
+    *   Reposition the eye elements (or their internal pupils/irises) so they are looking down at the newspaper. This may involve changing coordinates or applying a local transform to the eyes.
+    *   Ensure the newspaper is positioned below the head in the visual hierarchy so the gaze direction makes sense.
+4.  Run `python generate_artifact.py` to regenerate `artifact.svg`.
+5.  Verify the changes by checking `artifact.svg` with `grep` for the new transform/position values if necessary, or simply ensure the script runs without error.
+
+Acceptance Criteria:
+*   `artifact.svg` is valid XML.
+*   The robot's head is visibly tilted downward.
+*   The robot's eyes are directed towards the newspaper.
+*   No other major elements (cafe setting, newspaper, body) are significantly altered or broken.
+*   Use **relative paths only** for all file operations and bash commands.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration. Use relative paths only, including inside bash commands; pi already runs from the workspace root, so do not `cd` to or reference `/src/...`, `/tmp/...`, or any other absolute workspace path.

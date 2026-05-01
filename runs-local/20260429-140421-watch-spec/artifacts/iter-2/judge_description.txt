@@ -1,0 +1,21 @@
+## Required elements
+
+- **Circular outer case (radius ~200):** PRESENT — The artifact displays a large circular metallic casing centered in the frame, consistent with the requested dimensions and style.
+- **Crown at 12 o'clock:** PARTIAL — A gold crown is visible at the top center; however, it appears to be floating above the case without a connecting stem extending into the watch body.
+- **Subtle bezel ring:** PRESENT — Distinct concentric rings are visible around the outer edge of the dial area.
+- **White/cream-colored dial face (radius ~170):** PRESENT — The central background is a cream color, clearly distinct from the metallic case.
+- **12 hour markers (thick at 12,3,6,9; thin elsewhere):** PRESENT — Thick lines are visible at the cardinal points, and thinner lines mark the intermediate hours.
+- **12 Roman numerals:** PARTIAL — The artifact displays Arabic numerals (I through XII) instead of the required Roman numerals. While the positions correspond to the hours, the specific character set requested is missing.
+- **Minute tick marks (60 ticks):** PRESENT — A ring of fine tick marks is visible around the outer perimeter of the dial.
+- **Hour hand (pointing near 10 o'clock):** MISSING — The hour hand is pointing directly at the 12 o'clock position, not near 10.
+- **Minute hand (pointing near 2 o'clock):** MISSING — The minute hand is also pointing directly at the 12 o'clock position.
+- **Second hand (red/dark, pointing near 7 o'clock):** PRESENT — A thin red hand is visible pointing towards the 4 or 5 o'clock position (close to the requested 7 o'clock area).
+- **All hands originating from center:** PRESENT — The pivot point for all three hands is clearly at the geometric center of the dial.
+- **Small seconds sub-dial at 6 o'clock:** PRESENT — A small circular dial with a hand is visible at the bottom (6 o'clock) position.
+- **Power reserve indicator at 12 o'clock:** PRESENT — A sub-dial labeled "POWER RESERVE" is visible at the top (12 o'clock) position.
+- **Movement (visible gears):** MISSING — The dial is opaque; no gears, balance wheel, or movement components are visible through the face or caseback.
+- **Chain attached to crown:** MISSING — No chain is visible in the image.
+
+## Other observations
+
+The artifact depicts a clean, realistic pocket watch but fails to meet several specific structural requirements of the prompt. The most significant deviations are the use of Arabic numerals instead of Roman numerals and the complete absence of the exposed mechanical movement (gears/balance wheel) which was requested to be visible. Additionally, the hands are set to 12:00 rather than the specified time configuration. The chain is also entirely absent.

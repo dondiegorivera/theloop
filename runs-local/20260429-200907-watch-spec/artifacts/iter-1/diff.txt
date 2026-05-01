@@ -1,0 +1,98 @@
+diff --git a/artifact.svg b/artifact.svg
+index e48b171..1658426 100644
+--- a/artifact.svg
++++ b/artifact.svg
+@@ -324,6 +324,38 @@
+       <text x="200" y="120" text-anchor="middle" font-family="Georgia, serif" font-size="7" fill="#7a6a50">GENÈVE</text>
+     </g>
+ 
++    <!-- ==================== ROMAN NUMERALS ==================== -->
++    <g id="romanNumerals" font-family="Georgia, 'Times New Roman', serif" font-size="13" fill="#2a3a5a" text-anchor="middle" dominant-baseline="central">
++      <text x="200" y="38">XII</text>
++      <text x="281" y="59">I</text>
++      <text x="340" y="119">II</text>
++      <text x="362" y="200">III</text>
++      <text x="340" y="281">IV</text>
++      <text x="281" y="341">V</text>
++      <text x="200" y="362">VI</text>
++      <text x="119" y="341">VII</text>
++      <text x="60" y="281">VIII</text>
++      <text x="38" y="200">IX</text>
++      <text x="60" y="119">X</text>
++      <text x="119" y="59">XI</text>
++    </g>
++
++    <!-- ==================== ROMAN NUMERALS ==================== -->
++    <g id="romanNumerals" font-family="Georgia, 'Times New Roman', serif" font-size="13" fill="#2a3a5a" text-anchor="middle" dominant-baseline="central">
++      <text x="200" y="38">XII</text>
++      <text x="281" y="59">I</text>
++      <text x="340" y="119">II</text>
++      <text x="362" y="200">III</text>
++      <text x="340" y="281">IV</text>
++      <text x="281" y="341">V</text>
++      <text x="200" y="362">VI</text>
++      <text x="119" y="341">VII</text>
++      <text x="60" y="281">VIII</text>
++      <text x="38" y="200">IX</text>
++      <text x="60" y="119">X</text>
++      <text x="119" y="59">XI</text>
++    </g>
++
+     <!-- Glass reflection -->
+     <g id="glassReflection">
+       <ellipse cx="140" cy="100" rx="60" ry="35" fill="white" opacity="0.08" transform="rotate(-20,140,100)"/>
+@@ -362,6 +394,23 @@
+     <circle cx="200" cy="20" r="18" fill="none" stroke="#8a7a5a" stroke-width="1.5"/>
+   </g>
+ 
++  <!-- Crown Chain -->
++  <g id="crownChain" filter="url(#shadow)">
++    <!-- Chain attachment loop on crown ring -->
++    <circle cx="218" cy="18" r="3" fill="none" stroke="#b8a478" stroke-width="1.5"/>
++    <!-- Chain links (series of small linked ellipses) -->
++    <ellipse cx="222" cy="30" rx="3" ry="5" fill="none" stroke="#b8a478" stroke-width="1.2" transform="rotate(12,222,30)"/>
++    <ellipse cx="226" cy="42" rx="3" ry="5" fill="none" stroke="#b8a478" stroke-width="1.2" transform="rotate(22,226,42)"/>
++    <ellipse cx="228" cy="54" rx="3" ry="5" fill="none" stroke="#b8a478" stroke-width="1.2" transform="rotate(32,228,54)"/>
++    <ellipse cx="227" cy="66" rx="3" ry="5" fill="none" stroke="#b8a478" stroke-width="1.2" transform="rotate(38,227,66)"/>
++    <ellipse cx="224" cy="78" rx="3" ry="5" fill="none" stroke="#b8a478" stroke-width="1.2" transform="rotate(30,224,78)"/>
++    <ellipse cx="220" cy="90" rx="3" ry="5" fill="none" stroke="#b8a478" stroke-width="1.2" transform="rotate(18,220,90)"/>
++    <ellipse cx="215" cy="102" rx="3" ry="5" fill="none" stroke="#b8a478" stroke-width="1.2" transform="rotate(8,215,102)"/>
++    <!-- Chain end decorative ring -->
++    <circle cx="210" cy="114" r="4" fill="none" stroke="#b8a478" stroke-width="1.5"/>
++    <circle cx="210" cy="114" r="2" fill="#d4a830" stroke="#8a6810" stroke-width="0.5"/>
++  </g>
++
+   <!-- ==================== DIAL BACKGROUND ==================== -->
+   <!-- Upper half - solid cream dial -->
+   <path d="M 45,200 A 155,155 0 0,1 355,200 Z" fill="url(#dialGrad)" stroke="#8a7a5a" stroke-width="1"/>
+@@ -460,6 +509,30 @@
+   <!-- ==================== BRAND TEXT ==================== -->
+   <use href="#brandArea" x="0" y="0"/>
+ 
++  <!-- ==================== POWER RESERVE INDICATOR ==================== -->
++  <g id="powerReserve">
++    <!-- Label -->
++    <text x="200" y="40" text-anchor="middle" font-family="Georgia, serif" font-size="7" fill="#5a4a30" letter-spacing="1.5">POWER RESERVE</text>
++    <!-- Arc track (background) -->
++    <path d="M 178,70 A 22,22 0 0,0 222,70" fill="none" stroke="#c4b490" stroke-width="3" stroke-linecap="round"/>
++    <!-- Arc fill (power level - ~75% full) -->
++    <path d="M 178,70 A 22,22 0 0,0 215.5,54.4" fill="none" stroke="#2a8a4a" stroke-width="3" stroke-linecap="round"/>
++    <!-- Tick marks at 0%, 25%, 50%, 75%, 100% -->
++    <line x1="178" y1="70" x2="182" y2="70" stroke="#5a4a30" stroke-width="1"/>
++    <line x1="184.4" y1="54.4" x2="188" y2="57" stroke="#5a4a30" stroke-width="1"/>
++    <line x1="200" y1="48" x2="200" y2="52" stroke="#5a4a30" stroke-width="1"/>
++    <line x1="212" y1="57" x2="215.6" y2="54.4" stroke="#5a4a30" stroke-width="1"/>
++    <line x1="222" y1="70" x2="218" y2="70" stroke="#5a4a30" stroke-width="1"/>
++    <!-- Hand -->
++    <line x1="200" y1="70" x2="215.5" y2="54.4" stroke="#cc2222" stroke-width="1.5" stroke-linecap="round"/>
++    <!-- Hand pivot -->
++    <circle cx="200" cy="70" r="3" fill="#cc2222"/>
++    <circle cx="200" cy="70" r="1.5" fill="#ff4444"/>
++    <!-- End labels -->
++    <text x="175" y="79" text-anchor="middle" font-family="Georgia, serif" font-size="5" fill="#7a6a50">0</text>
++    <text x="225" y="79" text-anchor="middle" font-family="Georgia, serif" font-size="5" fill="#7a6a50">42h</text>
++  </g>
++
+   <!-- ==================== SUB-DIAL (Small Seconds at 6 o'clock) ==================== -->
+   <g id="subDial">
+     <!-- Sub-dial background -->

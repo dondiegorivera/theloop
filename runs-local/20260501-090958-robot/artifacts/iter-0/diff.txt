@@ -1,0 +1,928 @@
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..7cc7e1c
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,9 @@
++# SVG task workspace
++
++The rendered artifact lives at `artifact.svg`. For detailed or repetitive
++SVGs, edit `generate_artifact.py` and run `python generate_artifact.py`
++instead of writing a huge SVG directly. Use direct `artifact.svg` edits only
++for small incremental fixes.
++
++Tools available: read, write, edit, bash. The renderer screenshots
++`index.html` at 1536×1152 after each iteration.
+diff --git a/artifact.svg b/artifact.svg
+new file mode 100644
+index 0000000..010692b
+--- /dev/null
++++ b/artifact.svg
+@@ -0,0 +1,431 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
++  <defs>
++    <!-- Vintage postcard gradient -->
++    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
++      <stop offset="0%" stop-color="#d4b896"/>
++      <stop offset="60%" stop-color="#e8d5b7"/>
++      <stop offset="100%" stop-color="#f0e2c8"/>
++    </linearGradient>
++    <!-- Sepia overlay -->
++    <filter id="sepia">
++      <feColorMatrix type="matrix" values="
++        0.393 0.769 0.189 0 0
++        0.349 0.686 0.168 0 0
++        0.272 0.534 0.131 0 0
++        0     0     0     1 0"/>
++    </filter>
++    <!-- Soft shadow -->
++    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
++      <feDropShadow dx="2" dy="3" stdDeviation="2" flood-color="#5a4a3a" flood-opacity="0.3"/>
++    </filter>
++    <!-- Sun glow -->
++    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
++      <stop offset="0%" stop-color="#f5deb3" stop-opacity="0.9"/>
++      <stop offset="100%" stop-color="#f5deb3" stop-opacity="0"/>
++    </radialGradient>
++    <!-- Wheel pattern -->
++    <g id="wheel">
++      <circle cx="0" cy="0" r="42" fill="none" stroke="#3a2e22" stroke-width="3"/>
++      <circle cx="0" cy="0" r="38" fill="none" stroke="#5a4a3a" stroke-width="1"/>
++      <!-- Spokes -->
++      <line x1="0" y1="-38" x2="0" y2="38" stroke="#5a4a3a" stroke-width="0.8"/>
++      <line x1="-38" y1="0" x2="38" y2="0" stroke="#5a4a3a" stroke-width="0.8"/>
++      <line x1="-27" y1="-27" x2="27" y2="27" stroke="#5a4a3a" stroke-width="0.8"/>
++      <line x1="27" y1="-27" x2="-27" y2="27" stroke="#5a4a3a" stroke-width="0.8"/>
++      <line x1="-15" y1="-35" x2="15" y2="35" stroke="#5a4a3a" stroke-width="0.8"/>
++      <line x1="15" y1="-35" x2="-15" y2="35" stroke="#5a4a3a" stroke-width="0.8"/>
++      <line x1="-35" y1="-15" x2="35" y2="15" stroke="#5a4a3a" stroke-width="0.8"/>
++      <line x1="35" y1="-15" x2="-35" y2="15" stroke="#5a4a3a" stroke-width="0.8"/>
++      <!-- Hub -->
++      <circle cx="0" cy="0" r="5" fill="#3a2e22"/>
++      <circle cx="0" cy="0" r="3" fill="#8b7355"/>
++    </g>
++  </defs>
++
++  <!-- ===== BACKGROUND SKY ===== -->
++  <rect x="0" y="0" width="800" height="600" fill="url(#skyGrad)"/>
++
++  <!-- Sun -->
++  <circle cx="650" cy="100" r="80" fill="url(#sunGlow)"/>
++  <circle cx="650" cy="100" r="30" fill="#f0c75e" opacity="0.8"/>
++
++  <!-- Clouds -->
++  <g fill="#f5ead6" opacity="0.7">
++    <ellipse cx="150" cy="80" rx="60" ry="20"/>
++    <ellipse cx="180" cy="70" rx="40" ry="18"/>
++    <ellipse cx="120" cy="75" rx="35" ry="15"/>
++  </g>
++  <g fill="#f5ead6" opacity="0.5">
++    <ellipse cx="450" cy="60" rx="50" ry="16"/>
++    <ellipse cx="480" cy="52" rx="35" ry="14"/>
++  </g>
++
++  <!-- ===== CITYSCAPE BACKGROUND ===== -->
++  <g filter="url(#shadow)">
++    <!-- Far buildings (lighter, smaller) -->
++    <rect x="30" y="200" width="40" height="180" fill="#c4a882" opacity="0.6"/>
++    <rect x="75" y="230" width="35" height="150" fill="#b89b75" opacity="0.6"/>
++    <rect x="115" y="180" width="45" height="200" fill="#c4a882" opacity="0.6"/>
++    <rect x="165" y="250" width="30" height="130" fill="#b89b75" opacity="0.6"/>
++    <rect x="200" y="210" width="50" height="170" fill="#c4a882" opacity="0.6"/>
++    <rect x="255" y="190" width="40" height="190" fill="#b89b75" opacity="0.6"/>
++    <rect x="300" y="240" width="35" height="140" fill="#c4a882" opacity="0.6"/>
++    <rect x="340" y="200" width="55" height="180" fill="#b89b75" opacity="0.6"/>
++    <rect x="400" y="220" width="40" height="160" fill="#c4a882" opacity="0.6"/>
++    <rect x="445" y="195" width="45" height="185" fill="#b89b75" opacity="0.6"/>
++    <rect x="495" y="230" width="35" height="150" fill="#c4a882" opacity="0.6"/>
++    <rect x="535" y="210" width="50" height="170" fill="#b89b75" opacity="0.6"/>
++    <rect x="590" y="240" width="40" height="140" fill="#c4a882" opacity="0.6"/>
++    <rect x="635" y="200" width="45" height="180" fill="#b89b75" opacity="0.6"/>
++    <rect x="685" y="225" width="35" height="155" fill="#c4a882" opacity="0.6"/>
++    <rect x="725" y="215" width="40" height="165" fill="#b89b75" opacity="0.6"/>
++
++    <!-- Church steeple -->
++    <polygon points="135,180 140,130 145,180" fill="#b89b75" opacity="0.6"/>
++    <rect x="138" y="120" width="4" height="15" fill="#a08060" opacity="0.6"/>
++
++    <!-- Closer buildings (darker, more detail) -->
++    <rect x="20" y="280" width="55" height="100" fill="#a08060"/>
++    <rect x="80" y="260" width="50" height="120" fill="#96744f"/>
++    <rect x="135" y="270" width="60" height="110" fill="#a08060"/>
++    <rect x="200" y="250" width="45" height="130" fill="#96744f"/>
++    <rect x="250" y="290" width="55" height="90" fill="#a08060"/>
++    <rect x="310" y="265" width="50" height="115" fill="#96744f"/>
++    <rect x="365" y="275" width="60" height="105" fill="#a08060"/>
++    <rect x="430" y="255" width="50" height="125" fill="#96744f"/>
++    <rect x="485" y="280" width="55" height="100" fill="#a08060"/>
++    <rect x="545" y="260" width="45" height="120" fill="#96744f"/>
++    <rect x="595" y="270" width="60" height="110" fill="#a08060"/>
++    <rect x="660" y="285" width="50" height="95" fill="#96744f"/>
++    <rect x="715" y="265" width="55" height="115" fill="#a08060"/>
++
++    <!-- Building windows (distant) -->
++    <g fill="#7a6040" opacity="0.4">
++      <rect x="35" y="300" width="6" height="8"/>
++      <rect x="50" y="300" width="6" height="8"/>
++      <rect x="35" y="320" width="6" height="8"/>
++      <rect x="50" y="320" width="6" height="8"/>
++      <rect x="95" y="280" width="6" height="8"/>
++      <rect x="110" y="280" width="6" height="8"/>
++      <rect x="95" y="300" width="6" height="8"/>
++      <rect x="110" y="300" width="6" height="8"/>
++      <rect x="150" y="290" width="6" height="8"/>
++      <rect x="165" y="290" width="6" height="8"/>
++      <rect x="150" y="310" width="6" height="8"/>
++      <rect x="165" y="310" width="6" height="8"/>
++      <rect x="215" y="270" width="6" height="8"/>
++      <rect x="230" y="270" width="6" height="8"/>
++      <rect x="215" y="290" width="6" height="8"/>
++      <rect x="230" y="290" width="6" height="8"/>
++      <rect x="325" y="285" width="6" height="8"/>
++      <rect x="340" y="285" width="6" height="8"/>
++      <rect x="325" y="305" width="6" height="8"/>
++      <rect x="340" y="305" width="6" height="8"/>
++      <rect x="445" y="275" width="6" height="8"/>
++      <rect x="460" y="275" width="6" height="8"/>
++      <rect x="445" y="295" width="6" height="8"/>
++      <rect x="460" y="295" width="6" height="8"/>
++      <rect x="500" y="300" width="6" height="8"/>
++      <rect x="515" y="300" width="6" height="8"/>
++      <rect x="500" y="320" width="6" height="8"/>
++      <rect x="515" y="320" width="6" height="8"/>
++      <rect x="560" y="280" width="6" height="8"/>
++      <rect x="575" y="280" width="6" height="8"/>
++      <rect x="560" y="300" width="6" height="8"/>
++      <rect x="575" y="300" width="6" height="8"/>
++      <rect x="610" y="290" width="6" height="8"/>
++      <rect x="625" y="290" width="6" height="8"/>
++      <rect x="610" y="310" width="6" height="8"/>
++      <rect x="625" y="310" width="6" height="8"/>
++      <rect x="675" y="305" width="6" height="8"/>
++      <rect x="690" y="305" width="6" height="8"/>
++      <rect x="675" y="325" width="6" height="8"/>
++      <rect x="690" y="325" width="6" height="8"/>
++      <rect x="730" y="285" width="6" height="8"/>
++      <rect x="745" y="285" width="6" height="8"/>
++      <rect x="730" y="305" width="6" height="8"/>
++      <rect x="745" y="305" width="6" height="8"/>
++    </g>
++
++    <!-- Building windows (closer) -->
++    <g fill="#5a4a3a">
++      <rect x="35" y="300" width="8" height="10"/>
++      <rect x="55" y="300" width="8" height="10"/>
++      <rect x="35" y="325" width="8" height="10"/>
++      <rect x="55" y="325" width="8" height="10"/>
++      <rect x="35" y="350" width="8" height="10"/>
++      <rect x="55" y="350" width="8" height="10"/>
++      <rect x="95" y="280" width="8" height="10"/>
++      <rect x="115" y="280" width="8" height="10"/>
++      <rect x="95" y="305" width="8" height="10"/>
++      <rect x="115" y="305" width="8" height="10"/>
++      <rect x="95" y="330" width="8" height="10"/>
++      <rect x="115" y="330" width="8" height="10"/>
++      <rect x="150" y="290" width="8" height="10"/>
++      <rect x="170" y="290" width="8" height="10"/>
++      <rect x="150" y="315" width="8" height="10"/>
++      <rect x="170" y="315" width="8" height="10"/>
++      <rect x="150" y="340" width="8" height="10"/>
++      <rect x="170" y="340" width="8" height="10"/>
++      <rect x="215" y="270" width="8" height="10"/>
++      <rect x="235" y="270" width="8" height="10"/>
++      <rect x="215" y="295" width="8" height="10"/>
++      <rect x="235" y="295" width="8" height="10"/>
++      <rect x="215" y="320" width="8" height="10"/>
++      <rect x="235" y="320" width="8" height="10"/>
++      <rect x="325" y="285" width="8" height="10"/>
++      <rect x="345" y="285" width="8" height="10"/>
++      <rect x="325" y="310" width="8" height="10"/>
++      <rect x="345" y="310" width="8" height="10"/>
++      <rect x="325" y="335" width="8" height="10"/>
++      <rect x="345" y="335" width="8" height="10"/>
++      <rect x="445" y="275" width="8" height="10"/>
++      <rect x="465" y="275" width="8" height="10"/>
++      <rect x="445" y="300" width="8" height="10"/>
++      <rect x="465" y="300" width="8" height="10"/>
++      <rect x="445" y="325" width="8" height="10"/>
++      <rect x="465" y="325" width="8" height="10"/>
++      <rect x="500" y="300" width="8" height="10"/>
++      <rect x="520" y="300" width="8" height="10"/>
++      <rect x="500" y="325" width="8" height="10"/>
++      <rect x="520" y="325" width="8" height="10"/>
++      <rect x="560" y="280" width="8" height="10"/>
++      <rect x="580" y="280" width="8" height="10"/>
++      <rect x="560" y="305" width="8" height="10"/>
++      <rect x="580" y="305" width="8" height="10"/>
++      <rect x="560" y="330" width="8" height="10"/>
++      <rect x="580" y="330" width="8" height="10"/>
++      <rect x="610" y="290" width="8" height="10"/>
++      <rect x="630" y="290" width="8" height="10"/>
++      <rect x="610" y="315" width="8" height="10"/>
++      <rect x="630" y="315" width="8" height="10"/>
++      <rect x="610" y="340" width="8" height="10"/>
++      <rect x="630" y="340" width="8" height="10"/>
++      <rect x="675" y="305" width="8" height="10"/>
++      <rect x="695" y="305" width="8" height="10"/>
++      <rect x="675" y="330" width="8" height="10"/>
++      <rect x="695" y="330" width="8" height="10"/>
++      <rect x="730" y="285" width="8" height="10"/>
++      <rect x="750" y="285" width="8" height="10"/>
++      <rect x="730" y="310" width="8" height="10"/>
++      <rect x="750" y="310" width="8" height="10"/>
++      <rect x="730" y="335" width="8" height="10"/>
++      <rect x="750" y="335" width="8" height="10"/>
++    </g>
++
++    <!-- Tall building with clock tower -->
++    <rect x="370" y="170" width="40" height="210" fill="#8b7355"/>
++    <polygon points="370,170 390,120 410,170" fill="#8b7355"/>
++    <!-- Clock face -->
++    <circle cx="390" cy="195" r="12" fill="#f0e2c8" stroke="#5a4a3a" stroke-width="2"/>
++    <line x1="390" y1="195" x2="390" y2="187" stroke="#3a2e22" stroke-width="1.5"/>
++    <line x1="390" y1="195" x2="396" y2="195" stroke="#3a2e22" stroke-width="1"/>
++    <!-- Clock tower windows -->
++    <rect x="385" y="220" width="10" height="14" rx="5" fill="#5a4a3a"/>
++    <rect x="385" y="250" width="10" height="14" rx="5" fill="#5a4a3a"/>
++    <rect x="385" y="280" width="10" height="14" rx="5" fill="#5a4a3a"/>
++  </g>
++
++  <!-- ===== GROUND / STREET ===== -->
++  <rect x="0" y="440" width="800" height="160" fill="#c4a882"/>
++  <rect x="0" y="440" width="800" height="4" fill="#a08060"/>
++  <!-- Cobblestone texture hint -->
++  <g fill="#b89b75" opacity="0.5">
++    <ellipse cx="50" cy="470" rx="12" ry="5"/>
++    <ellipse cx="80" cy="470" rx="12" ry="5"/>
++    <ellipse cx="110" cy="470" rx="12" ry="5"/>
++    <ellipse cx="140" cy="470" rx="12" ry="5"/>
++    <ellipse cx="170" cy="470" rx="12" ry="5"/>
++    <ellipse cx="200" cy="470" rx="12" ry="5"/>
++    <ellipse cx="230" cy="470" rx="12" ry="5"/>
++    <ellipse cx="260" cy="470" rx="12" ry="5"/>
++    <ellipse cx="290" cy="470" rx="12" ry="5"/>
++    <ellipse cx="320" cy="470" rx="12" ry="5"/>
++    <ellipse cx="350" cy="470" rx="12" ry="5"/>
++    <ellipse cx="380" cy="470" rx="12" ry="5"/>
++    <ellipse cx="410" cy="470" rx="12" ry="5"/>
++    <ellipse cx="440" cy="470" rx="12" ry="5"/>
++    <ellipse cx="470" cy="470" rx="12" ry="5"/>
++    <ellipse cx="500" cy="470" rx="12" ry="5"/>
++    <ellipse cx="530" cy="470" rx="12" ry="5"/>
++    <ellipse cx="560" cy="470" rx="12" ry="5"/>
++    <ellipse cx="590" cy="470" rx="12" ry="5"/>
++    <ellipse cx="620" cy="470" rx="12" ry="5"/>
++    <ellipse cx="650" cy="470" rx="12" ry="5"/>
++    <ellipse cx="680" cy="470" rx="12" ry="5"/>
++    <ellipse cx="710" cy="470" rx="12" ry="5"/>
++    <ellipse cx="740" cy="470" rx="12" ry="5"/>
++    <ellipse cx="770" cy="470" rx="12" ry="5"/>
++  </g>
++
++  <!-- ===== BICYCLE ===== -->
++  <g filter="url(#shadow)">
++    <!-- Back wheel -->
++    <use href="#wheel" x="280" y="400"/>
++    <!-- Front wheel -->
++    <use href="#wheel" x="520" y="400"/>
++
++    <!-- Frame -->
++    <g stroke="#6b4c30" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
++      <!-- Main triangle -->
++      <line x1="280" y1="400" x2="390" y2="310"/>  <!-- chainstay to bottom bracket -->
++      <line x1="390" y1="310" x2="440" y2="260"/>  <!-- seat tube to seat cluster -->
++      <line x1="390" y1="310" x2="520" y2="400"/>  <!-- down tube to front wheel -->
++      <line x1="280" y1="400" x2="440" y2="260"/>  <!-- seat tube to top tube -->
++      <!-- Fork -->
++      <line x1="520" y1="400" x2="470" y2="280"/>  <!-- fork to head tube -->
++      <!-- Handlebar stem -->
++      <line x1="470" y1="280" x2="460" y2="260"/>
++    </g>
++
++    <!-- Handlebars -->
++    <path d="M445,255 Q460,245 475,255" fill="none" stroke="#6b4c30" stroke-width="4" stroke-linecap="round"/>
++
++    <!-- Seat post -->
++    <line x1="440" y1="260" x2="430" y2="240" stroke="#6b4c30" stroke-width="3"/>
++    <!-- Saddle -->
++    <ellipse cx="425" cy="238" rx="22" ry="7" fill="#5a3e28"/>
++
++    <!-- Pedal crank -->
++    <circle cx="390" cy="310" r="8" fill="#6b4c30"/>
++    <line x1="390" y1="310" x2="375" y2="330" stroke="#6b4c30" stroke-width="3"/>
++    <line x1="390" y1="310" x2="405" y2="290" stroke="#6b4c30" stroke-width="3"/>
++    <!-- Pedals -->
++    <rect x="368" y="326" width="14" height="5" rx="2" fill="#5a3e28"/>
++    <rect x="398" y="286" width="14" height="5" rx="2" fill="#5a3e28"/>
++
++    <!-- Chain -->
++    <path d="M390,318 Q335,370 280,400" fill="none" stroke="#5a4a3a" stroke-width="1.5" stroke-dasharray="3,2"/>
++    <path d="M390,302 Q455,340 520,400" fill="none" stroke="#5a4a3a" stroke-width="1.5" stroke-dasharray="3,2"/>
++  </g>
++
++  <!-- ===== PELICAN ===== -->
++  <g filter="url(#shadow)">
++    <!-- Body -->
++    <ellipse cx="420" cy="195" rx="45" ry="30" fill="#f5f0e8" stroke="#c4a882" stroke-width="1.5"/>
++
++    <!-- Wing (folded, resting on body) -->
++    <path d="M390,185 Q410,170 440,180 Q460,190 445,210 Q420,220 395,210 Z"
++          fill="#e8ddd0" stroke="#c4a882" stroke-width="1"/>
++
++    <!-- Wing detail lines -->
++    <path d="M400,190 Q420,180 440,188" fill="none" stroke="#c4a882" stroke-width="0.8"/>
++    <path d="M398,198 Q418,188 438,196" fill="none" stroke="#c4a882" stroke-width="0.8"/>
++
++    <!-- Neck -->
++    <path d="M455,180 Q475,155 480,135 Q485,115 475,105"
++          fill="none" stroke="#f5f0e8" stroke-width="18" stroke-linecap="round"/>
++    <path d="M455,180 Q475,155 480,135 Q485,115 475,105"
++          fill="none" stroke="#e8ddd0" stroke-width="16" stroke-linecap="round"/>
++
++    <!-- Head -->
++    <ellipse cx="475" cy="100" rx="18" ry="16" fill="#f5f0e8" stroke="#c4a882" stroke-width="1.5"/>
++
++    <!-- Eye -->
++    <circle cx="482" cy="96" r="3" fill="#3a2e22"/>
++    <circle cx="483" cy="95" r="1" fill="#f5f0e8"/>
++
++    <!-- Beak (large pelican bill) -->
++    <path d="M490,95 Q530,90 560,100 Q565,105 555,110 Q530,118 495,108 Z"
++          fill="#e8a040" stroke="#c48030" stroke-width="1"/>
++    <!-- Beak pouch -->
++    <path d="M495,108 Q530,120 555,110 Q550,118 520,122 Q495,118 495,108 Z"
++          fill="#d49030" opacity="0.6"/>
++    <!-- Beak line -->
++    <line x1="490" y1="95" x2="560" y2="100" stroke="#c48030" stroke-width="1"/>
++
++    <!-- Tail feathers -->
++    <path d="M375,190 Q355,185 340,195 Q350,200 365,200 Z" fill="#e8ddd0" stroke="#c4a882" stroke-width="0.8"/>
++    <path d="M378,195 Q358,192 345,202 Q355,208 368,205 Z" fill="#e0d5c5" stroke="#c4a882" stroke-width="0.8"/>
++    <path d="M380,200 Q362,198 350,210 Q360,215 372,212 Z" fill="#d8cdc0" stroke="#c4a882" stroke-width="0.8"/>
++
++    <!-- Legs on pedals -->
++    <!-- Left leg (down pedal) -->
++    <path d="M410,220 Q405,260 395,290 Q388,305 375,328"
++          fill="none" stroke="#d49030" stroke-width="5" stroke-linecap="round"/>
++    <!-- Left foot on pedal -->
++    <ellipse cx="375" cy="328" rx="8" ry="4" fill="#d49030"/>
++
++    <!-- Right leg (up pedal) -->
++    <path d="M415,218 Q420,255 425,285 Q418,298 405,290"
++          fill="none" stroke="#d49030" stroke-width="5" stroke-linecap="round"/>
++    <!-- Right foot on pedal -->
++    <ellipse cx="405" cy="290" rx="8" ry="4" fill="#d49030"/>
++
++    <!-- Arms / wings holding handlebars -->
++    <path d="M445,195 Q460,200 470,210 Q475,220 468,240 Q465,250 460,255"
++          fill="none" stroke="#e8ddd0" stroke-width="6" stroke-linecap="round"/>
++    <!-- Wing tip gripping handlebar -->
++    <ellipse cx="460" cy="255" rx="5" ry="4" fill="#e8ddd0"/>
++
++    <!-- Small hat (vintage postcard style) -->
++    <ellipse cx="475" cy="85" rx="22" ry="4" fill="#5a3e28"/>
++    <path d="M460,85 Q465,65 475,62 Q485,65 490,85 Z" fill="#5a3e28"/>
++    <rect x="462" y="80" width="26" height="5" rx="1" fill="#7a5a3a"/>
++  </g>
++
++  <!-- ===== POSTCARD BORDER & TEXT ===== -->
++  <!-- Outer decorative border -->
++  <rect x="8" y="8" width="784" height="584" fill="none" stroke="#8b7355" stroke-width="3"/>
++  <rect x="14" y="14" width="772" height="572" fill="none" stroke="#a08060" stroke-width="1"/>
++  <!-- Corner ornaments -->
++  <g fill="#8b7355">
++    <path d="M14,30 L14,14 L30,14 Z"/>
++    <path d="M786,30 L786,14 L770,14 Z"/>
++    <path d="M14,570 L14,586 L30,586 Z"/>
++    <path d="M786,570 L786,586 L770,586 Z"/>
++  </g>
++
++  <!-- Postcard text area (right side) -->
++  <rect x="500" y="460" width="280" height="120" fill="#f0e2c8" opacity="0.9" stroke="#a08060" stroke-width="1"/>
++  <!-- Divider line -->
++  <line x1="500" y1="520" x2="780" y2="520" stroke="#a08060" stroke-width="1"/>
++  <!-- Vertical divider -->
++  <line x1="640" y1="460" x2="640" y2="580" stroke="#a08060" stroke-width="1"/>
++
++  <!-- "Greetings from..." text -->
++  <text x="645" y="485" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#5a4a3a" font-style="italic">
++    Greetings from
++  </text>
++
++  <!-- Stamp area -->
++  <rect x="510" y="468" width="40" height="45" fill="none" stroke="#a08060" stroke-width="1.5"/>
++  <rect x="513" y="471" width="34" height="39" fill="#e8d5b7" stroke="none"/>
++  <text x="530" y="490" font-family="Georgia, serif" font-size="7" fill="#8b7355" text-anchor="middle">USA</text>
++  <text x="530" y="500" font-family="Georgia, serif" font-size="5" fill="#a08060" text-anchor="middle">1¢</text>
++  <!-- Stamp cancellation marks -->
++  <line x1="515" y1="475" x2="545" y2="505" stroke="#c48030" stroke-width="0.5" opacity="0.5"/>
++  <line x1="545" y1="475" x2="515" y2="505" stroke="#c48030" stroke-width="0.5" opacity="0.5"/>
++
++  <!-- Message lines -->
++  <text x="650" y="485" font-family="Georgia, serif" font-size="9" fill="#8b7355">
++    <tspan x="650" dy="0">A pelican on a bicycle</tspan>
++    <tspan x="650" dy="14">through the city streets.</tspan>
++    <tspan x="650" dy="14">Wish you were here!</tspan>
++  </text>
++
++  <!-- Address lines -->
++  <text x="510" y="535" font-family="Georgia, serif" font-size="8" fill="#a08060">
++    <tspan x="510" dy="0">Dear Friend,</tspan>
++    <tspan x="510" dy="14">Please send postcard.</tspan>
++  </text>
++
++  <!-- Title banner at top -->
++  <rect x="200" y="20" width="400" height="36" fill="#f0e2c8" opacity="0.85" stroke="#8b7355" stroke-width="1.5"/>
++  <text x="400" y="44" font-family="Georgia, 'Times New Roman', serif" font-size="22" fill="#5a4a3a" text-anchor="middle" font-weight="bold">
++    Pelican on a Bicycle
++  </text>
++
++  <!-- Decorative flourishes -->
++  <g fill="none" stroke="#8b7355" stroke-width="1.5">
++    <path d="M195,38 Q200,30 205,38 Q200,46 195,38"/>
++    <path d="M595,38 Q600,30 605,38 Q600,46 595,38"/>
++  </g>
++
++  <!-- Bottom text -->
++  <text x="400" y="570" font-family="Georgia, serif" font-size="11" fill="#8b7355" text-anchor="middle" font-style="italic">
++    ~ A Vintage Postcard Scene ~
++  </text>
++
++</svg>
+diff --git a/generate_artifact.py b/generate_artifact.py
+new file mode 100644
+index 0000000..69dc453
+--- /dev/null
++++ b/generate_artifact.py
+@@ -0,0 +1,449 @@
++"""Generate artifact.svg – Pelican on a bicycle with city behind, vintage postcard style.
++
++Run:
++    python generate_artifact.py
++"""
++
++from __future__ import annotations
++
++from pathlib import Path
++
++
++def main() -> None:
++    svg = r"""<?xml version="1.0" encoding="UTF-8"?>
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
++  <defs>
++    <!-- Vintage postcard gradient -->
++    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
++      <stop offset="0%" stop-color="#d4b896"/>
++      <stop offset="60%" stop-color="#e8d5b7"/>
++      <stop offset="100%" stop-color="#f0e2c8"/>
++    </linearGradient>
++    <!-- Sepia overlay -->
++    <filter id="sepia">
++      <feColorMatrix type="matrix" values="
++        0.393 0.769 0.189 0 0
++        0.349 0.686 0.168 0 0
++        0.272 0.534 0.131 0 0
++        0     0     0     1 0"/>
++    </filter>
++    <!-- Soft shadow -->
++    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
++      <feDropShadow dx="2" dy="3" stdDeviation="2" flood-color="#5a4a3a" flood-opacity="0.3"/>
++    </filter>
++    <!-- Sun glow -->
++    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
++      <stop offset="0%" stop-color="#f5deb3" stop-opacity="0.9"/>
++      <stop offset="100%" stop-color="#f5deb3" stop-opacity="0"/>
++    </radialGradient>
++    <!-- Wheel pattern -->
++    <g id="wheel">
++      <circle cx="0" cy="0" r="42" fill="none" stroke="#3a2e22" stroke-width="3"/>
++      <circle cx="0" cy="0" r="38" fill="none" stroke="#5a4a3a" stroke-width="1"/>
++      <!-- Spokes -->
++      <line x1="0" y1="-38" x2="0" y2="38" stroke="#5a4a3a" stroke-width="0.8"/>
++      <line x1="-38" y1="0" x2="38" y2="0" stroke="#5a4a3a" stroke-width="0.8"/>
++      <line x1="-27" y1="-27" x2="27" y2="27" stroke="#5a4a3a" stroke-width="0.8"/>
++      <line x1="27" y1="-27" x2="-27" y2="27" stroke="#5a4a3a" stroke-width="0.8"/>
++      <line x1="-15" y1="-35" x2="15" y2="35" stroke="#5a4a3a" stroke-width="0.8"/>
++      <line x1="15" y1="-35" x2="-15" y2="35" stroke="#5a4a3a" stroke-width="0.8"/>
++      <line x1="-35" y1="-15" x2="35" y2="15" stroke="#5a4a3a" stroke-width="0.8"/>
++      <line x1="35" y1="-15" x2="-35" y2="15" stroke="#5a4a3a" stroke-width="0.8"/>
++      <!-- Hub -->
++      <circle cx="0" cy="0" r="5" fill="#3a2e22"/>
++      <circle cx="0" cy="0" r="3" fill="#8b7355"/>
++    </g>
++  </defs>
++
++  <!-- ===== BACKGROUND SKY ===== -->
++  <rect x="0" y="0" width="800" height="600" fill="url(#skyGrad)"/>
++
++  <!-- Sun -->
++  <circle cx="650" cy="100" r="80" fill="url(#sunGlow)"/>
++  <circle cx="650" cy="100" r="30" fill="#f0c75e" opacity="0.8"/>
++
++  <!-- Clouds -->
++  <g fill="#f5ead6" opacity="0.7">
++    <ellipse cx="150" cy="80" rx="60" ry="20"/>
++    <ellipse cx="180" cy="70" rx="40" ry="18"/>
++    <ellipse cx="120" cy="75" rx="35" ry="15"/>
++  </g>
++  <g fill="#f5ead6" opacity="0.5">
++    <ellipse cx="450" cy="60" rx="50" ry="16"/>
++    <ellipse cx="480" cy="52" rx="35" ry="14"/>
++  </g>
++
++  <!-- ===== CITYSCAPE BACKGROUND ===== -->
++  <g filter="url(#shadow)">
++    <!-- Far buildings (lighter, smaller) -->
++    <rect x="30" y="200" width="40" height="180" fill="#c4a882" opacity="0.6"/>
++    <rect x="75" y="230" width="35" height="150" fill="#b89b75" opacity="0.6"/>
++    <rect x="115" y="180" width="45" height="200" fill="#c4a882" opacity="0.6"/>
++    <rect x="165" y="250" width="30" height="130" fill="#b89b75" opacity="0.6"/>
++    <rect x="200" y="210" width="50" height="170" fill="#c4a882" opacity="0.6"/>
++    <rect x="255" y="190" width="40" height="190" fill="#b89b75" opacity="0.6"/>
++    <rect x="300" y="240" width="35" height="140" fill="#c4a882" opacity="0.6"/>
++    <rect x="340" y="200" width="55" height="180" fill="#b89b75" opacity="0.6"/>
++    <rect x="400" y="220" width="40" height="160" fill="#c4a882" opacity="0.6"/>
++    <rect x="445" y="195" width="45" height="185" fill="#b89b75" opacity="0.6"/>
++    <rect x="495" y="230" width="35" height="150" fill="#c4a882" opacity="0.6"/>
++    <rect x="535" y="210" width="50" height="170" fill="#b89b75" opacity="0.6"/>
++    <rect x="590" y="240" width="40" height="140" fill="#c4a882" opacity="0.6"/>
++    <rect x="635" y="200" width="45" height="180" fill="#b89b75" opacity="0.6"/>
++    <rect x="685" y="225" width="35" height="155" fill="#c4a882" opacity="0.6"/>
++    <rect x="725" y="215" width="40" height="165" fill="#b89b75" opacity="0.6"/>
++
++    <!-- Church steeple -->
++    <polygon points="135,180 140,130 145,180" fill="#b89b75" opacity="0.6"/>
++    <rect x="138" y="120" width="4" height="15" fill="#a08060" opacity="0.6"/>
++
++    <!-- Closer buildings (darker, more detail) -->
++    <rect x="20" y="280" width="55" height="100" fill="#a08060"/>
++    <rect x="80" y="260" width="50" height="120" fill="#96744f"/>
++    <rect x="135" y="270" width="60" height="110" fill="#a08060"/>
++    <rect x="200" y="250" width="45" height="130" fill="#96744f"/>
++    <rect x="250" y="290" width="55" height="90" fill="#a08060"/>
++    <rect x="310" y="265" width="50" height="115" fill="#96744f"/>
++    <rect x="365" y="275" width="60" height="105" fill="#a08060"/>
++    <rect x="430" y="255" width="50" height="125" fill="#96744f"/>
++    <rect x="485" y="280" width="55" height="100" fill="#a08060"/>
++    <rect x="545" y="260" width="45" height="120" fill="#96744f"/>
++    <rect x="595" y="270" width="60" height="110" fill="#a08060"/>
++    <rect x="660" y="285" width="50" height="95" fill="#96744f"/>
++    <rect x="715" y="265" width="55" height="115" fill="#a08060"/>
++
++    <!-- Building windows (distant) -->
++    <g fill="#7a6040" opacity="0.4">
++      <rect x="35" y="300" width="6" height="8"/>
++      <rect x="50" y="300" width="6" height="8"/>
++      <rect x="35" y="320" width="6" height="8"/>
++      <rect x="50" y="320" width="6" height="8"/>
++      <rect x="95" y="280" width="6" height="8"/>
++      <rect x="110" y="280" width="6" height="8"/>
++      <rect x="95" y="300" width="6" height="8"/>
++      <rect x="110" y="300" width="6" height="8"/>
++      <rect x="150" y="290" width="6" height="8"/>
++      <rect x="165" y="290" width="6" height="8"/>
++      <rect x="150" y="310" width="6" height="8"/>
++      <rect x="165" y="310" width="6" height="8"/>
++      <rect x="215" y="270" width="6" height="8"/>
++      <rect x="230" y="270" width="6" height="8"/>
++      <rect x="215" y="290" width="6" height="8"/>
++      <rect x="230" y="290" width="6" height="8"/>
++      <rect x="325" y="285" width="6" height="8"/>
++      <rect x="340" y="285" width="6" height="8"/>
++      <rect x="325" y="305" width="6" height="8"/>
++      <rect x="340" y="305" width="6" height="8"/>
++      <rect x="445" y="275" width="6" height="8"/>
++      <rect x="460" y="275" width="6" height="8"/>
++      <rect x="445" y="295" width="6" height="8"/>
++      <rect x="460" y="295" width="6" height="8"/>
++      <rect x="500" y="300" width="6" height="8"/>
++      <rect x="515" y="300" width="6" height="8"/>
++      <rect x="500" y="320" width="6" height="8"/>
++      <rect x="515" y="320" width="6" height="8"/>
++      <rect x="560" y="280" width="6" height="8"/>
++      <rect x="575" y="280" width="6" height="8"/>
++      <rect x="560" y="300" width="6" height="8"/>
++      <rect x="575" y="300" width="6" height="8"/>
++      <rect x="610" y="290" width="6" height="8"/>
++      <rect x="625" y="290" width="6" height="8"/>
++      <rect x="610" y="310" width="6" height="8"/>
++      <rect x="625" y="310" width="6" height="8"/>
++      <rect x="675" y="305" width="6" height="8"/>
++      <rect x="690" y="305" width="6" height="8"/>
++      <rect x="675" y="325" width="6" height="8"/>
++      <rect x="690" y="325" width="6" height="8"/>
++      <rect x="730" y="285" width="6" height="8"/>
++      <rect x="745" y="285" width="6" height="8"/>
++      <rect x="730" y="305" width="6" height="8"/>
++      <rect x="745" y="305" width="6" height="8"/>
++    </g>
++
++    <!-- Building windows (closer) -->
++    <g fill="#5a4a3a">
++      <rect x="35" y="300" width="8" height="10"/>
++      <rect x="55" y="300" width="8" height="10"/>
++      <rect x="35" y="325" width="8" height="10"/>
++      <rect x="55" y="325" width="8" height="10"/>
++      <rect x="35" y="350" width="8" height="10"/>
++      <rect x="55" y="350" width="8" height="10"/>
++      <rect x="95" y="280" width="8" height="10"/>
++      <rect x="115" y="280" width="8" height="10"/>
++      <rect x="95" y="305" width="8" height="10"/>
++      <rect x="115" y="305" width="8" height="10"/>
++      <rect x="95" y="330" width="8" height="10"/>
++      <rect x="115" y="330" width="8" height="10"/>
++      <rect x="150" y="290" width="8" height="10"/>
++      <rect x="170" y="290" width="8" height="10"/>
++      <rect x="150" y="315" width="8" height="10"/>
++      <rect x="170" y="315" width="8" height="10"/>
++      <rect x="150" y="340" width="8" height="10"/>
++      <rect x="170" y="340" width="8" height="10"/>
++      <rect x="215" y="270" width="8" height="10"/>
++      <rect x="235" y="270" width="8" height="10"/>
++      <rect x="215" y="295" width="8" height="10"/>
++      <rect x="235" y="295" width="8" height="10"/>
++      <rect x="215" y="320" width="8" height="10"/>
++      <rect x="235" y="320" width="8" height="10"/>
++      <rect x="325" y="285" width="8" height="10"/>
++      <rect x="345" y="285" width="8" height="10"/>
++      <rect x="325" y="310" width="8" height="10"/>
++      <rect x="345" y="310" width="8" height="10"/>
++      <rect x="325" y="335" width="8" height="10"/>
++      <rect x="345" y="335" width="8" height="10"/>
++      <rect x="445" y="275" width="8" height="10"/>
++      <rect x="465" y="275" width="8" height="10"/>
++      <rect x="445" y="300" width="8" height="10"/>
++      <rect x="465" y="300" width="8" height="10"/>
++      <rect x="445" y="325" width="8" height="10"/>
++      <rect x="465" y="325" width="8" height="10"/>
++      <rect x="500" y="300" width="8" height="10"/>
++      <rect x="520" y="300" width="8" height="10"/>
++      <rect x="500" y="325" width="8" height="10"/>
++      <rect x="520" y="325" width="8" height="10"/>
++      <rect x="560" y="280" width="8" height="10"/>
++      <rect x="580" y="280" width="8" height="10"/>
++      <rect x="560" y="305" width="8" height="10"/>
++      <rect x="580" y="305" width="8" height="10"/>
++      <rect x="560" y="330" width="8" height="10"/>
++      <rect x="580" y="330" width="8" height="10"/>
++      <rect x="610" y="290" width="8" height="10"/>
++      <rect x="630" y="290" width="8" height="10"/>
++      <rect x="610" y="315" width="8" height="10"/>
++      <rect x="630" y="315" width="8" height="10"/>
++      <rect x="610" y="340" width="8" height="10"/>
++      <rect x="630" y="340" width="8" height="10"/>
++      <rect x="675" y="305" width="8" height="10"/>
++      <rect x="695" y="305" width="8" height="10"/>
++      <rect x="675" y="330" width="8" height="10"/>
++      <rect x="695" y="330" width="8" height="10"/>
++      <rect x="730" y="285" width="8" height="10"/>
++      <rect x="750" y="285" width="8" height="10"/>
++      <rect x="730" y="310" width="8" height="10"/>
++      <rect x="750" y="310" width="8" height="10"/>
++      <rect x="730" y="335" width="8" height="10"/>
++      <rect x="750" y="335" width="8" height="10"/>
++    </g>
++
++    <!-- Tall building with clock tower -->
++    <rect x="370" y="170" width="40" height="210" fill="#8b7355"/>
++    <polygon points="370,170 390,120 410,170" fill="#8b7355"/>
++    <!-- Clock face -->
++    <circle cx="390" cy="195" r="12" fill="#f0e2c8" stroke="#5a4a3a" stroke-width="2"/>
++    <line x1="390" y1="195" x2="390" y2="187" stroke="#3a2e22" stroke-width="1.5"/>
++    <line x1="390" y1="195" x2="396" y2="195" stroke="#3a2e22" stroke-width="1"/>
++    <!-- Clock tower windows -->
++    <rect x="385" y="220" width="10" height="14" rx="5" fill="#5a4a3a"/>
++    <rect x="385" y="250" width="10" height="14" rx="5" fill="#5a4a3a"/>
++    <rect x="385" y="280" width="10" height="14" rx="5" fill="#5a4a3a"/>
++  </g>
++
++  <!-- ===== GROUND / STREET ===== -->
++  <rect x="0" y="440" width="800" height="160" fill="#c4a882"/>
++  <rect x="0" y="440" width="800" height="4" fill="#a08060"/>
++  <!-- Cobblestone texture hint -->
++  <g fill="#b89b75" opacity="0.5">
++    <ellipse cx="50" cy="470" rx="12" ry="5"/>
++    <ellipse cx="80" cy="470" rx="12" ry="5"/>
++    <ellipse cx="110" cy="470" rx="12" ry="5"/>
++    <ellipse cx="140" cy="470" rx="12" ry="5"/>
++    <ellipse cx="170" cy="470" rx="12" ry="5"/>
++    <ellipse cx="200" cy="470" rx="12" ry="5"/>
++    <ellipse cx="230" cy="470" rx="12" ry="5"/>
++    <ellipse cx="260" cy="470" rx="12" ry="5"/>
++    <ellipse cx="290" cy="470" rx="12" ry="5"/>
++    <ellipse cx="320" cy="470" rx="12" ry="5"/>
++    <ellipse cx="350" cy="470" rx="12" ry="5"/>
++    <ellipse cx="380" cy="470" rx="12" ry="5"/>
++    <ellipse cx="410" cy="470" rx="12" ry="5"/>
++    <ellipse cx="440" cy="470" rx="12" ry="5"/>
++    <ellipse cx="470" cy="470" rx="12" ry="5"/>
++    <ellipse cx="500" cy="470" rx="12" ry="5"/>
++    <ellipse cx="530" cy="470" rx="12" ry="5"/>
++    <ellipse cx="560" cy="470" rx="12" ry="5"/>
++    <ellipse cx="590" cy="470" rx="12" ry="5"/>
++    <ellipse cx="620" cy="470" rx="12" ry="5"/>
++    <ellipse cx="650" cy="470" rx="12" ry="5"/>
++    <ellipse cx="680" cy="470" rx="12" ry="5"/>
++    <ellipse cx="710" cy="470" rx="12" ry="5"/>
++    <ellipse cx="740" cy="470" rx="12" ry="5"/>
++    <ellipse cx="770" cy="470" rx="12" ry="5"/>
++  </g>
++
++  <!-- ===== BICYCLE ===== -->
++  <g filter="url(#shadow)">
++    <!-- Back wheel -->
++    <use href="#wheel" x="280" y="400"/>
++    <!-- Front wheel -->
++    <use href="#wheel" x="520" y="400"/>
++
++    <!-- Frame -->
++    <g stroke="#6b4c30" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
++      <!-- Main triangle -->
++      <line x1="280" y1="400" x2="390" y2="310"/>  <!-- chainstay to bottom bracket -->
++      <line x1="390" y1="310" x2="440" y2="260"/>  <!-- seat tube to seat cluster -->
++      <line x1="390" y1="310" x2="520" y2="400"/>  <!-- down tube to front wheel -->
++      <line x1="280" y1="400" x2="440" y2="260"/>  <!-- seat tube to top tube -->
++      <!-- Fork -->
++      <line x1="520" y1="400" x2="470" y2="280"/>  <!-- fork to head tube -->
++      <!-- Handlebar stem -->
++      <line x1="470" y1="280" x2="460" y2="260"/>
++    </g>
++
++    <!-- Handlebars -->
++    <path d="M445,255 Q460,245 475,255" fill="none" stroke="#6b4c30" stroke-width="4" stroke-linecap="round"/>
++
++    <!-- Seat post -->
++    <line x1="440" y1="260" x2="430" y2="240" stroke="#6b4c30" stroke-width="3"/>
++    <!-- Saddle -->
++    <ellipse cx="425" cy="238" rx="22" ry="7" fill="#5a3e28"/>
++
++    <!-- Pedal crank -->
++    <circle cx="390" cy="310" r="8" fill="#6b4c30"/>
++    <line x1="390" y1="310" x2="375" y2="330" stroke="#6b4c30" stroke-width="3"/>
++    <line x1="390" y1="310" x2="405" y2="290" stroke="#6b4c30" stroke-width="3"/>
++    <!-- Pedals -->
++    <rect x="368" y="326" width="14" height="5" rx="2" fill="#5a3e28"/>
++    <rect x="398" y="286" width="14" height="5" rx="2" fill="#5a3e28"/>
++
++    <!-- Chain -->
++    <path d="M390,318 Q335,370 280,400" fill="none" stroke="#5a4a3a" stroke-width="1.5" stroke-dasharray="3,2"/>
++    <path d="M390,302 Q455,340 520,400" fill="none" stroke="#5a4a3a" stroke-width="1.5" stroke-dasharray="3,2"/>
++  </g>
++
++  <!-- ===== PELICAN ===== -->
++  <g filter="url(#shadow)">
++    <!-- Body -->
++    <ellipse cx="420" cy="195" rx="45" ry="30" fill="#f5f0e8" stroke="#c4a882" stroke-width="1.5"/>
++
++    <!-- Wing (folded, resting on body) -->
++    <path d="M390,185 Q410,170 440,180 Q460,190 445,210 Q420,220 395,210 Z"
++          fill="#e8ddd0" stroke="#c4a882" stroke-width="1"/>
++
++    <!-- Wing detail lines -->
++    <path d="M400,190 Q420,180 440,188" fill="none" stroke="#c4a882" stroke-width="0.8"/>
++    <path d="M398,198 Q418,188 438,196" fill="none" stroke="#c4a882" stroke-width="0.8"/>
++
++    <!-- Neck -->
++    <path d="M455,180 Q475,155 480,135 Q485,115 475,105"
++          fill="none" stroke="#f5f0e8" stroke-width="18" stroke-linecap="round"/>
++    <path d="M455,180 Q475,155 480,135 Q485,115 475,105"
++          fill="none" stroke="#e8ddd0" stroke-width="16" stroke-linecap="round"/>
++
++    <!-- Head -->
++    <ellipse cx="475" cy="100" rx="18" ry="16" fill="#f5f0e8" stroke="#c4a882" stroke-width="1.5"/>
++
++    <!-- Eye -->
++    <circle cx="482" cy="96" r="3" fill="#3a2e22"/>
++    <circle cx="483" cy="95" r="1" fill="#f5f0e8"/>
++
++    <!-- Beak (large pelican bill) -->
++    <path d="M490,95 Q530,90 560,100 Q565,105 555,110 Q530,118 495,108 Z"
++          fill="#e8a040" stroke="#c48030" stroke-width="1"/>
++    <!-- Beak pouch -->
++    <path d="M495,108 Q530,120 555,110 Q550,118 520,122 Q495,118 495,108 Z"
++          fill="#d49030" opacity="0.6"/>
++    <!-- Beak line -->
++    <line x1="490" y1="95" x2="560" y2="100" stroke="#c48030" stroke-width="1"/>
++
++    <!-- Tail feathers -->
++    <path d="M375,190 Q355,185 340,195 Q350,200 365,200 Z" fill="#e8ddd0" stroke="#c4a882" stroke-width="0.8"/>
++    <path d="M378,195 Q358,192 345,202 Q355,208 368,205 Z" fill="#e0d5c5" stroke="#c4a882" stroke-width="0.8"/>
++    <path d="M380,200 Q362,198 350,210 Q360,215 372,212 Z" fill="#d8cdc0" stroke="#c4a882" stroke-width="0.8"/>
++
++    <!-- Legs on pedals -->
++    <!-- Left leg (down pedal) -->
++    <path d="M410,220 Q405,260 395,290 Q388,305 375,328"
++          fill="none" stroke="#d49030" stroke-width="5" stroke-linecap="round"/>
++    <!-- Left foot on pedal -->
++    <ellipse cx="375" cy="328" rx="8" ry="4" fill="#d49030"/>
++
++    <!-- Right leg (up pedal) -->
++    <path d="M415,218 Q420,255 425,285 Q418,298 405,290"
++          fill="none" stroke="#d49030" stroke-width="5" stroke-linecap="round"/>
++    <!-- Right foot on pedal -->
++    <ellipse cx="405" cy="290" rx="8" ry="4" fill="#d49030"/>
++
++    <!-- Arms / wings holding handlebars -->
++    <path d="M445,195 Q460,200 470,210 Q475,220 468,240 Q465,250 460,255"
++          fill="none" stroke="#e8ddd0" stroke-width="6" stroke-linecap="round"/>
++    <!-- Wing tip gripping handlebar -->
++    <ellipse cx="460" cy="255" rx="5" ry="4" fill="#e8ddd0"/>
++
++    <!-- Small hat (vintage postcard style) -->
++    <ellipse cx="475" cy="85" rx="22" ry="4" fill="#5a3e28"/>
++    <path d="M460,85 Q465,65 475,62 Q485,65 490,85 Z" fill="#5a3e28"/>
++    <rect x="462" y="80" width="26" height="5" rx="1" fill="#7a5a3a"/>
++  </g>
++
++  <!-- ===== POSTCARD BORDER & TEXT ===== -->
++  <!-- Outer decorative border -->
++  <rect x="8" y="8" width="784" height="584" fill="none" stroke="#8b7355" stroke-width="3"/>
++  <rect x="14" y="14" width="772" height="572" fill="none" stroke="#a08060" stroke-width="1"/>
++  <!-- Corner ornaments -->
++  <g fill="#8b7355">
++    <path d="M14,30 L14,14 L30,14 Z"/>
++    <path d="M786,30 L786,14 L770,14 Z"/>
++    <path d="M14,570 L14,586 L30,586 Z"/>
++    <path d="M786,570 L786,586 L770,586 Z"/>
++  </g>
++
++  <!-- Postcard text area (right side) -->
++  <rect x="500" y="460" width="280" height="120" fill="#f0e2c8" opacity="0.9" stroke="#a08060" stroke-width="1"/>
++  <!-- Divider line -->
++  <line x1="500" y1="520" x2="780" y2="520" stroke="#a08060" stroke-width="1"/>
++  <!-- Vertical divider -->
++  <line x1="640" y1="460" x2="640" y2="580" stroke="#a08060" stroke-width="1"/>
++
++  <!-- "Greetings from..." text -->
++  <text x="645" y="485" font-family="Georgia, 'Times New Roman', serif" font-size="14" fill="#5a4a3a" font-style="italic">
++    Greetings from
++  </text>
++
++  <!-- Stamp area -->
++  <rect x="510" y="468" width="40" height="45" fill="none" stroke="#a08060" stroke-width="1.5"/>
++  <rect x="513" y="471" width="34" height="39" fill="#e8d5b7" stroke="none"/>
++  <text x="530" y="490" font-family="Georgia, serif" font-size="7" fill="#8b7355" text-anchor="middle">USA</text>
++  <text x="530" y="500" font-family="Georgia, serif" font-size="5" fill="#a08060" text-anchor="middle">1¢</text>
++  <!-- Stamp cancellation marks -->
++  <line x1="515" y1="475" x2="545" y2="505" stroke="#c48030" stroke-width="0.5" opacity="0.5"/>
++  <line x1="545" y1="475" x2="515" y2="505" stroke="#c48030" stroke-width="0.5" opacity="0.5"/>
++
++  <!-- Message lines -->
++  <text x="650" y="485" font-family="Georgia, serif" font-size="9" fill="#8b7355">
++    <tspan x="650" dy="0">A pelican on a bicycle</tspan>
++    <tspan x="650" dy="14">through the city streets.</tspan>
++    <tspan x="650" dy="14">Wish you were here!</tspan>
++  </text>
++
++  <!-- Address lines -->
++  <text x="510" y="535" font-family="Georgia, serif" font-size="8" fill="#a08060">
++    <tspan x="510" dy="0">Dear Friend,</tspan>
++    <tspan x="510" dy="14">Please send postcard.</tspan>
++  </text>
++
++  <!-- Title banner at top -->
++  <rect x="200" y="20" width="400" height="36" fill="#f0e2c8" opacity="0.85" stroke="#8b7355" stroke-width="1.5"/>
++  <text x="400" y="44" font-family="Georgia, 'Times New Roman', serif" font-size="22" fill="#5a4a3a" text-anchor="middle" font-weight="bold">
++    Pelican on a Bicycle
++  </text>
++
++  <!-- Decorative flourishes -->
++  <g fill="none" stroke="#8b7355" stroke-width="1.5">
++    <path d="M195,38 Q200,30 205,38 Q200,46 195,38"/>
++    <path d="M595,38 Q600,30 605,38 Q600,46 595,38"/>
++  </g>
++
++  <!-- Bottom text -->
++  <text x="400" y="570" font-family="Georgia, serif" font-size="11" fill="#8b7355" text-anchor="middle" font-style="italic">
++    ~ A Vintage Postcard Scene ~
++  </text>
++
++</svg>
++"""
++    Path("artifact.svg").write_text(svg, encoding="utf-8")
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/index.html b/index.html
+new file mode 100644
+index 0000000..fa58ccd
+--- /dev/null
++++ b/index.html
+@@ -0,0 +1,15 @@
++<!doctype html>
++<html>
++<head>
++<meta charset="utf-8">
++<title>artifact preview</title>
++<style>
++  html, body { margin: 0; padding: 0; height: 100%; background: #fff; }
++  body { display: flex; align-items: center; justify-content: center; }
++  img { max-width: 92vw; max-height: 92vh; }
++</style>
++</head>
++<body>
++  <img src="artifact.svg" alt="artifact">
++</body>
++</html>

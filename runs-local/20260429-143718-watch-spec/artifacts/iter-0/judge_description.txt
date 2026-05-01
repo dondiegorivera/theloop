@@ -1,0 +1,22 @@
+## Required elements
+- **Circular outer case**: PRESENT — A large circular metallic ring dominates the center of the image, with a visible silver/brass gradient and drop shadow indicating depth.
+- **Crown (winder knob)**: PRESENT — Located at the 12 o'clock position, attached to the case via a stem; it features a ridged texture typical of a winder.
+- **Subtle bezel ring**: PARTIAL — The outer case acts as the bezel, but there is no distinct inner bezel ring separating the case from the dial face; the dial sits directly against the inner edge of the case.
+- **Dial face (white/cream)**: PRESENT — The background of the watch face is a cream/off-white color with subtle radial shading.
+- **12 hour markers**: PARTIAL — Roman numerals are present, but there are no thick/thin lines at 12, 3, 6, 9; instead, the numerals themselves serve as the primary markers.
+- **Roman numerals (I through XII)**: PRESENT — All twelve Roman numerals are visible around the perimeter of the dial.
+- **Minute tick marks**: PARTIAL — Minute ticks are present but appear sparse and irregular rather than a precise 60-tick ring; they are mostly visible near the top and bottom, fading or missing on the sides.
+- **Hour hand (shorter, thicker)**: PRESENT — A dark, broad hand points towards the 10 o'clock position.
+- **Minute hand (longer, thinner)**: PRESENT — A dark, slender hand points towards the 2 o'clock position.
+- **Second hand (thin, red/dark)**: MISSING — There is no visible second hand on the main dial; only a small red dot near the center pivot is visible, but no sweeping hand.
+- **All three hands originating from exact center**: PRESENT — The hour and minute hands clearly pivot from the geometric center of the dial.
+- **Small seconds sub-dial at 6 o'clock**: PRESENT — A circular sub-dial is located at the bottom (6 o'clock) with its own hand pointing roughly to the 7:30 position.
+- **Power reserve indicator at 12 o'clock**: PARTIAL — A sub-dial is present at the top (12 o'clock) labeled "POWER RESERVE", but it displays a needle rather than an arc showing charge percentage.
+- **Movement (visible gears)**: MISSING — The dial is opaque; no gears, balance wheel, or movement components are visible through the caseback or cutaway.
+- **Chain**: MISSING — No chain is attached to the crown; the stem ends at the winder knob.
+- **Metallic/brass color palette**: PRESENT — The case and hands use silver/grey metallic tones with subtle shading.
+- **Clean line art/subtle shading**: PRESENT — The image uses gradients and shadows to create a realistic 3D appearance rather than flat vector lines.
+- **Valid XML/SVG**: MISSING — The artifact is provided as an image (PNG/JPG), not as SVG code, so it cannot be parsed as valid XML.
+
+## Other observations
+The artifact depicts a high-quality, photorealistic rendering of a wristwatch or pocket watch face rather than a vector illustration. It lacks the "mechanical" aesthetic requested by showing internal gears and instead presents a clean, closed dial. The text on the dial reads "CHR...MAT GENEVE AUTOMATIC - 17 JEWELS," which contradicts the "Mechanical Pocket Watch" title (automatic watches are self-winding mechanical, but the visual cues like the lack of a chain and the specific layout lean towards a wristwatch style). The image is centered and well-composed but fails to meet the structural requirements for an SVG output or the specific internal visibility constraints.

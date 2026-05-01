@@ -1,0 +1,25 @@
+## Required elements
+- **Circular outer case**: PRESENT — A large circular gold/brass casing surrounds the dial, centered in the frame.
+- **Metallic gradient fill**: PRESENT — The case exhibits a radial gradient simulating brass/metallic sheen.
+- **Crown (winder knob)**: PRESENT — Located at the 12 o'clock position, attached to the case.
+- **Short stem**: PRESENT — A short vertical connector links the crown to the main case body.
+- **Subtle bezel ring**: PRESENT — A distinct raised rim is visible around the outer edge of the dial.
+- **White/cream-colored dial face**: PARTIAL — The top half (12 o'clock area) has a cream background, but the bottom half is obscured by the cutaway movement window, which has a dark metallic background.
+- **12 hour markers (thick at 12,3,6,9)**: PRESENT — Thick lines are visible at 12, 3, and 9 o'clock positions. The 6 o'clock position is obscured by the sub-dial/window boundary but implied.
+- **Thinner lines at other hours**: PARTIAL — Thinner lines are visible at 1, 2, 4, 5, 7, 8, 10, 11 on the upper dial. The lower positions (6, 7, 8) are obscured by the cutaway window.
+- **Roman numerals (I through XII)**: PRESENT — Numerals I through XII are visible around the perimeter of the upper dial. 'IV' is clearly visible at 4 o'clock.
+- **Minute tick marks (60 ticks)**: PARTIAL — Minute ticks are clearly visible and distinct along the outer edge of the *upper* half of the dial. The lower half's ticks are obscured by the cutaway window.
+- **Hour hand (shorter, thicker) at 10**: PRESENT — A thick black hand points towards the 10 o'clock position.
+- **Minute hand (longer, thinner) at 2**: PRESENT — A long thin black hand points towards the 2 o'clock position.
+- **Second hand (thin, red/dark) near 7**: PARTIAL — A thin red hand is visible pointing roughly towards the 7 o'clock position, but it appears to originate from the center and pass *behind* or through the cutaway window elements, making its exact tip position slightly ambiguous against the dark background.
+- **Hands originating from center**: PRESENT — All three hands pivot from the exact center of the dial.
+- **Small seconds sub-dial at 6 o'clock**: PRESENT — A small white dial labeled "SECONDS" is located in the lower half, containing a tiny hand.
+- **Power reserve indicator at 12 o'clock**: PRESENT — A small dial labeled "PWR RESERVE" is located at the top, showing an arc indicating charge.
+- **Cutaway window (bottom half)**: PRESENT — The bottom half of the watch face is transparent/open, revealing internal gears against a dark background.
+- **At least 3 visible gears**: PRESENT — Multiple gears of varying sizes are visible in the cutaway area (e.g., large gear at 8 o'clock, medium at 4 o'clock).
+- **Gears with teeth**: PRESENT — Gear teeth are clearly rendered on the visible gears.
+- **Balance wheel near bottom-right**: PARTIAL — A circular component resembling a balance wheel is visible in the bottom right area (near 5 o'clock), though it looks more like a decorative gear than a traditional balance wheel assembly.
+- **Chain (3-4 links)**: PRESENT — A short chain with approximately 4 links extends upward from the crown.
+
+## Other observations
+The artifact is a high-quality SVG illustration of a pocket watch. The cutaway design is creative but results in the bottom half of the dial (including part of the minute track and hour markers) being visually occluded by the movement window, which technically violates the requirement for "60 ticks" and "12 hour markers" to be fully visible as distinct elements on the dial face itself. The time setting is correctly 10:10. The style is realistic with metallic shading.

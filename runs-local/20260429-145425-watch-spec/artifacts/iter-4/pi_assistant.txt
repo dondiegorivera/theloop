@@ -1,0 +1,17 @@
+I can see the SVG structure clearly. Let me make the three required changes:
+
+1. **Hour hand** — currently unrotated (pointing at 12); add `rotate(300,400,400)` for the 10 o'clock position.
+2. **Minute hand** — currently unrotated (pointing at 12); add `rotate(60,400,400)` for the 2 o'clock position.
+3. **Balance wheel assembly** — new group in the bottom-right movement area (~570, 570).
+
+Let me verify the changes are correct:
+
+All changes are complete and verified. Here's a summary:
+
+| Change | Detail |
+|---|---|
+| **Hour hand** | Added `transform="rotate(300,400,400)"` — points to 10 o'clock (300° from 12) |
+| **Minute hand** | Added `transform="rotate(60,400,400)"` — points to 2 o'clock (60° from 12) |
+| **Balance wheel** | New `<g id="balance-wheel">` at (570, 570) in the bottom-right movement area, containing: brass rim with spokes, ruby center jewel, a blue hairspring spiral, fork, and stud |
+| **XML validity** | Confirmed via `xml.etree.ElementTree` — all tags properly closed, all attributes quoted |
+| **Unchanged elements** | Second hand, center pin, gears, numerals, sub-dials, case, and all other elements left untouched |

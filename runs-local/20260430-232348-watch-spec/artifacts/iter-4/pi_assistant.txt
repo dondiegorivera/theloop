@@ -1,0 +1,58 @@
+Let me examine the current code structure and identify the specific issues to fix.
+
+Now I have a clear picture of the code. Let me identify and fix the three issues:
+
+1. **Chain**: Uses arc-based ovals that don't properly interlock; positions need adjustment for overlap
+2. **Power reserve**: Arc math looks correct (216°), but let me verify the visual clarity
+3. **6 o'clock marker**: Drawn before sub-dials, so the sub-dial covers it
+
+Let me make all three fixes:
+
+Now update the chain positions for proper interlocking overlap:
+
+Now fix the 6 o'clock marker visibility by drawing it AFTER the sub-dials:
+
+Now add the 6 o'clock marker after the sub-dials so it appears on top:
+
+Now let's run the script and validate:
+
+Let me verify the key sections of the generated SVG:
+
+The chain links have too much gap between them. Let me tighten the positions for proper interlocking:
+
+The chain links still have too much gap. Let me recalculate with tighter spacing and more gradual angle changes for proper interlocking:
+
+Let me verify all three fixes in the SVG:
+
+All three fixes are verified in the SVG:
+
+1. **Chain**: 4 interlocking ellipse links with proper overlap (centers spaced ~12px, angles -20° to -50°)
+2. **Power reserve**: 216° red arc from (280,186.5) to (320,186.5) + needle at (316.2, 185.3)
+3. **6 o'clock marker**: Thick line `stroke-width="2.5"` drawn after sub-dials
+4. **Valid XML**: Confirmed
+
+Let me do a final comprehensive validation:
+
+All acceptance criteria verified. Let me do a final review of the key changes in the source:
+
+All three fixes are confirmed in place. Here's a summary of the changes made to `generate_artifact.py`:
+
+### Changes Made
+
+**1. Chain — Interlocking ovals anchored to crown** (lines 120-133, 213-224)
+- Replaced arc-based `chain_link()` with proper `<ellipse>` elements using SVG `transform="rotate(...)"` for correct oval geometry
+- Recalculated 4 link positions so centres are ~12px apart (≈60% of link length), creating ~2px overlap between adjacent links
+- Angles change gradually (-20° → -30° → -40° → -50°) for a natural curve
+- First link anchored at crown stem position (300, 88)
+
+**2. Power reserve — 216° arc with needle** (verified, already correct)
+- Arc from -108° to +108° clockwise = 216° (60% charge) in dark red (#8b1a1a)
+- Remaining 144° arc in gold (#c4a84a)
+- Needle pointing to arc endpoint at +108°
+
+**3. 6 o'clock marker — thick and distinct** (lines 389-395, 483-484)
+- Skipped in the 12-marker loop (`if i == 6: continue`)
+- Drawn separately after both sub-dials so it renders on top
+- Thick line (stroke-width=2.5) at 6 o'clock position
+
+**Result**: Valid XML SVG, all acceptance criteria met.

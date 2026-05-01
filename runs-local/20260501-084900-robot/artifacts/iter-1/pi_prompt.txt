@@ -1,0 +1,50 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 10
+score_threshold: 0.99
+no_improvement_for: 5
+---
+
+# Pelican on a bicycle with city behind, postcard
+
+An svg image of a pelican riding a bicycle with a city skyline in the background, styled as a postcard
+
+## Iteration history
+- iter 0: Resolved contradiction between title and body by prioritizing the detailed body description (Victorian robot in cafe) while incorporating stylistic elements from the title (postcard frame, city background) to maximize coverage of user intent.
+- iter 1: Replaced Victorian robot body description with pelican on bicycle to resolve contradiction and address missing subject critique.
+
+## Iteration directive
+Goal: Update `generate_artifact.py` to replace the Victorian robot with a pelican riding a bicycle, ensuring the city skyline and postcard frame remain, then regenerate `artifact.svg`.
+
+Context: The previous iteration attempted to fix a contradiction between the title ("Pelican on a bicycle") and the body ("Victorian robot"). The current spec requires a pelican on a bicycle with a city background, styled as a postcard. The current `artifact.svg` likely still contains the robot or is malformed from the previous attempt.
+
+Instructions:
+1.  **Inspect `generate_artifact.py`**: Use `rg` or `sed -n` to find the section defining the main subject (the robot). Do not read the entire file if it is large.
+2.  **Edit `generate_artifact.py`**:
+    *   Replace the Victorian robot description/geometry with a **pelican riding a bicycle**.
+    *   Ensure the pelican is clearly identifiable (beak, pouch, wings).
+    *   Ensure the bicycle is clearly identifiable (wheels, frame, handlebars, pedals).
+    *   Retain the **city skyline** in the background.
+    *   Retain the **postcard frame** styling (border, perhaps a postmark or stamp area).
+    *   Ensure all SVG tags are properly closed and attributes quoted.
+3.  **Run the generator**: Execute `python generate_artifact.py` to produce the new `artifact.svg`.
+4.  **Verify**:
+    *   Check that `artifact.svg` exists and is valid XML.
+    *   Use `grep` to confirm the presence of key elements like "pelican", "bicycle", "city", or "postcard" if they are in the source code, or visually inspect `artifact_preview.png` if available (though pi cannot see images, it can check for expected SVG structure).
+    *   Ensure no absolute paths are used in the generator script.
+
+Acceptance Criteria:
+*   `artifact.svg` is generated and parses as valid XML.
+*   The main subject is a pelican riding a bicycle.
+*   A city skyline is visible in the background.
+*   The image has a postcard-style frame.
+*   No Victorian robot elements remain.
+*   `generate_artifact.py` uses relative paths only.
+
+Use **relative paths only** for `read` / `write` / `edit` / `create` (e.g. `artifact.svg`, not `/abs/path/artifact.svg`); pi's working directory is the workspace root.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration.

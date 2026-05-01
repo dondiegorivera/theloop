@@ -1,0 +1,45 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 5
+score_threshold: 0.95
+no_improvement_for: 2
+---
+
+# A capybara wearing a kimono drinking matcha tea
+Create svg image of a capybara wearing a kimono drinking matcha tea
+
+## Iteration history
+- iter 0: Draw the capybara, kimono, and matcha tea → Establish the core subject and composition.
+- iter 1: Adjust head posture and bowl placement to clearly depict sipping → Fix the ambiguous drinking action by tilting the capybara's head downward and positioning the bowl rim against the lips.
+- iter 2: Reshape the capybara's head and body to match its distinct anatomy → Fix the PARTIAL classification by giving it a wider, blunter head with a flatter top and a barrel-like body.
+
+## Iteration directive
+Reshape the capybara's head to be wider and blunter with a flatter top, and widen the body to reflect its characteristic barrel-like proportions in `generate_artifact.py`.
+
+**Goal:** Update the SVG generation script so the capybara clearly reads as a capybara (not a generic rodent or bear) by correcting its anatomy: a wide, blunt head with a flat top and a barrel-shaped body.
+
+**Instructions:**
+1.  **Edit `generate_artifact.py`**: Locate the code defining the capybara's head and body shapes.
+    *   **Head**: Modify the path or shape parameters to make the head significantly wider and blunter. Ensure the top of the head is flatter, not rounded like a bear or mouse. The snout should be short and blunt.
+    *   **Body**: Widen the body shape to create a "barrel-like" proportion. The body should look robust and heavy-set, not slender.
+2.  **Run the generator**: Execute `python generate_artifact.py` to regenerate `artifact.svg`.
+3.  **Verify**: Check that `artifact.svg` is valid XML and that the visual changes are present. Use `grep` or a quick visual check of the generated file if necessary, but do not read the entire file.
+
+**Acceptance Criteria:**
+*   The capybara's head is wide, blunt, and has a flat top.
+*   The capybara's body is wide and barrel-shaped.
+*   The kimono and matcha tea elements remain intact and correctly positioned.
+*   `artifact.svg` parses as valid XML.
+*   No changes to `index.html` or `README.md`.
+
+**Constraints:**
+*   Use **relative paths only** for all file operations.
+*   Do not install packages or create preview PNGs.
+*   Do not read the full `artifact.svg` file; it is large. Edit the generator script instead.
+*   Keep the edit focused on the capybara's anatomy.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration. Use relative paths only, including inside bash commands; pi already runs from the workspace root, so do not `cd` to or reference `/src/...`, `/tmp/...`, or any other absolute workspace path.

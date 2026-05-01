@@ -1,0 +1,69 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 10
+score_threshold: 0.9
+no_improvement_for: 5
+---
+# Mechanical Pocket Watch
+
+Draw a detailed mechanical pocket watch, viewed from the front, centered in a 600×600 viewBox. The watch must include ALL of the following:
+
+## Case & Crown
+- A circular outer case (radius ~200) with a metallic gradient fill
+- A crown (winder knob) at the top (12 o'clock position) attached to a short stem that extends into the case
+- A subtle bezel ring around the outer edge
+
+## Dial
+- A white or cream-colored dial face (radius ~170)
+- 12 hour markers: thick lines at 12, 3, 6, 9 o'clock; thinner lines at the other hours
+- Roman numerals (I through XII) positioned just inside the hour markers
+- Minute tick marks around the outer edge of the dial (60 ticks, every 6°)
+
+## Hands
+- An hour hand (shorter, thicker) pointing near the 10 o'clock position
+- A minute hand (longer, thinner) pointing near the 2 o'clock position
+- A thin second hand (red or dark) pointing near the 7 o'clock position
+- All three hands originating from the exact center of the dial
+
+## Sub-dials
+- A small seconds sub-dial at the 6 o'clock position (radius ~30) with its own tiny hand
+- A power reserve indicator sub-dial at the 12 o'clock position (radius ~25) with an arc showing ~60% charge
+
+## Movement (visible through caseback or cutaway)
+- At least 3 visible gears of different sizes with teeth, positioned below the dial area (bottom half of the watch)
+- The gears should overlap realistically and show different sizes (large, medium, small)
+- A balance wheel visible near the bottom-right of the movement area
+
+## Chain
+- A short chain (3-4 links) attached to the crown, curving upward and outward from the top of the watch
+
+## Style
+- Metallic/brass color palette for the case and gears
+- Clean line art with subtle shading
+- The entire composition must be centered and balanced
+- The SVG must parse as valid XML
+
+The result should look like a realistic, detailed illustration of a vintage mechanical pocket watch — not a cartoon or simplified icon.
+
+## Iteration history
+- iter 0: Render the complete mechanical pocket watch illustration, drawing the circular case, crown, dial with Roman numerals and tick marks, three hands, two sub-dials, visible movement gears, and chain into a centered 600×600 viewBox. → Establish the complete watch illustration as the baseline for scoring.
+
+## Iteration directive
+Goal: Create a detailed, realistic mechanical pocket watch illustration in `artifact.svg` within a 600x600 viewBox, featuring a brass case, Roman numeral dial, three hands, two sub-dials, visible gears, and a chain.
+
+File: `artifact.svg` (overwrite completely).
+
+Requirements:
+1. **Structure**: Valid XML. All tags closed, attributes quoted. Centered in 600x600.
+2. **Case**: Outer circle r=200, metallic/brass gradient. Subtle bezel ring. Crown at 12 o'clock with short stem entering case.
+3. **Dial**: Cream/white face r=170. 60 minute ticks (every 6°). 12 hour markers (thick at 12,3,6,9; thin others). Roman numerals I-XII inside markers.
+4. **Hands**: Originating at center (300,300). Hour hand (short/thick) near 10. Minute hand (long/thin) near 2. Second hand (thin/red) near 7.
+5. **Sub-dials**: Small seconds at 6 o'clock (r=30) with tiny hand. Power reserve at 12 o'clock (r=25) with arc showing ~60% charge.
+6. **Movement**: Bottom half visible. 3+ gears of different sizes with teeth, overlapping realistically. Balance wheel near bottom-right.
+7. **Chain**: 3-4 links attached to crown, curving up/out.
+8. **Style**: Brass palette, clean line art, subtle shading. Realistic, not cartoonish.
+
+Use **relative paths only** for `read` / `write` / `edit` (e.g. `artifact.svg`, not `/abs/path/artifact.svg`); pi's working directory is the workspace root.

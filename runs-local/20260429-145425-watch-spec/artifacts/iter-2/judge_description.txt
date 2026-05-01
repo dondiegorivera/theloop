@@ -1,0 +1,26 @@
+## Required elements
+
+- **Circular outer case**: PRESENT — A large circular gold/brass ring dominates the center, appearing to have a radius of approximately 200 pixels relative to the dial center.
+- **Metallic gradient fill (case)**: PRESENT — The outer ring displays a radial gradient simulating brass or gold reflection.
+- **Crown**: PARTIAL — A loop is visible at the top (12 o'clock), but it appears as a simple ring without a distinct "winder knob" texture or stem extending into the case.
+- **Stem**: MISSING — There is no visible short stem connecting the crown to the internal mechanism; the loop sits directly on the outer rim.
+- **Subtle bezel ring**: PRESENT — A thin, slightly raised metallic ring separates the outer case from the dial face.
+- **Dial face (white/cream)**: PRESENT — The background is a cream color with a subtle guilloche pattern.
+- **12 hour markers**: PARTIAL — Roman numerals are present, but there are no thick lines at 12/3/6/9 or thin lines elsewhere; the numerals serve as the only markers.
+- **Roman numerals (I-XII)**: PRESENT — All twelve numerals are visible in a serif font around the dial perimeter.
+- **Minute tick marks**: PARTIAL — Faint, short radial lines are visible near the edge, but they do not appear to be 60 distinct ticks; they look like a decorative ring rather than precise minute markers.
+- **Hour hand (shorter, thicker)**: PRESENT — A dark blue/black spade-style hand points directly at the 12 o'clock position.
+- **Minute hand (longer, thinner)**: MISSING — There is no second long hand pointing near the 2 o'clock position; only one main hour hand and a small seconds hand are visible.
+- **Second hand (thin, red/dark)**: PRESENT — A thin red hand is visible on the sub-dial at the bottom, but there is no central second hand originating from the center of the dial.
+- **Hands originating from exact center**: PARTIAL — The main hands originate from the center, but the lack of a minute hand makes the "three hands" requirement fail.
+- **Small seconds sub-dial (6 o'clock)**: PRESENT — A small circular dial is located at the 6 o'clock position with its own red hand.
+- **Power reserve indicator (12 o'clock)**: MISSING — The area at 12 o'clock contains the Roman numeral XII and text; there is no distinct arc sub-dial or graphical charge indicator.
+- **Movement gears (bottom half, y > 400)**: MISSING — The bottom half of the watch face is obscured by the dial and sub-dials; no gears are visible through a cutaway or caseback.
+- **Balance wheel**: MISSING — No balance wheel is visible in the movement area.
+- **Chain (3-4 links)**: PRESENT — A gold chain with approximately 3-4 visible oval links extends upward from the crown loop.
+- **Metallic/brass color palette**: PRESENT — The case and chain are rendered in gold/brass tones.
+- **Valid XML/SVG**: PRESENT — The artifact is an SVG image file.
+
+## Other observations
+
+The artifact depicts a pocket watch but fails to meet the complexity of the "Mechanical" specification. It lacks the internal movement visibility entirely, presenting as a solid dial rather than a cutaway view. The timekeeping hands are incomplete (missing minute hand and central second hand), and the power reserve indicator is absent. The Roman numerals are present, but the specific requirement for thick/thin lines at cardinal points was not implemented.

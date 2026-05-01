@@ -1,0 +1,29 @@
+Goal: Update `artifact.svg` to reveal the internal movement gears by making the dial’s lower half semi-transparent or clipped, and replace the single-loop crown attachment with 3-4 distinct interlocking oval links.
+
+Files to edit:
+- `artifact.svg`
+
+Files to leave alone:
+- `index.html`
+- `README.md`
+
+Concrete changes:
+1. **Dial Transparency/Clipping**:
+   - Locate the SVG element(s) representing the dial face (likely a `<circle>` or `<path>` covering the center).
+   - If the dial is a single solid shape, apply `opacity="0.5"` to its lower half. To do this cleanly, split the dial into two parts (upper and lower) or use a `<clipPath>` that masks the lower half with reduced opacity.
+   - Ensure the gears underneath (likely in a group with lower z-index or earlier in the DOM) are fully visible through this new transparent section.
+   - Verify that the upper half of the dial remains opaque (or retains its original styling) to maintain the watch face structure.
+
+2. **Crown Attachment Redesign**:
+   - Locate the current crown attachment element (likely a single `<path>` or `<circle>` near the top-right of the dial, representing the crown stem).
+   - Remove the single loop.
+   - Replace it with 3-4 distinct oval shapes (use `<ellipse>` or `<path>` with elliptical arcs) that interlock or overlap slightly to simulate a chain or link structure.
+   - Position these ovals to connect the crown knob to the case body, ensuring they look like mechanical links.
+   - Style the new links with appropriate stroke/fill to match the existing metallic aesthetic (e.g., silver/gold tones).
+
+Acceptance Criteria:
+- The SVG must parse as valid XML. All tags must be closed, and all attributes must be quoted.
+- The lower half of the dial must be semi-transparent or clipped, revealing the gear mechanism underneath.
+- The crown attachment must consist of 3-4 distinct interlocking oval links, not a single loop.
+- No other elements in the SVG should be unintentionally altered.
+- The overall composition should remain balanced and visually coherent.

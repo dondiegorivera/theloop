@@ -1,0 +1,11 @@
+## Required elements
+- **Case & Crown**: MISSING — The artifact is a blank white canvas with a small central text label "edit artifact.svg". No circular case, metallic gradient, or crown is visible.
+- **Dial**: MISSING — No dial face, hour markers, Roman numerals, or minute tick marks are present in the image.
+- **Hands**: MISSING — No hour, minute, or second hands are visible.
+- **Sub-dials**: MISSING — No small seconds sub-dial or power reserve indicator is rendered.
+- **Movement (Gears)**: MISSING — No gears, teeth, or balance wheel are visible in the bottom half or anywhere else.
+- **Chain**: MISSING — No chain links attached to a crown are present.
+- **Style/Composition**: MISSING — The image does not depict a mechanical pocket watch; it is a blank placeholder.
+
+## Other observations
+The artifact provided is effectively empty of the requested content. It appears to be a rendering error or a placeholder where the SVG file failed to generate its visual elements, leaving only a filename label in the center. Consequently, none of the structural requirements for the mechanical pocket watch are met. The image consists solely of a white background and the text "edit artifact.svg".

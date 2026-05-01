@@ -1,0 +1,12 @@
+I can see the SVG already has both a chain and Roman numerals, but there's a **duplicate `id="romanNumerals"` group** which makes the SVG invalid XML. Let me fix that by removing the second duplicate group.
+
+Now let me verify the SVG is valid XML:
+
+Let me also verify the key elements are present:
+
+All acceptance criteria are met:
+
+- **Chain**: The `#crownChain` group is attached to the crown with 7 chain links and 3 rings (attachment loop + decorative end ring), styled with `#b8a478` to match the crown's gold/brass aesthetic.
+- **Roman numerals**: All 12 numerals (I–XII) are present, evenly spaced in a circle around the dial face, using Georgia serif font at size 13 with `#2a3a5a` (blued steel) fill color matching the hour markers.
+- **Valid XML**: The SVG parses without errors. The duplicate `id="romanNumerals"` group has been removed.
+- **No other files modified**: Only `artifact.svg` was edited.

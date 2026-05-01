@@ -1,0 +1,23 @@
+The minute ticks are 59 instead of 60 — the 0-degree tick is missing. Let me fix that:
+
+All done. Here's the summary:
+
+**`generate_artifact.py`** — Programmatically generates the full pocket watch SVG with:
+- **Defs**: 3 gradients (brass, silver, dial) + drop shadow filter
+- **Chain**: 5 brass links with curved paths at the top
+- **Crown & Stem**: Silver stem with brass crown detail
+- **Outer Case**: Brass circle r=200 with bezel rings
+- **Dial**: Cream gradient circle r=170 with:
+  - **60 minute ticks** (generated via loop, 6° increments)
+  - **12 hour ticks** (generated via loop, 30° increments)
+  - **12 Roman numerals** (XII through XI)
+  - **Power Reserve** sub-dial at 12 o'clock
+  - **Small Seconds** sub-dial at 6 o'clock
+  - **Hour hand** (near 10), **Minute hand** (near 2), **Second hand** (red, near 7)
+- **Movement**: Cutaway section with 3 gears and a balance wheel
+
+**Verification**:
+- ✅ `artifact.svg` is valid XML (13,060 bytes)
+- ✅ All 13 required `<g>` groups present
+- ✅ 60 minute ticks, 12 hour ticks, all 12 numerals
+- ✅ All gradients and filters defined

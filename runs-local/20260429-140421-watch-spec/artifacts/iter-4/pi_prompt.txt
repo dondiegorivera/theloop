@@ -1,0 +1,16 @@
+Goal: Update `artifact.svg` to increase gear opacity, correct the second hand rotation to 210°, and ensure the chain is attached to the crown.
+
+Files to edit: `artifact.svg`
+Files to leave alone: `index.html`, `README.md`
+
+Concrete changes:
+1. **Movement Gears Opacity**: Locate all SVG elements representing the movement gears (likely `<circle>`, `<path>`, or `<g>` elements with classes or IDs related to gears). Set their `opacity` attribute to `0.8` or higher. If they are nested in a group with opacity, adjust the group or individual elements to ensure the final rendered opacity is at least 0.8.
+2. **Second Hand Rotation**: Find the SVG element representing the second hand (likely a `<line>`, `<path>`, or `<g>`). Apply a rotation transform of exactly `210` degrees. Ensure the rotation origin is correct (likely the center of the clock face, e.g., `transform="rotate(210, cx, cy)"` where `cx` and `cy` are the center coordinates). Verify the hand points to the 7 o'clock position.
+3. **Chain Attachment**: Locate the chain element(s) and the crown element. Ensure the chain is visually connected to the crown. This may involve adjusting the `d` attribute of the chain path, changing the `x`/`y` coordinates of the chain start/end points, or modifying the crown's position to align with the chain. The chain must appear attached, not floating or disconnected.
+
+Acceptance criteria:
+- The SVG parses as valid XML (all tags closed, attributes quoted).
+- Movement gears have an opacity of at least 0.8.
+- The second hand is rotated exactly 210° and points to 7 o'clock.
+- The chain is rendered attached to the crown.
+- No other elements are unintentionally modified.

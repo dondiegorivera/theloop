@@ -1,0 +1,30 @@
+Now I'll enhance the generator with richer textures, better lighting consistency, and more Victorian atmosphere.
+
+Done. The SVG has been regenerated with significant aesthetic enhancements:
+
+**Gradients & Textures:**
+- Added `brassHL` and `polished` gradients for metallic catch-lights
+- Enriched all brass/copper/wood gradients with more stops for smoother transitions
+- Added wood grain variation to the table top
+
+**Lighting Consistency (upper-left window source):**
+- Added directional highlights on every metallic surface (head, chest, arms, legs, joints, gears)
+- Window light cone on the floor
+- Catch-light edges on the table, cup, and hat
+- Enhanced lamp glow with brighter bulb cores
+
+**Shadows & Depth:**
+- Added `softShadow` filter for smaller elements
+- Enhanced main `shadow` filter with softer blur
+- Added fold shadow on newspaper, inner shadows on face plate and picture frame
+- Deeper vignette for cinematic framing
+
+**Victorian Atmosphere:**
+- Window sill, distant building silhouettes through window
+- Damask-inspired wallpaper pattern detail
+- Inner panel highlights on wainscoting
+- Gauge markings on the pressure gauge
+- Hat crown highlight and gold trim detail
+- Leaf highlights on the plant
+- More voluminous, layered steam effects
+- Background blur filter on patron silhouettes

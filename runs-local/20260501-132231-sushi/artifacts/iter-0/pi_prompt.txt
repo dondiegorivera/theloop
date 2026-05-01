@@ -1,0 +1,45 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 5
+score_threshold: 0.95
+no_improvement_for: 2
+---
+
+# A sushi roll wearing sunglasses driving a go-kart
+Create svg image of a sushi roll wearing sunglasses driving a go-kart
+
+## Iteration history
+- iter 0: Render a clear, recognizable sushi roll positioned as the driver inside a go-kart, ensuring it is visibly wearing sunglasses. → Establish the core composition with all named elements visible.
+
+## Iteration directive
+Goal: Update `generate_artifact.py` to render a clear, recognizable sushi roll wearing sunglasses, positioned as the driver inside a go-kart, and generate `artifact.svg`.
+
+**Subject & Composition:**
+1.  **Go-Kart:** Draw a simple, recognizable go-kart chassis with four wheels (two front, two rear). Include a steering wheel and a seat area. The kart should be facing slightly right or straight on.
+2.  **Sushi Roll:** Place a maki-style sushi roll (cylindrical, wrapped in nori/seaweed with visible rice and filling like cucumber or crab) in the driver's seat. It should look like it's holding the steering wheel.
+3.  **Sunglasses:** Draw a pair of dark, stylish sunglasses on the front face of the sushi roll.
+
+**Implementation Details:**
+- Edit `generate_artifact.py`. Do not write `artifact.svg` directly.
+- Use standard SVG elements (`<rect>`, `<circle>`, `<path>`, `<ellipse>`, `<g>`).
+- Ensure the sushi roll is distinct from the kart background.
+- The sunglasses should be clearly visible on the sushi.
+- The sushi should be positioned behind the steering wheel.
+- Use relative paths only.
+
+**Acceptance Criteria:**
+- `python generate_artifact.py` runs without errors.
+- `artifact.svg` is valid XML (well-formed tags, quoted attributes).
+- The SVG contains a go-kart, a sushi roll, and sunglasses.
+- The sushi roll is visually positioned as the driver.
+
+**Constraints:**
+- Do not touch `index.html` or `README.md`.
+- Do not install packages.
+- Use **relative paths only** for `read` / `write` / `edit` and inside `bash` commands; pi's working directory is the workspace root, so run `python generate_artifact.py`, not `cd /abs/path && python ...`.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration. Use relative paths only, including inside bash commands; pi already runs from the workspace root, so do not `cd` to or reference `/src/...`, `/tmp/...`, or any other absolute workspace path.

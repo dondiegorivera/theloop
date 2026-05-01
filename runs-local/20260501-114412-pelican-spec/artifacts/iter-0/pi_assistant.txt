@@ -1,0 +1,18 @@
+The spoke generation has a bug. Let me fix the script properly:
+
+Done. `artifact.svg` has been generated and verified as valid XML. Here's what it contains:
+
+**Bicycle:**
+- Two wheels (r=40) at rear (120,200) and front (280,200) with 8 spokes each
+- Red frame with seat tube, top tube, down tube, chain stay, seat stay, and fork
+- Saddle, handlebars, crankset with two pedals at different positions
+
+**Pelican:**
+- Large cream-colored body over the saddle
+- Curved neck leaning forward toward handlebars
+- Head with eye, long yellow beak, and orange throat pouch
+- Tail feathers and folded wing on body
+- Orange legs reaching down to both pedals (feet positioned on pedal surfaces)
+- Wings reaching forward to grip the handlebars
+
+**Style:** Flat colors on a light green background with a ground line.

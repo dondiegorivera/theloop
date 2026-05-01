@@ -1,0 +1,15 @@
+I can see the SVG has a `charge-arc` sub-dial at 12 o'clock which is the power reserve indicator. It contains one `<text>` element showing "60%". I'll remove that text element while preserving the graphical arc.
+
+Let me verify the edit and confirm the SVG is still valid:
+
+Done. Here's a summary of the changes:
+
+**Removed:** The `<text>` element showing "60%" from the `charge-arc` (power reserve) sub-dial group at 12 o'clock.
+
+**Preserved:** All graphical elements of the power reserve sub-dial — the outer ring, inner recess, background track, and the green arc (`stroke="#27ae60"`) remain untouched.
+
+**Verification:**
+- SVG parses as valid XML ✅
+- No `<text>` elements remain in the `charge-arc` group ✅
+- The 12 remaining `<text>` elements are all Roman numerals on the main dial (unrelated) ✅
+- The green charge arc is intact with its original position, color, and width ✅

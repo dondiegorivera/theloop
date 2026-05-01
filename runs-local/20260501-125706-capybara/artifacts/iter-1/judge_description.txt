@@ -1,0 +1,8 @@
+## Required elements
+- **Capybara**: PARTIAL — The subject is a brown, four-legged mammal with small round ears and a blunt snout, but it lacks the distinct blocky head shape and large body proportions characteristic of a capybara; it visually resembles a bear or generic rodent.
+- **Kimono**: PRESENT — The figure wears a red garment with wide sleeves and a yellow sash (obi) tied at the waist, consistent with kimono styling.
+- **Matcha tea**: PRESENT — A bowl containing green liquid with visible steam rising from it is held in front of the subject.
+- **Drinking action**: PRESENT — The capybara's head is tilted downward and its mouth is positioned directly against the rim of the bowl, clearly depicting the act of sipping.
+
+## Other observations
+The composition is centered and symmetrical with a soft beige background featuring faint bamboo stalks and falling petals. The rendering style is flat vector art with simple shading. There are no visible defects in the SVG structure or text legibility (no text present). The subject's anatomy is stylized but coherent, with paws gripping the bowl appropriately.

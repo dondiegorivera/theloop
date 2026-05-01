@@ -1,0 +1,67 @@
+diff --git a/artifact.svg b/artifact.svg
+index e4cab53..16c1804 100644
+--- a/artifact.svg
++++ b/artifact.svg
+@@ -132,30 +132,20 @@
+     <rect x="187" y="51" width="26" height="2" rx="1" fill="#e8e8e8" opacity="0.6"/>
+   </g>
+ 
+-  <!-- ==================== CHAIN ==================== -->
++  <!-- ==================== CROWN LINKS (interlocking oval chain) ==================== -->
+   <g filter="url(#softShadow)">
+-    <!-- Chain connector at crown (attached to crown top at y=50) -->
+-    <circle cx="200" cy="50" r="3" fill="none" stroke="url(#chainGrad)" stroke-width="2"/>
+-    <!-- Chain links going up to ring -->
+-    <circle cx="200" cy="44" r="2.5" fill="none" stroke="url(#chainGrad)" stroke-width="1.5"/>
+-    <circle cx="200" cy="38" r="2.5" fill="none" stroke="url(#chainGrad)" stroke-width="1.5"/>
+-    <!-- Chain links extending left -->
+-    <circle cx="194" cy="34" r="2.5" fill="none" stroke="url(#chainGrad)" stroke-width="1.5"/>
+-    <circle cx="188" cy="32" r="2.5" fill="none" stroke="url(#chainGrad)" stroke-width="1.5"/>
+-    <circle cx="182" cy="34" r="2.5" fill="none" stroke="url(#chainGrad)" stroke-width="1.5"/>
+-    <!-- Chain links extending right -->
+-    <circle cx="206" cy="34" r="2.5" fill="none" stroke="url(#chainGrad)" stroke-width="1.5"/>
+-    <circle cx="212" cy="32" r="2.5" fill="none" stroke="url(#chainGrad)" stroke-width="1.5"/>
+-    <circle cx="218" cy="34" r="2.5" fill="none" stroke="url(#chainGrad)" stroke-width="1.5"/>
+-    <!-- Chain connecting lines -->
+-    <line x1="200" y1="50" x2="200" y2="44" stroke="url(#chainGrad)" stroke-width="1.5"/>
+-    <line x1="200" y1="44" x2="200" y2="38" stroke="url(#chainGrad)" stroke-width="1.5"/>
+-    <line x1="200" y1="38" x2="194" y2="34" stroke="url(#chainGrad)" stroke-width="1.5"/>
+-    <line x1="194" y1="34" x2="188" y2="32" stroke="url(#chainGrad)" stroke-width="1.5"/>
+-    <line x1="188" y1="32" x2="182" y2="34" stroke="url(#chainGrad)" stroke-width="1.5"/>
+-    <line x1="200" y1="38" x2="206" y2="34" stroke="url(#chainGrad)" stroke-width="1.5"/>
+-    <line x1="206" y1="34" x2="212" y2="32" stroke="url(#chainGrad)" stroke-width="1.5"/>
+-    <line x1="212" y1="32" x2="218" y2="34" stroke="url(#chainGrad)" stroke-width="1.5"/>
++    <!-- Link 1: attached to crown base (y=50) -->
++    <ellipse cx="200" cy="47" rx="7" ry="5" fill="none" stroke="url(#chainGrad)" stroke-width="2.5"/>
++    <ellipse cx="200" cy="47" rx="7" ry="5" fill="none" stroke="#f5d76e" stroke-width="0.8" opacity="0.4"/>
++    <!-- Link 2: interlocks with link 1 -->
++    <ellipse cx="200" cy="40" rx="7" ry="5" fill="none" stroke="url(#chainGrad)" stroke-width="2.5"/>
++    <ellipse cx="200" cy="40" rx="7" ry="5" fill="none" stroke="#f5d76e" stroke-width="0.8" opacity="0.4"/>
++    <!-- Link 3: interlocks with link 2 -->
++    <ellipse cx="200" cy="33" rx="7" ry="5" fill="none" stroke="url(#chainGrad)" stroke-width="2.5"/>
++    <ellipse cx="200" cy="33" rx="7" ry="5" fill="none" stroke="#f5d76e" stroke-width="0.8" opacity="0.4"/>
++    <!-- Link 4: connects to chain ring (y=38) -->
++    <ellipse cx="200" cy="26" rx="7" ry="5" fill="none" stroke="url(#chainGrad)" stroke-width="2.5"/>
++    <ellipse cx="200" cy="26" rx="7" ry="5" fill="none" stroke="#f5d76e" stroke-width="0.8" opacity="0.4"/>
+   </g>
+ 
+   <!-- ==================== OUTER CASE ==================== -->
+@@ -350,10 +340,14 @@
+   </g>
+ 
+   <!-- ==================== DIAL FACE ==================== -->
+-  <!-- Dial background -->
+-  <circle cx="200" cy="200" r="130" fill="url(#dialGrad)"/>
+-  <!-- Dial inner shadow -->
+-  <circle cx="200" cy="200" r="130" fill="url(#dialInnerShadow)"/>
++  <!-- Upper half of dial (opaque) -->
++  <path d="M 70 200 A 130 130 0 0 1 330 200 Z" fill="url(#dialGrad)"/>
++  <!-- Upper half inner shadow -->
++  <path d="M 70 200 A 130 130 0 0 1 330 200 Z" fill="url(#dialInnerShadow)"/>
++  <!-- Lower half of dial (semi-transparent, reveals gears underneath) -->
++  <path d="M 330 200 A 130 130 0 0 1 70 200 Z" fill="url(#dialGrad)" opacity="0.35"/>
++  <!-- Lower half inner shadow (semi-transparent) -->
++  <path d="M 330 200 A 130 130 0 0 1 70 200 Z" fill="url(#dialInnerShadow)" opacity="0.35"/>
+ 
+   <!-- ===== CHAPTER RING (inner border) ===== -->
+   <circle cx="200" cy="200" r="128" fill="none" stroke="#b8a888" stroke-width="0.5" opacity="0.6"/>

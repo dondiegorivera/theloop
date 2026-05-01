@@ -1,0 +1,133 @@
+diff --git a/artifact.svg b/artifact.svg
+index 20d22df..38f8f65 100644
+--- a/artifact.svg
++++ b/artifact.svg
+@@ -362,44 +362,68 @@
+   <circle cx="200" cy="200" r="124" fill="none" stroke="#888" stroke-width="0.3" opacity="0.4"/>
+   <circle cx="200" cy="200" r="120" fill="none" stroke="#888" stroke-width="0.3" opacity="0.4"/>
+ 
+-  <!-- ===== MINUTE TICKS (48 minor ticks) ===== -->
++  <!-- ===== MINUTE TICKS (60 minor ticks) ===== -->
+   <g stroke="#666" stroke-width="0.5" opacity="0.5">
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(7.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(15, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(22.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(37.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(45, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(52.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(67.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(75, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(82.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(97.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(105, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(112.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(127.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(135, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(142.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(157.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(165, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(172.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(187.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(195, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(202.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(217.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(225, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(232.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(247.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(255, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(262.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(277.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(285, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(292.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(307.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(315, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(322.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(337.5, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(345, 200, 200)"/>
+-    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(352.5, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(0, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(6, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(12, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(18, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(24, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(30, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(36, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(42, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(48, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(54, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(60, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(66, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(72, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(78, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(84, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(90, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(96, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(102, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(108, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(114, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(120, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(126, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(132, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(138, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(144, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(150, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(156, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(162, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(168, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(174, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(180, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(186, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(192, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(198, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(204, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(210, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(216, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(222, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(228, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(234, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(240, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(246, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(252, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(258, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(264, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(270, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(276, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(282, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(288, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(294, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(300, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(306, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(312, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(318, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(324, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(330, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(336, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(342, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(348, 200, 200)"/>
++    <line x1="200" y1="76" x2="200" y2="80" transform="rotate(354, 200, 200)"/>
+   </g>
+ 
+   <!-- ===== HOUR MARKERS (12 main ticks) ===== -->
+@@ -518,9 +542,8 @@
+   <!-- ===== HANDS (layered: hour first, then minute, then second on top) ===== -->
+   <!-- Time: 10:10 and ~22 seconds -->
+ 
+-  <!-- Hour hand (10 o'clock position = 300° from 12, but hands rotate clockwise from 12) -->
+-  <!-- At 10:10, hour hand is at 10 + 10/60 = 10.167 hours = 305° from 12 o'clock -->
+-  <g filter="url(#softShadow)">
++  <!-- Hour hand (10 o'clock position = 300° from 12 o'clock) -->
++  <g filter="url(#softShadow)" transform="rotate(300, 200, 200)">
+     <path d="M 197 200 L 195 130 Q 195 125 200 123 Q 205 125 205 130 L 203 200 Z"
+           fill="url(#goldDark)" stroke="#6b4f0a" stroke-width="0.5"/>
+     <!-- Counterweight -->
+@@ -528,8 +551,8 @@
+           fill="url(#goldDark)" stroke="#6b4f0a" stroke-width="0.5"/>
+   </g>
+ 
+-  <!-- Minute hand (10 minutes = 60° from 12 o'clock) -->
+-  <g filter="url(#softShadow)">
++  <!-- Minute hand (2 o'clock position = 60° from 12 o'clock) -->
++  <g filter="url(#softShadow)" transform="rotate(60, 200, 200)">
+     <path d="M 198 200 L 197 105 Q 197 100 200 98 Q 203 100 203 105 L 202 200 Z"
+           fill="#2a4080" stroke="#1a2a50" stroke-width="0.5"/>
+     <!-- Counterweight -->

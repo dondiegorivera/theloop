@@ -1,0 +1,112 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 10
+score_threshold: 0.9
+no_improvement_for: 5
+---
+
+# Mechanical Pocket Watch                                                                                                                                                                                                                               
+
+Draw a detailed mechanical pocket watch, viewed from the front, centered                                                                                                                                                                                
+in a 600×600 viewBox. The watch must include ALL of the following:                                                                                                                                                                                       
+
+## Case & Crown                                                                                                                                                                                                                                          
+- A circular outer case (radius ~200) with a metallic gradient fill                                                                                                                                                                                      
+- A crown (winder knob) at the top (12 o'clock position) attached to a                                                                                                                                                                                   
+  short stem that extends into the case                                                                                                                                                                                                                   
+- A subtle bezel ring around the outer edge                                                                                                                                                                                                              
+
+## Dial                                                                                                                                                                                                                                                  
+- A white or cream-colored dial face (radius ~170)                                                                                                                                                                                                        
+- 12 hour markers: thick lines at 12, 3, 6, 9 o'clock; thinner lines at                                                                                                                                                                                    
+  the other hours                                                                                                                                                                                                                                         
+- Roman numerals (I through XII) positioned just inside the hour markers, ensuring 'IV' is clearly visible at 4 o'clock                                                                                                                                 
+- Minute tick marks around the outer edge of the dial (60 ticks, every 6°)                                                                                                                                                                                
+
+## Hands                                                                                                                                                                                                                                                 
+- Time configuration: 10:10. Hour hand (shorter, thicker) pointing exactly at 10 o'clock. Minute hand (longer, thinner) pointing exactly at 2 o'clock.                                                                                                      
+- A thin second hand (red or dark) pointing near the 7 o'clock position                                                                                                                                                                                   
+- All three hands originating from the exact center of the dial                                                                                                                                                                                           
+
+## Sub-dials                                                                                                                                                                                                                                             
+- A small seconds sub-dial at the 6 o'clock position (radius ~30) with                                                                                                                                                                                     
+  its own tiny hand                                                                                                                                                                                                                                       
+- A power reserve indicator sub-dial at the 12 o'clock position (radius ~25)                                                                                                                                                                               
+  with an arc showing ~60% charge                                                                                                                                                                                                                         
+
+## Cutaway Movement                                                                                                                                                                                                                                      
+- The bottom half of the dial is a cutaway window revealing the internal movement.                                                                                                                                                                         
+- At least 3 visible gears of different sizes with teeth, positioned in the cutaway area.                                                                                                                                                                   
+- The gears should overlap realistically and show different sizes (large, medium, small).                                                                                                                                                                  
+- A balance wheel visible near the bottom-right of the movement area.                                                                                                                                                                                      
+
+## Chain                                                                                                                                                                                                                                                 
+- A short chain (3-4 links) attached to the crown, curving upward and                                                                                                                                                                                      
+  outward from the top of the watch                                                                                                                                                                                                                       
+
+## Style                                                                                                                                                                                                                                                 
+- Metallic/brass color palette for the case and gears                                                                                                                                                                                                     
+- Clean line art with subtle shading                                                                                                                                                                                                                      
+- The entire composition must be centered and balanced                                                                                                                                                                                                    
+- The SVG must parse as valid XML                                                                                                                                                                                                                         
+
+The result should look like a realistic, detailed illustration of a                                                                                                                                                                                       
+vintage mechanical pocket watch — not a cartoon or simplified icon.
+
+## Iteration history
+- iter 0: Draw the detailed mechanical pocket watch with all specified components including case, dial, hands, sub-dials, movement gears, and chain. → A complete, realistic SVG illustration of a vintage mechanical pocket watch.
+- iter 1: Refine the spec to explicitly mandate a cutaway view for the movement and clarify the time setting to 10:10, ensuring the generator addresses the missing gears and incorrect hand positions. → A watch with visible gears in a cutaway bottom half and hands set to 10:10.
+
+## Iteration directive
+Goal: Rewrite `artifact.svg` to depict a realistic, detailed vintage mechanical pocket watch with a cutaway bottom half revealing internal gears, hands set precisely to 10:10, and a chain attached to the crown.
+
+Read `artifact.svg` first to understand the current structure, then overwrite it with a complete, valid XML SVG.
+
+**Technical Constraints:**
+- Use **relative paths only** for `read` / `write` / `edit` (e.g., `artifact.svg`).
+- The SVG must parse as valid XML: close every tag, quote every attribute.
+- ViewBox: `0 0 600 600`. Center the watch at (300, 300).
+- Style: Metallic/brass palette, clean line art, subtle shading. Realistic, not cartoonish.
+
+**Required Elements:**
+
+1.  **Case & Crown:**
+    - Circular outer case, radius ~200, metallic gradient fill.
+    - Subtle bezel ring around the outer edge.
+    - Crown (winder knob) at 12 o'clock, attached to a short stem extending into the case.
+    - Chain: 3-4 links attached to the crown, curving upward and outward.
+
+2.  **Dial (Top Half & Main Face):**
+    - White/cream dial face, radius ~170.
+    - 60 minute tick marks around the outer edge (every 6°).
+    - 12 hour markers: Thick lines at 12, 3, 6, 9; thinner lines elsewhere.
+    - Roman numerals (I-XII) just inside markers. 'IV' must be clearly visible at 4 o'clock.
+
+3.  **Hands (Set to 10:10):**
+    - All hands originate from exact center (300, 300).
+    - Hour hand: Shorter, thicker, pointing exactly at 10 o'clock.
+    - Minute hand: Longer, thinner, pointing exactly at 2 o'clock.
+    - Second hand: Thin, red or dark, pointing near 7 o'clock.
+
+4.  **Sub-dials:**
+    - Small seconds sub-dial at 6 o'clock (radius ~30) with its own tiny hand.
+    - Power reserve indicator at 12 o'clock (radius ~25) with an arc showing ~60% charge.
+
+5.  **Cutaway Movement (Bottom Half):**
+    - The bottom half of the dial area is a cutaway window revealing internal mechanics.
+    - At least 3 visible gears of different sizes (large, medium, small) with teeth, overlapping realistically.
+    - Balance wheel visible near the bottom-right of the movement area.
+    - Ensure gears are positioned within the cutaway zone and do not obscure the main dial's top half improperly.
+
+**Execution:**
+- Construct the SVG using `<defs>` for gradients and patterns.
+- Use `<g>` groups for logical separation (case, dial, hands, movement, chain).
+- Ensure all coordinates are calculated relative to the center (300, 300).
+- Verify the cutaway effect is achieved via clipping paths or layering (e.g., dial background stops at the horizontal midline, movement elements appear below).
+- Write the final SVG to `artifact.svg`.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration.

@@ -1,0 +1,54 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 10
+score_threshold: 0.99
+no_improvement_for: 5
+---
+
+# A Victorian-era robot reading a newspaper in a cafe
+
+An svg image of a Victorian-era robot reading a newspaper in a cafe
+
+## Iteration history
+- iter 0: Draw a Victorian-era robot sitting at a cafe table, holding and reading a newspaper, with cafe background elements like a coffee cup and window to establish the setting. → Establish the core subject and environment.
+
+## Iteration directive
+Goal: Generate a detailed SVG of a Victorian-era robot sitting at a cafe table, holding and reading a newspaper, with background elements like a coffee cup and window, by editing `generate_artifact.py` and running it.
+
+**Context & Constraints:**
+- **Subject:** A Victorian-era robot (brass, gears, steam-punk aesthetic) sitting at a table.
+- **Action:** Holding and reading a newspaper.
+- **Setting:** A cafe. Must include a coffee cup on the table and a window in the background to establish the setting.
+- **Output:** `artifact.svg` must be valid XML.
+- **Process:** Edit `generate_artifact.py` to produce the SVG. Do NOT write `artifact.svg` directly. Run `python generate_artifact.py` to generate the output.
+- **Paths:** Use **relative paths only** for all file operations and bash commands. Your working directory is the workspace root.
+
+**Implementation Steps:**
+1.  **Edit `generate_artifact.py`:**
+    -   Replace the current content with a script that generates the full SVG.
+    -   Define a `generate_svg()` function that returns a string of SVG markup.
+    -   **Background:** Draw a cafe interior. Include a window (rectangles, panes) on one side to suggest light and setting.
+    -   **Table:** Draw a simple cafe table (ellipse or rect) in the foreground/midground.
+    -   **Robot:** Draw a Victorian-style robot sitting at the table. Use geometric shapes (circles, rects, lines) to suggest brass plating, joints, and a head. Give it a distinct "robotic" but Victorian look (e.g., a top hat or clockwork face).
+    -   **Newspaper:** Draw a newspaper held by the robot's hands/arms. It should look like a folded paper with some text lines (simple rects or lines) to indicate print.
+    -   **Coffee Cup:** Place a coffee cup and saucer on the table near the robot.
+    -   **Style:** Use a muted, vintage color palette (browns, brass yellows, creams, dark greens/blues for shadows).
+2.  **Run the Generator:**
+    -   Execute `python generate_artifact.py` to create `artifact.svg`.
+3.  **Verify:**
+    -   Check that `artifact.svg` exists and is not empty.
+    -   Run `head -n 5 artifact.svg` to ensure it starts with `<?xml` or `<svg`.
+    -   Run `tail -n 5 artifact.svg` to ensure it ends with `</svg>`.
+
+**Acceptance Criteria:**
+-   `generate_artifact.py` runs without errors.
+-   `artifact.svg` is valid XML (well-formed).
+-   The SVG contains a robot, a newspaper, a table, a coffee cup, and a window.
+-   The robot appears to be reading the newspaper.
+-   No absolute paths are used in the code or commands.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration. Use relative paths only, including inside bash commands; pi already runs from the workspace root, so do not `cd` to or reference `/src/...`, `/tmp/...`, or any other absolute workspace path.

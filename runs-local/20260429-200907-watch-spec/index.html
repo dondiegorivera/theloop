@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>theloop — 20260429-200907-watch-spec</title>
+<style>
+  :root {
+    --bg: #0f1115; --card: #1a1d23; --fg: #e6e6e6; --muted: #9aa0aa;
+    --accent: #6cf; --good: #7c7; --bad: #f88;
+  }
+  html, body { background: var(--bg); color: var(--fg); margin: 0;
+    font: 14px/1.5 -apple-system, system-ui, "Segoe UI", sans-serif; }
+  header { padding: 24px 32px; border-bottom: 1px solid #222; }
+  header h1 { margin: 0 0 8px; font-size: 18px; font-weight: 600; }
+  header .id { color: var(--muted); font-family: ui-monospace, monospace; }
+  header details { margin-top: 16px; max-width: 1200px; }
+  header details summary { color: var(--muted); cursor: pointer;
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  header details summary:hover { color: var(--accent); }
+  header details pre { background: #0c0e12; color: #ddd;
+    padding: 12px 16px; border-radius: 6px; margin-top: 8px;
+    font-family: ui-monospace, monospace; font-size: 12px;
+    overflow: auto; max-height: 400px; white-space: pre-wrap; }
+  main { padding: 24px 32px 64px; max-width: 1200px; margin: 0 auto; }
+  section.summary table { border-collapse: collapse; margin-bottom: 32px; }
+  section.summary th, section.summary td {
+    padding: 4px 12px 4px 0; text-align: left; vertical-align: top;
+  }
+  section.summary th { color: var(--muted); font-weight: 400; }
+  .card { background: var(--card); border-radius: 8px; padding: 20px;
+    margin-bottom: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .card .meta h2 { margin: 0 0 12px; font-size: 16px; }
+  .card .score { font-family: ui-monospace, monospace; font-size: 18px; }
+  .card .score.good { color: var(--good); }
+  .card .score.bad { color: var(--bad); }
+  .card .label { color: var(--muted); font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.04em; margin-top: 16px; }
+  .card pre { background: #0c0e12; color: #ddd; padding: 12px; border-radius: 6px;
+    overflow: auto; max-height: 300px; font-size: 12px; }
+  .card img { max-width: 100%; border-radius: 6px; background: #fff; }
+  .card .render-missing { color: var(--muted); font-style: italic; }
+  .card a { color: var(--accent); }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 12px;
+    font-size: 11px; background: #2a2e36; color: var(--muted); margin-left: 6px; }
+  .pill.ok { background: #1d3a1f; color: #9eda9e; }
+  .pill.bad { background: #3a1d1d; color: #da9e9e; }
+</style>
+</head>
+<body>
+<header>
+  <h1>theloop run</h1>
+  <div class="id">20260429-200907-watch-spec</div>
+  <details><summary>original spec</summary><pre>---
+adapter: svg
+max_iters: 10
+score_threshold: 0.9
+no_improvement_for: 5
+---
+																																																													  
+# Mechanical Pocket Watch                                                                                                                                                                                                                              
+																																																													  
+Draw a detailed mechanical pocket watch, viewed from the front, centered                                                                                                                                                                               
+in a 600×600 viewBox. The watch must include ALL of the following:                                                                                                                                                                                     
+																																																													  
+## Case &amp; Crown                                                                                                                                                                                                                                        
+- A circular outer case (radius ~200) with a metallic gradient fill                                                                                                                                                                                    
+- A crown (winder knob) at the top (12 o&#x27;clock position) attached to a                                                                                                                                                                                 
+ short stem that extends into the case                                                                                                                                                                                                                
+- A subtle bezel ring around the outer edge                                                                                                                                                                                                            
+																																																													  
+## Dial                                                                                                                                                                                                                                                
+- A white or cream-colored dial face (radius ~170)                                                                                                                                                                                                     
+- 12 hour markers: thick lines at 12, 3, 6, 9 o&#x27;clock; thinner lines at                                                                                                                                                                                
+ the other hours                                                                                                                                                                                                                                      
+- Roman numerals (I through XII) positioned just inside the hour markers                                                                                                                                                                               
+- Minute tick marks around the outer edge of the dial (60 ticks, every 6°)                                                                                                                                                                             
+																																																													  
+## Hands                                                                                                                                                                                                                                               
+- An hour hand (shorter, thicker) pointing near the 10 o&#x27;clock position                                                                                                                                                                                
+- A minute hand (longer, thinner) pointing near the 2 o&#x27;clock position                                                                                                                                                                                 
+- A thin second hand (red or dark) pointing near the 7 o&#x27;clock position                                                                                                                                                                                
+- All three hands originating from the exact center of the dial                                                                                                                                                                                        
+																																																													  
+## Sub-dials                                                                                                                                                                                                                                           
+- A small seconds sub-dial at the 6 o&#x27;clock position (radius ~30) with                                                                                                                                                                                 
+ its own tiny hand                                                                                                                                                                                                                                    
+- A power reserve indicator sub-dial at the 12 o&#x27;clock position (radius ~25)                                                                                                                                                                           
+ with an arc showing ~60% charge                                                                                                                                                                                                                      
+																																																													  
+## Movement (visible through caseback or cutaway)                                                                                                                                                                                                      
+- At least 3 visible gears of different sizes with teeth, positioned                                                                                                                                                                                   
+ below the dial area (bottom half of the watch)                                                                                                                                                                                                       
+- The gears should overlap realistically and show different sizes                                                                                                                                                                                      
+ (large, medium, small)                                                                                                                                                                                                                               
+- A balance wheel visible near the bottom-right of the movement area                                                                                                                                                                                   
+																																																													  
+## Chain                                                                                                                                                                                                                                               
+- A short chain (3-4 links) attached to the crown, curving upward and                                                                                                                                                                                  
+ outward from the top of the watch                                                                                                                                                                                                                    
+																																																													  
+## Style                                                                                                                                                                                                                                               
+- Metallic/brass color palette for the case and gears                                                                                                                                                                                                  
+- Clean line art with subtle shading                                                                                                                                                                                                                   
+- The entire composition must be centered and balanced                                                                                                                                                                                                 
+- The SVG must parse as valid XML                                                                                                                                                                                                                      
+																																																													  
+The result should look like a realistic, detailed illustration of a                                                                                                                                                                                    
+vintage mechanical pocket watch — not a cartoon or simplified icon.                                                                                                                                                                                    
+</pre></details>
+</header>
+<main>
+  <section class="summary">
+    <table><tr><th>adapter</th><td>svg</td></tr><tr><th>max iters</th><td>10</td></tr><tr><th>threshold</th><td>0.9</td></tr><tr><th>plateau window</th><td>5</td></tr><tr><th>stop reason</th><td>plateau</td></tr><tr><th>best score</th><td>0.35</td></tr><tr><th>iters run</th><td>6</td></tr><tr><th>started</th><td>2026-04-29T18:09:09.350102+00:00</td></tr><tr><th>ended</th><td>2026-04-29T18:34:40.874287+00:00</td></tr></table>
+  </section>
+  
+  <article class="card">
+    <div class="render"><img src="artifacts/iter-0/render.png" alt="iter 0 render"></div>
+    <div class="meta">
+      <h2>iter 0 <span class="score bad">0.35</span> <span class="pill ok">runtime ok</span><span class="pill">touched 1</span></h2>
+
+      <div class="label">intent</div>
+      <div>Produce the first complete SVG rendering of the mechanical pocket watch, ensuring all specified components like the case, dial, hands, sub-dials, and visible movement are included, with a clarified skeletonized lower section to show the gears from the front view.</div>
+
+      <div class="label">judge critique</div>
+      <div>The artifact is missing three critical named elements: the Chain, the Roman Numerals, and the Power Reserve indicator. Additionally, the hour markers are incomplete (missing 8 of 12). The most impactful next change is to add the chain attached to the crown and the Roman numerals around the dial, as these are distinct, required visual components that are currently absent.</div>
+
+      <div class="label">runtime check</div>
+      <div>artifact.svg parses as XML</div>
+
+      <div class="label">commit</div>
+      <div>iter/0: <a href="artifacts/iter-0/diff.txt">view diff</a> <code>12817449</code></div>
+    </div>
+  </article>
+
+
+  <article class="card">
+    <div class="render"><img src="artifacts/iter-1/render.png" alt="iter 1 render"></div>
+    <div class="meta">
+      <h2>iter 1 <span class="score bad">0.30</span> <span class="pill ok">runtime ok</span><span class="pill">touched 1</span></h2>
+
+      <div class="label">intent</div>
+      <div>This iteration focuses on adding the three critical missing elements identified by the judge: the Chain attached to the crown, the Roman Numerals around the dial, and the Power Reserve indicator at the 12 o&#x27;clock position. I have also reinforced the requirement for all 12 hour markers to ensure completeness. The spec now explicitly demands these components to be visible and distinct, correcting the omissions from the previous attempt.</div>
+
+      <div class="label">judge critique</div>
+      <div>The artifact is hard-capped at 0.30 because the &#x27;Chain&#x27; is classified as MISSING in the first-pass description, despite the coder&#x27;s claims of adding it. The chain is a named subject of the spec (&#x27;A short chain... attached to the crown&#x27;), and its absence prevents a higher score. Additionally, the Roman Numerals are also MISSING, which is a significant detail for a vintage watch illustration. To improve, the coder must ensure the chain SVG elements are actually rendered in the final output and visible in the viewbox, and verify that the Roman numerals are present and legible.</div>
+
+      <div class="label">runtime check</div>
+      <div>artifact.svg parses as XML</div>
+
+      <div class="label">commit</div>
+      <div>iter/1: <a href="artifacts/iter-1/diff.txt">view diff</a> <code>8b3769c2</code></div>
+    </div>
+  </article>
+
+
+  <article class="card">
+    <div class="render"><img src="artifacts/iter-2/render.png" alt="iter 2 render"></div>
+    <div class="meta">
+      <h2>iter 2 <span class="score bad">0.30</span> <span class="pill ok">runtime ok</span><span class="pill">touched 1</span></h2>
+
+      <div class="label">intent</div>
+      <div>Render the missing chain attached to the crown and add the Roman numerals (I through XII) around the dial face.</div>
+
+      <div class="label">judge critique</div>
+      <div>The artifact is hard-capped at 0.30 because the named subject &#x27;Chain&#x27; is classified as MISSING in the first-pass description, despite the coder&#x27;s claim that it was added. Additionally, the Roman numerals are also MISSING. To improve the score, the chain must be visibly attached to the crown and rendered in the final SVG, and the Roman numerals must be added to the dial face.</div>
+
+      <div class="label">runtime check</div>
+      <div>artifact.svg parses as XML</div>
+
+      <div class="label">commit</div>
+      <div>iter/2: <a href="artifacts/iter-2/diff.txt">view diff</a> <code>d990ad4c</code></div>
+    </div>
+  </article>
+
+
+  <article class="card">
+    <div class="render"><img src="artifacts/iter-3/render.png" alt="iter 3 render"></div>
+    <div class="meta">
+      <h2>iter 3 <span class="score bad">0.30</span> <span class="pill ok">runtime ok</span></h2>
+
+      <div class="label">intent</div>
+      <div>Add the missing chain attached to the crown and the Roman numerals to the dial face.</div>
+
+      <div class="label">judge critique</div>
+      <div>The artifact fails to include the Roman numerals (I-XII) and the chain, both of which are explicitly required named elements. The Roman numerals are missing from the dial perimeter, and the chain is entirely absent from the crown. To fix this, add the 12 Roman numerals positioned just inside the hour markers on the cream dial section and render a short chain of 3-4 links attached to the crown curving upward.</div>
+
+      <div class="label">runtime check</div>
+      <div>artifact.svg parses as XML</div>
+
+      <div class="label">commit</div>
+      <div>(no commit)</div>
+    </div>
+  </article>
+
+
+  <article class="card">
+    <div class="render"><img src="artifacts/iter-4/render.png" alt="iter 4 render"></div>
+    <div class="meta">
+      <h2>iter 4 <span class="score bad">0.30</span> <span class="pill ok">runtime ok</span><span class="pill">touched 1</span></h2>
+
+      <div class="label">intent</div>
+      <div>Refine the spec to explicitly demand Roman numerals by forbidding other text and adding visual descriptors to the chain. This addresses the persistent MISSING status of these elements where the AI previously substituted brand names or omitted the chain entirely.</div>
+
+      <div class="label">judge critique</div>
+      <div>The artifact fails to include the required detailed gold chain, which is explicitly marked MISSING in the description; additionally, the dial contains forbidden brand text (&#x27;CHRONOMÈTRE GENEVE&#x27;) and lacks the required Roman numerals and proper hour markers. The most impactful next change is to remove the brand text, add the 12 Roman numerals (I-XII) with bold serif styling, and draw a detailed gold chain with 3-4 distinct links attached to the crown.</div>
+
+      <div class="label">runtime check</div>
+      <div>artifact.svg parses as XML</div>
+
+      <div class="label">commit</div>
+      <div>iter/4: <a href="artifacts/iter-4/diff.txt">view diff</a> <code>a9b7b2b8</code></div>
+    </div>
+  </article>
+
+
+  <article class="card">
+    <div class="render"><img src="artifacts/iter-5/render.png" alt="iter 5 render"></div>
+    <div class="meta">
+      <h2>iter 5 <span class="score bad">0.30</span> <span class="pill ok">runtime ok</span><span class="pill">touched 1</span></h2>
+
+      <div class="label">intent</div>
+      <div>The artifact currently displays forbidden brand text on the dial and is missing the gold chain entirely. This iteration strengthens the spec to explicitly forbid all text on the dial except for the 12 Roman numerals and hour markers, and reinforces the requirement for the detailed gold chain attached to the crown to ensure these critical elements are present.</div>
+
+      <div class="label">judge critique</div>
+      <div>The artifact fails to include the required Roman Numerals and the detailed gold chain, both of which are explicitly required named elements. The first-pass description classifies Roman Numerals as MISSING and the Chain as MISSING. Although the coder claims to have added these, the ground truth description confirms their absence. Additionally, the hour markers are classified as MISSING. The subject-missing floor does not apply because the watch itself is present, but the score is capped low due to the critical omission of required components. The most impactful change is to actually render the 12 Roman numerals and the gold chain as described in the spec.</div>
+
+      <div class="label">runtime check</div>
+      <div>artifact.svg parses as XML</div>
+
+      <div class="label">commit</div>
+      <div>iter/5: <a href="artifacts/iter-5/diff.txt">view diff</a> <code>e23b8ff7</code></div>
+    </div>
+  </article>
+
+</main>
+</body>
+</html>

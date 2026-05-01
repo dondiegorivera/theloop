@@ -1,0 +1,25 @@
+Goal: Update `artifact.svg` to position the watch hands at 10:10, add a seconds sub-dial at the 6 o'clock position, and move the visible movement gears to the bottom half of the watch case.
+
+Specific Changes:
+1.  **Hands Positioning**:
+    *   Hour hand: Rotate to point near the 10 (approx 300 degrees from 12 o'clock, or -60 degrees if 0 is up).
+    *   Minute hand: Rotate to point near the 2 (approx 60 degrees from 12 o'clock).
+    *   Second hand: Rotate to point near the 7 (approx 210 degrees from 12 o'clock).
+    *   Ensure all hands are centered on the main dial's pivot point.
+
+2.  **Seconds Sub-dial**:
+    *   Add a new circular sub-dial at the 6 o'clock position (bottom center of the main dial).
+    *   Include tick marks for seconds (e.g., every 5 seconds) and a small second hand if appropriate, or just the dial structure.
+    *   Ensure it is visually distinct but consistent with the watch style.
+
+3.  **Movement Gears Relocation**:
+    *   Identify existing gear elements currently overlapping or above the main dial.
+    *   Move these gear elements to the bottom half of the watch case, below the main dial area (e.g., in the space between the dial and the bottom edge of the case).
+    *   Ensure the gears are fully contained within the watch case boundary and do not overlap the main dial or the new seconds sub-dial.
+
+4.  **XML Integrity**:
+    *   Ensure all tags are properly closed.
+    *   Ensure all attributes are quoted.
+    *   The SVG must parse as valid XML.
+
+Use **relative paths only** in `read` / `write` / `edit` calls (e.g. `artifact.svg`, not `/abs/path/artifact.svg`). Your working directory IS the workspace root — do not construct absolute paths.

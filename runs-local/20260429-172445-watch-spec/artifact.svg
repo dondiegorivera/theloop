@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <!-- Drop shadow filter -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+    <filter id="innerShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Gold gradient (outer case) -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F7E07F"/>
+      <stop offset="20%" stop-color="#D4A843"/>
+      <stop offset="40%" stop-color="#C5942E"/>
+      <stop offset="55%" stop-color="#E8C86A"/>
+      <stop offset="70%" stop-color="#B8860B"/>
+      <stop offset="85%" stop-color="#DAA520"/>
+      <stop offset="100%" stop-color="#F5DEB3"/>
+    </linearGradient>
+
+    <!-- Gold gradient (lighter, for highlights) -->
+    <linearGradient id="goldLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF8DC"/>
+      <stop offset="30%" stop-color="#F7E07F"/>
+      <stop offset="60%" stop-color="#D4A843"/>
+      <stop offset="100%" stop-color="#B8860B"/>
+    </linearGradient>
+
+    <!-- Gold radial for case back -->
+    <radialGradient id="goldRadial" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#FFF8DC"/>
+      <stop offset="30%" stop-color="#F7E07F"/>
+      <stop offset="70%" stop-color="#D4A843"/>
+      <stop offset="100%" stop-color="#8B6914"/>
+    </radialGradient>
+
+    <!-- Brass gradient (gears) -->
+    <linearGradient id="brassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8C86A"/>
+      <stop offset="25%" stop-color="#C5942E"/>
+      <stop offset="50%" stop-color="#DAA520"/>
+      <stop offset="75%" stop-color="#B8860B"/>
+      <stop offset="100%" stop-color="#996515"/>
+    </linearGradient>
+
+    <!-- Brass radial -->
+    <radialGradient id="brassRadial" cx="45%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#F0D878"/>
+      <stop offset="40%" stop-color="#D4A843"/>
+      <stop offset="80%" stop-color="#B8860B"/>
+      <stop offset="100%" stop-color="#7A5C10"/>
+    </radialGradient>
+
+    <!-- Silver / blued steel gradient -->
+    <linearGradient id="steelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8899AA"/>
+      <stop offset="25%" stop-color="#4A6680"/>
+      <stop offset="50%" stop-color="#2C4A6E"/>
+      <stop offset="75%" stop-color="#1A3050"/>
+      <stop offset="100%" stop-color="#0D1F35"/>
+    </linearGradient>
+
+    <!-- Blued steel (darker, bluish) -->
+    <linearGradient id="bluedSteel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3A5070"/>
+      <stop offset="30%" stop-color="#1E3A5F"/>
+      <stop offset="60%" stop-color="#0F2847"/>
+      <stop offset="100%" stop-color="#061525"/>
+    </linearGradient>
+
+    <!-- Dial cream gradient -->
+    <radialGradient id="dialGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFDF5"/>
+      <stop offset="50%" stop-color="#F5F0E0"/>
+      <stop offset="80%" stop-color="#EDE5CC"/>
+      <stop offset="100%" stop-color="#DDD0B0"/>
+    </radialGradient>
+
+    <!-- Bezel texture gradient -->
+    <linearGradient id="bezelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8C86A"/>
+      <stop offset="15%" stop-color="#D4A843"/>
+      <stop offset="30%" stop-color="#C5942E"/>
+      <stop offset="45%" stop-color="#E8C86A"/>
+      <stop offset="60%" stop-color="#D4A843"/>
+      <stop offset="75%" stop-color="#B8860B"/>
+      <stop offset="90%" stop-color="#D4A843"/>
+      <stop offset="100%" stop-color="#C5942E"/>
+    </linearGradient>
+
+    <!-- Chain link gradient -->
+    <linearGradient id="chainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F7E07F"/>
+      <stop offset="50%" stop-color="#D4A843"/>
+      <stop offset="100%" stop-color="#B8860B"/>
+    </linearGradient>
+
+    <!-- Red for second hand -->
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#CC2222"/>
+      <stop offset="50%" stop-color="#AA1111"/>
+      <stop offset="100%" stop-color="#880000"/>
+    </linearGradient>
+
+    <!-- Clip path for dial area -->
+    <clipPath id="dialClip">
+      <circle cx="250" cy="250" r="148"/>
+    </clipPath>
+
+    <!-- Gear tooth template -->
+    <g id="gearTooth">
+      <polygon points="0,-14 -3,-8 -3,-4 0,-2 3,-4 3,-8" fill="url(#brassGrad)"/>
+    </g>
+
+    <!-- Small decorative element -->
+    <g id="rivet">
+      <circle cx="0" cy="0" r="3" fill="url(#goldGrad)" stroke="#8B6914" stroke-width="0.5"/>
+      <circle cx="0" cy="0" r="1.5" fill="#E8C86A"/>
+    </g>
+  </defs>
+
+  <!-- ==================== CHAIN ==================== -->
+  <g id="chain" filter="url(#shadow)">
+    <!-- Chain links extending upward from bow -->
+    <!-- Link 1 -->
+    <ellipse cx="250" cy="18" rx="8" ry="14" fill="none" stroke="url(#chainGrad)" stroke-width="3" transform="rotate(0,250,18)"/>
+    <!-- Link 2 -->
+    <ellipse cx="250" cy="42" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(15,250,42)"/>
+    <!-- Link 3 -->
+    <ellipse cx="248" cy="66" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(-10,248,66)"/>
+    <!-- Link 4 -->
+    <ellipse cx="252" cy="90" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(8,252,90)"/>
+    <!-- Link 5 -->
+    <ellipse cx="249" cy="114" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(-12,249,114)"/>
+    <!-- Link 6 -->
+    <ellipse cx="251" cy="138" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(5,251,138)"/>
+    <!-- Link 7 -->
+    <ellipse cx="250" cy="162" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(-8,250,162)"/>
+    <!-- Link 8 -->
+    <ellipse cx="250" cy="186" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(12,250,186)"/>
+    <!-- Link 9 -->
+    <ellipse cx="250" cy="210" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(-5,250,210)"/>
+    <!-- Link 10 -->
+    <ellipse cx="250" cy="234" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(10,250,234)"/>
+    <!-- Link 11 -->
+    <ellipse cx="250" cy="258" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(-7,250,258)"/>
+    <!-- Link 12 -->
+    <ellipse cx="250" cy="282" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(6,250,282)"/>
+    <!-- Link 13 -->
+    <ellipse cx="250" cy="306" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(-11,250,306)"/>
+    <!-- Link 14 -->
+    <ellipse cx="250" cy="330" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(9,250,330)"/>
+    <!-- Link 15 -->
+    <ellipse cx="250" cy="354" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(-4,250,354)"/>
+    <!-- Link 16 -->
+    <ellipse cx="250" cy="378" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(13,250,378)"/>
+    <!-- Link 17 -->
+    <ellipse cx="250" cy="402" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(-6,250,402)"/>
+    <!-- Link 18 -->
+    <ellipse cx="250" cy="426" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(7,250,426)"/>
+    <!-- Link 19 -->
+    <ellipse cx="250" cy="450" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(-9,250,450)"/>
+    <!-- Link 20 -->
+    <ellipse cx="250" cy="474" rx="7" ry="13" fill="none" stroke="url(#chainGrad)" stroke-width="2.8" transform="rotate(4,250,474)"/>
+  </g>
+
+  <!-- ==================== BOW (Loop at top) ==================== -->
+  <g id="bow" filter="url(#shadow)">
+    <path d="M235,42 C235,12 265,12 265,42" fill="none" stroke="url(#goldGrad)" stroke-width="7" stroke-linecap="round"/>
+    <path d="M235,42 C235,12 265,12 265,42" fill="none" stroke="#FFF8DC" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+    <ellipse cx="250" cy="42" rx="18" ry="6" fill="url(#goldRadial)" stroke="#8B6914" stroke-width="1"/>
+  </g>
+
+  <!-- ==================== CROWN (Winder at 12 o'clock) ==================== -->
+  <g id="crown" filter="url(#shadow)">
+    <!-- Crown base -->
+    <rect x="240" y="52" width="20" height="12" rx="3" fill="url(#goldGrad)" stroke="#8B6914" stroke-width="1"/>
+    <!-- Crown ridges -->
+    <line x1="243" y1="52" x2="243" y2="64" stroke="#8B6914" stroke-width="0.8"/>
+    <line x1="247" y1="52" x2="247" y2="64" stroke="#8B6914" stroke-width="0.8"/>
+    <line x1="251" y1="52" x2="251" y2="64" stroke="#8B6914" stroke-width="0.8"/>
+    <line x1="255" y1="52" x2="255" y2="64" stroke="#8B6914" stroke-width="0.8"/>
+    <line x1="259" y1="52" x2="259" y2="64" stroke="#8B6914" stroke-width="0.8"/>
+    <!-- Crown top -->
+    <rect x="238" y="48" width="24" height="6" rx="3" fill="url(#goldLight)" stroke="#8B6914" stroke-width="0.8"/>
+    <!-- Highlight -->
+    <rect x="242" y="49" width="16" height="2" rx="1" fill="#FFF8DC" opacity="0.5"/>
+  </g>
+
+  <!-- ==================== OUTER CASE ==================== -->
+  <g id="outerCase" filter="url(#shadow)">
+    <!-- Main case body -->
+    <circle cx="250" cy="250" r="185" fill="url(#goldRadial)" stroke="#8B6914" stroke-width="2"/>
+    <!-- Case highlight -->
+    <circle cx="250" cy="250" r="185" fill="none" stroke="#FFF8DC" stroke-width="3" opacity="0.3" transform="translate(-10,-10)"/>
+
+    <!-- Textured bezel ring -->
+    <circle cx="250" cy="250" r="175" fill="none" stroke="url(#bezelGrad)" stroke-width="12"/>
+    <!-- Bezel inner edge -->
+    <circle cx="250" cy="250" r="169" fill="none" stroke="#8B6914" stroke-width="1"/>
+    <!-- Bezel outer edge -->
+    <circle cx="250" cy="250" r="181" fill="none" stroke="#8B6914" stroke-width="1"/>
+
+    <!-- Bezel knurling (decorative ridges) -->
+    <g opacity="0.3" stroke="#5C4000" stroke-width="0.5">
+      <line x1="250" y1="75" x2="250" y2="87"/>
+      <line x1="250" y1="413" x2="250" y2="425"/>
+      <line x1="75" y1="250" x2="87" y2="250"/>
+      <line x1="413" y1="250" x2="425" y2="250"/>
+      <!-- Diagonal ridges -->
+      <line x1="123" y1="123" x2="132" y2="132"/>
+      <line x1="377" y1="123" x2="368" y2="132"/>
+      <line x1="123" y1="377" x2="132" y2="368"/>
+      <line x1="377" y1="377" x2="368" y2="368"/>
+    </g>
+
+    <!-- Decorative case screws/rivets -->
+    <use href="#rivet" x="250" y="75"/>
+    <use href="#rivet" x="250" y="425"/>
+    <use href="#rivet" x="75" y="250"/>
+    <use href="#rivet" x="425" y="250"/>
+    <use href="#rivet" x="127" y="127"/>
+    <use href="#rivet" x="373" y="127"/>
+    <use href="#rivet" x="127" y="373"/>
+    <use href="#rivet" x="373" y="373"/>
+  </g>
+
+  <!-- ==================== CASE BACK (visible through aperture) ==================== -->
+  <g id="caseBack">
+    <circle cx="250" cy="250" r="165" fill="url(#brassRadial)" stroke="#7A5C10" stroke-width="1"/>
+  </g>
+
+  <!-- ==================== VISIBLE MOVEMENT (Gears) ==================== -->
+  <g id="movement" clip-path="url(#dialClip)">
+    <!-- Main gear (large, center-left) -->
+    <g transform="translate(195, 210)">
+      <!-- Gear body -->
+      <circle cx="0" cy="0" r="45" fill="url(#brassRadial)" stroke="#7A5C10" stroke-width="1"/>
+      <!-- Gear teeth (16 teeth) -->
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(0)"/>
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(22.5)"/>
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(45)"/>
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(67.5)"/>
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(90)"/>
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(112.5)"/>
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(135)"/>
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(157.5)"/>
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(180)"/>
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(202.5)"/>
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(225)"/>
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(247.5)"/>
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(270)"/>
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(292.5)"/>
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(315)"/>
+      <use href="#gearTooth" x="0" y="-45" transform="rotate(337.5)"/>
+      <!-- Inner ring -->
+      <circle cx="0" cy="0" r="30" fill="none" stroke="#7A5C10" stroke-width="1.5"/>
+      <!-- Spokes -->
+      <line x1="0" y1="-30" x2="0" y2="-12" stroke="#7A5C10" stroke-width="2"/>
+      <line x1="0" y1="30" x2="0" y2="12" stroke="#7A5C10" stroke-width="2"/>
+      <line x1="-30" y1="0" x2="-12" y2="0" stroke="#7A5C10" stroke-width="2"/>
+      <line x1="30" y1="0" x2="12" y2="0" stroke="#7A5C10" stroke-width="2"/>
+      <!-- Pivot -->
+      <circle cx="0" cy="0" r="6" fill="url(#steelGrad)" stroke="#0D1F35" stroke-width="1"/>
+      <circle cx="0" cy="0" r="2.5" fill="#8899AA"/>
+    </g>
+
+    <!-- Second gear (upper right) -->
+    <g transform="translate(310, 195)">
+      <circle cx="0" cy="0" r="32" fill="url(#brassRadial)" stroke="#7A5C10" stroke-width="1"/>
+      <!-- 12 teeth -->
+      <use href="#gearTooth" x="0" y="-32" transform="rotate(0)"/>
+      <use href="#gearTooth" x="0" y="-32" transform="rotate(30)"/>
+      <use href="#gearTooth" x="0" y="-32" transform="rotate(60)"/>
+      <use href="#gearTooth" x="0" y="-32" transform="rotate(90)"/>
+      <use href="#gearTooth" x="0" y="-32" transform="rotate(120)"/>
+      <use href="#gearTooth" x="0" y="-32" transform="rotate(150)"/>
+      <use href="#gearTooth" x="0" y="-32" transform="rotate(180)"/>
+      <use href="#gearTooth" x="0" y="-32" transform="rotate(210)"/>
+      <use href="#gearTooth" x="0" y="-32" transform="rotate(240)"/>
+      <use href="#gearTooth" x="0" y="-32" transform="rotate(270)"/>
+      <use href="#gearTooth" x="0" y="-32" transform="rotate(300)"/>
+      <use href="#gearTooth" x="0" y="-32" transform="rotate(330)"/>
+      <circle cx="0" cy="0" r="20" fill="none" stroke="#7A5C10" stroke-width="1.5"/>
+      <line x1="0" y1="-20" x2="0" y2="-8" stroke="#7A5C10" stroke-width="1.5"/>
+      <line x1="0" y1="20" x2="0" y2="8" stroke="#7A5C10" stroke-width="1.5"/>
+      <line x1="-20" y1="0" x2="-8" y2="0" stroke="#7A5C10" stroke-width="1.5"/>
+      <line x1="20" y1="0" x2="8" y2="0" stroke="#7A5C10" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="5" fill="url(#steelGrad)" stroke="#0D1F35" stroke-width="1"/>
+      <circle cx="0" cy="0" r="2" fill="#8899AA"/>
+    </g>
+
+    <!-- Third gear (lower right) -->
+    <g transform="translate(310, 310)">
+      <circle cx="0" cy="0" r="28" fill="url(#brassRadial)" stroke="#7A5C10" stroke-width="1"/>
+      <!-- 12 teeth -->
+      <use href="#gearTooth" x="0" y="-28" transform="rotate(0)"/>
+      <use href="#gearTooth" x="0" y="-28" transform="rotate(30)"/>
+      <use href="#gearTooth" x="0" y="-28" transform="rotate(60)"/>
+      <use href="#gearTooth" x="0" y="-28" transform="rotate(90)"/>
+      <use href="#gearTooth" x="0" y="-28" transform="rotate(120)"/>
+      <use href="#gearTooth" x="0" y="-28" transform="rotate(150)"/>
+      <use href="#gearTooth" x="0" y="-28" transform="rotate(180)"/>
+      <use href="#gearTooth" x="0" y="-28" transform="rotate(210)"/>
+      <use href="#gearTooth" x="0" y="-28" transform="rotate(240)"/>
+      <use href="#gearTooth" x="0" y="-28" transform="rotate(270)"/>
+      <use href="#gearTooth" x="0" y="-28" transform="rotate(300)"/>
+      <use href="#gearTooth" x="0" y="-28" transform="rotate(330)"/>
+      <circle cx="0" cy="0" r="18" fill="none" stroke="#7A5C10" stroke-width="1.5"/>
+      <line x1="0" y1="-18" x2="0" y2="-7" stroke="#7A5C10" stroke-width="1.5"/>
+      <line x1="0" y1="18" x2="0" y2="7" stroke="#7A5C10" stroke-width="1.5"/>
+      <line x1="-18" y1="0" x2="-7" y2="0" stroke="#7A5C10" stroke-width="1.5"/>
+      <line x1="18" y1="0" x2="7" y2="0" stroke="#7A5C10" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="4.5" fill="url(#steelGrad)" stroke="#0D1F35" stroke-width="1"/>
+      <circle cx="0" cy="0" r="2" fill="#8899AA"/>
+    </g>
+
+    <!-- Fourth gear (lower left) -->
+    <g transform="translate(195, 310)">
+      <circle cx="0" cy="0" r="25" fill="url(#brassRadial)" stroke="#7A5C10" stroke-width="1"/>
+      <!-- 12 teeth -->
+      <use href="#gearTooth" x="0" y="-25" transform="rotate(0)"/>
+      <use href="#gearTooth" x="0" y="-25" transform="rotate(30)"/>
+      <use href="#gearTooth" x="0" y="-25" transform="rotate(60)"/>
+      <use href="#gearTooth" x="0" y="-25" transform="rotate(90)"/>
+      <use href="#gearTooth" x="0" y="-25" transform="rotate(120)"/>
+      <use href="#gearTooth" x="0" y="-25" transform="rotate(150)"/>
+      <use href="#gearTooth" x="0" y="-25" transform="rotate(180)"/>
+      <use href="#gearTooth" x="0" y="-25" transform="rotate(210)"/>
+      <use href="#gearTooth" x="0" y="-25" transform="rotate(240)"/>
+      <use href="#gearTooth" x="0" y="-25" transform="rotate(270)"/>
+      <use href="#gearTooth" x="0" y="-25" transform="rotate(300)"/>
+      <use href="#gearTooth" x="0" y="-25" transform="rotate(330)"/>
+      <circle cx="0" cy="0" r="15" fill="none" stroke="#7A5C10" stroke-width="1.5"/>
+      <line x1="0" y1="-15" x2="0" y2="-6" stroke="#7A5C10" stroke-width="1.5"/>
+      <line x1="0" y1="15" x2="0" y2="6" stroke="#7A5C10" stroke-width="1.5"/>
+      <line x1="-15" y1="0" x2="-6" y2="0" stroke="#7A5C10" stroke-width="1.5"/>
+      <line x1="15" y1="0" x2="6" y2="0" stroke="#7A5C10" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="4" fill="url(#steelGrad)" stroke="#0D1F35" stroke-width="1"/>
+      <circle cx="0" cy="0" r="1.8" fill="#8899AA"/>
+    </g>
+
+    <!-- Escapement wheel (small, near center) -->
+    <g transform="translate(250, 175)">
+      <circle cx="0" cy="0" r="18" fill="url(#brassRadial)" stroke="#7A5C10" stroke-width="1"/>
+      <!-- 8 teeth -->
+      <use href="#gearTooth" x="0" y="-18" transform="rotate(0)"/>
+      <use href="#gearTooth" x="0" y="-18" transform="rotate(45)"/>
+      <use href="#gearTooth" x="0" y="-18" transform="rotate(90)"/>
+      <use href="#gearTooth" x="0" y="-18" transform="rotate(135)"/>
+      <use href="#gearTooth" x="0" y="-18" transform="rotate(180)"/>
+      <use href="#gearTooth" x="0" y="-18" transform="rotate(225)"/>
+      <use href="#gearTooth" x="0" y="-18" transform="rotate(270)"/>
+      <use href="#gearTooth" x="0" y="-18" transform="rotate(315)"/>
+      <circle cx="0" cy="0" r="10" fill="none" stroke="#7A5C10" stroke-width="1"/>
+      <circle cx="0" cy="0" r="3.5" fill="url(#steelGrad)" stroke="#0D1F35" stroke-width="1"/>
+      <circle cx="0" cy="0" r="1.5" fill="#8899AA"/>
+    </g>
+
+    <!-- Balance wheel (bottom center) -->
+    <g transform="translate(250, 340)">
+      <circle cx="0" cy="0" r="22" fill="none" stroke="url(#brassGrad)" stroke-width="3"/>
+      <circle cx="0" cy="0" r="22" fill="none" stroke="#7A5C10" stroke-width="0.5"/>
+      <!-- Spokes -->
+      <line x1="0" y1="-22" x2="0" y2="22" stroke="url(#brassGrad)" stroke-width="2"/>
+      <line x1="-22" y1="0" x2="22" y2="0" stroke="url(#brassGrad)" stroke-width="2"/>
+      <circle cx="0" cy="0" r="3" fill="url(#steelGrad)" stroke="#0D1F35" stroke-width="1"/>
+      <!-- Hairspring hint -->
+      <circle cx="0" cy="0" r="8" fill="none" stroke="#4A6680" stroke-width="0.8" stroke-dasharray="2,1.5"/>
+    </g>
+
+    <!-- Mainspring barrel hint -->
+    <g transform="translate(250, 250)">
+      <circle cx="0" cy="0" r="55" fill="none" stroke="#7A5C10" stroke-width="0.5" stroke-dasharray="3,2" opacity="0.4"/>
+      <circle cx="0" cy="0" r="40" fill="none" stroke="#7A5C10" stroke-width="0.5" stroke-dasharray="2,3" opacity="0.3"/>
+    </g>
+
+    <!-- Decorative gear train bridges -->
+    <path d="M160,180 Q195,160 230,180 Q260,195 270,220" fill="none" stroke="url(#brassGrad)" stroke-width="4" opacity="0.6"/>
+    <path d="M230,320 Q260,340 290,330 Q310,320 320,300" fill="none" stroke="url(#brassGrad)" stroke-width="3" opacity="0.5"/>
+  </g>
+
+  <!-- ==================== DIAL ==================== -->
+  <g id="dial" filter="url(#innerShadow)">
+    <!-- Dial face -->
+    <circle cx="250" cy="250" r="148" fill="url(#dialGrad)" stroke="#8B6914" stroke-width="2"/>
+
+    <!-- Chapter ring (outer track) -->
+    <circle cx="250" cy="250" r="140" fill="none" stroke="#5C4000" stroke-width="1.5"/>
+    <circle cx="250" cy="250" r="138" fill="none" stroke="#5C4000" stroke-width="0.5"/>
+
+    <!-- Minute track -->
+    <circle cx="250" cy="250" r="135" fill="none" stroke="#5C4000" stroke-width="0.5"/>
+
+    <!-- Minute markers -->
+    <g stroke="#5C4000" stroke-width="0.8">
+      <!-- 60 minute markers around the dial -->
+      <line x1="250" y1="115" x2="250" y2="120" transform="rotate(0,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(6,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(12,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(18,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(24,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="120" transform="rotate(30,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(36,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(42,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(48,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(54,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="120" transform="rotate(60,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(66,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(72,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(78,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(84,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="120" transform="rotate(90,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(96,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(102,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(108,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(114,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="120" transform="rotate(120,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(126,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(132,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(138,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(144,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="120" transform="rotate(150,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(156,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(162,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(168,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(174,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="120" transform="rotate(180,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(186,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(192,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(198,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(204,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="120" transform="rotate(210,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(216,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(222,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(228,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(234,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="120" transform="rotate(240,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(246,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(252,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(258,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(264,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="120" transform="rotate(270,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(276,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(282,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(288,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(294,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="120" transform="rotate(300,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(306,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(312,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(318,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(324,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="120" transform="rotate(330,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(336,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(342,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(348,250,250)"/>
+      <line x1="250" y1="115" x2="250" y2="118" transform="rotate(354,250,250)"/>
+    </g>
+
+    <!-- ==================== ROMAN NUMERALS ==================== -->
+    <g font-family="Georgia, 'Times New Roman', Times, serif" font-size="18" font-weight="bold" fill="#2C1810" text-anchor="middle" dominant-baseline="central">
+      <!-- XII (12 o'clock) -->
+      <text x="250" y="122">XII</text>
+      <!-- I (1 o'clock) -->
+      <text x="317" y="133">I</text>
+      <!-- II (2 o'clock) -->
+      <text x="367" y="167">II</text>
+      <!-- III (3 o'clock) -->
+      <text x="382" y="250">III</text>
+      <!-- IV (4 o'clock) -->
+      <text x="367" y="333">IV</text>
+      <!-- V (5 o'clock) -->
+      <text x="317" y="367">V</text>
+      <!-- VI (6 o'clock) -->
+      <text x="250" y="378">VI</text>
+      <!-- VII (7 o'clock) -->
+      <text x="183" y="367">VII</text>
+      <!-- VIII (8 o'clock) -->
+      <text x="133" y="333">VIII</text>
+      <!-- IX (9 o'clock) -->
+      <text x="118" y="250">IX</text>
+      <!-- X (10 o'clock) -->
+      <text x="133" y="167">X</text>
+      <!-- XI (11 o'clock) -->
+      <text x="183" y="133">XI</text>
+    </g>
+
+    <!-- ==================== POWER RESERVE INDICATOR (top sub-dial) ==================== -->
+    <g id="powerReserve" transform="translate(250, 175)">
+      <!-- Sub-dial background -->
+      <circle cx="0" cy="0" r="28" fill="url(#dialGrad)" stroke="#5C4000" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="26" fill="none" stroke="#5C4000" stroke-width="0.5"/>
+
+      <!-- Power reserve arc scale -->
+      <path d="M-20,10 A22,22 0 0,1 20,10" fill="none" stroke="#5C4000" stroke-width="1"/>
+
+      <!-- Scale marks -->
+      <line x1="-18" y1="12" x2="-15" y2="15" stroke="#5C4000" stroke-width="1"/>
+      <line x1="-12" y1="18" x2="-10" y2="20" stroke="#5C4000" stroke-width="1"/>
+      <line x1="0" y1="22" x2="0" y2="24" stroke="#5C4000" stroke-width="1"/>
+      <line x1="12" y1="18" x2="10" y2="20" stroke="#5C4000" stroke-width="1"/>
+      <line x1="18" y1="12" x2="15" y2="15" stroke="#5C4000" stroke-width="1"/>
+
+      <!-- Labels -->
+      <text x="-18" y="22" font-family="Georgia, serif" font-size="6" fill="#5C4000" text-anchor="middle">0</text>
+      <text x="0" y="24" font-family="Georgia, serif" font-size="6" fill="#5C4000" text-anchor="middle">24</text>
+      <text x="18" y="22" font-family="Georgia, serif" font-size="6" fill="#5C4000" text-anchor="middle">48</text>
+
+      <!-- Power reserve needle -->
+      <line x1="0" y1="0" x2="-8" y2="-14" stroke="#2C1810" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="0" cy="0" r="3" fill="#2C1810"/>
+
+      <!-- Label -->
+      <text x="0" y="-16" font-family="Georgia, serif" font-size="7" fill="#5C4000" text-anchor="middle">POWER</text>
+    </g>
+
+    <!-- ==================== SMALL SECONDS SUB-DIAL (bottom) ==================== -->
+    <g id="smallSeconds" transform="translate(250, 330)">
+      <!-- Sub-dial background -->
+      <circle cx="0" cy="0" r="30" fill="url(#dialGrad)" stroke="#5C4000" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="28" fill="none" stroke="#5C4000" stroke-width="0.5"/>
+
+      <!-- Minute track for sub-dial -->
+      <circle cx="0" cy="0" r="24" fill="none" stroke="#5C4000" stroke-width="0.5"/>
+
+      <!-- Sub-dial marks (60 seconds) -->
+      <g stroke="#5C4000" stroke-width="0.5">
+        <line x1="0" y1="-24" x2="0" y2="-21" transform="rotate(0,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(6,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(12,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(18,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(24,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-21" transform="rotate(30,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(36,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(42,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(48,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(54,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-21" transform="rotate(60,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(66,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(72,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(78,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(84,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-21" transform="rotate(90,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(96,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(102,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(108,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(114,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-21" transform="rotate(120,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(126,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(132,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(138,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(144,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-21" transform="rotate(150,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(156,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(162,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(168,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(174,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-21" transform="rotate(180,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(186,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(192,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(198,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(204,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-21" transform="rotate(210,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(216,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(222,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(228,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(234,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-21" transform="rotate(240,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(246,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(252,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(258,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(264,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-21" transform="rotate(270,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(276,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(282,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(288,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(294,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-21" transform="rotate(300,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(306,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(312,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(318,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(324,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-21" transform="rotate(330,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(336,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(342,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(348,0,0)"/>
+        <line x1="0" y1="-24" x2="0" y2="-22" transform="rotate(354,0,0)"/>
+      </g>
+
+      <!-- Sub-dial numbers -->
+      <text x="0" y="-18" font-family="Georgia, serif" font-size="8" fill="#5C4000" text-anchor="middle">60</text>
+      <text x="18" y="4" font-family="Georgia, serif" font-size="7" fill="#5C4000" text-anchor="middle">15</text>
+      <text x="0" y="20" font-family="Georgia, serif" font-size="8" fill="#5C4000" text-anchor="middle">30</text>
+      <text x="-18" y="4" font-family="Georgia, serif" font-size="7" fill="#5C4000" text-anchor="middle">45</text>
+
+      <!-- Small seconds hand (pointing to ~38 seconds) -->
+      <line x1="0" y1="0" x2="10" y2="-18" stroke="#CC2222" stroke-width="1" stroke-linecap="round"/>
+      <circle cx="0" cy="0" r="2.5" fill="#CC2222"/>
+      <circle cx="0" cy="0" r="1" fill="#FFF8DC"/>
+
+      <!-- Label -->
+      <text x="0" y="14" font-family="Georgia, serif" font-size="6" fill="#5C4000" text-anchor="middle">SECONDS</text>
+    </g>
+
+    <!-- ==================== BRAND / TEXT ==================== -->
+    <text x="250" y="210" font-family="Georgia, 'Times New Roman', serif" font-size="10" fill="#5C4000" text-anchor="middle" letter-spacing="3">CHRONOMETER</text>
+    <text x="250" y="222" font-family="Georgia, 'Times New Roman', serif" font-size="7" fill="#8B6914" text-anchor="middle" letter-spacing="2">SWISS MADE</text>
+
+    <!-- ==================== ORNATE HOUR HAND (Spade style) ==================== -->
+    <g id="hourHand" transform="rotate(105,250,250)">
+      <!-- Hour hand body (spade shape) -->
+      <path d="M247,250 L248,175 Q248,165 250,160 Q252,165 252,175 L253,250 Z" fill="url(#bluedSteel)" stroke="#0D1F35" stroke-width="0.5"/>
+      <!-- Hour hand counterweight -->
+      <path d="M247,250 L246,268 Q246,272 250,274 Q254,272 254,268 L253,250 Z" fill="url(#bluedSteel)" stroke="#0D1F35" stroke-width="0.5"/>
+      <!-- Highlight -->
+      <path d="M249,250 L249.5,178 Q249.5,170 250,165 Q250.5,170 250.5,178 L251,250 Z" fill="#8899AA" opacity="0.3"/>
+    </g>
+
+    <!-- ==================== ORNATE MINUTE HAND (Leaf style) ==================== -->
+    <g id="minuteHand" transform="rotate(310,250,250)">
+      <!-- Minute hand body (leaf/spade shape) -->
+      <path d="M248.5,250 L249,140 Q249,128 250,122 Q251,128 251,140 L251.5,250 Z" fill="url(#bluedSteel)" stroke="#0D1F35" stroke-width="0.5"/>
+      <!-- Minute hand counterweight -->
+      <path d="M248.5,250 L248,272 Q248,276 250,278 Q252,276 252,272 L251.5,250 Z" fill="url(#bluedSteel)" stroke="#0D1F35" stroke-width="0.5"/>
+      <!-- Highlight -->
+      <path d="M249.5,250 L249.7,145 Q249.7,134 250,128 Q250.3,134 250.3,145 L250.5,250 Z" fill="#8899AA" opacity="0.3"/>
+    </g>
+
+    <!-- ==================== SECOND HAND (Thin, red) ==================== -->
+    <g id="secondHand" transform="rotate(220,250,250)">
+      <!-- Second hand shaft -->
+      <line x1="250" y1="250" x2="250" y2="125" stroke="url(#redGrad)" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Second hand tail -->
+      <line x1="250" y1="250" x2="250" y2="280" stroke="url(#redGrad)" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Counterweight circle -->
+      <circle cx="250" cy="280" r="3" fill="url(#redGrad)" stroke="#880000" stroke-width="0.5"/>
+    </g>
+
+    <!-- ==================== CENTER PIN ==================== -->
+    <g id="centerPin">
+      <circle cx="250" cy="250" r="8" fill="url(#goldGrad)" stroke="#8B6914" stroke-width="1"/>
+      <circle cx="250" cy="250" r="5" fill="url(#goldLight)" stroke="#8B6914" stroke-width="0.5"/>
+      <circle cx="250" cy="250" r="2" fill="#FFF8DC"/>
+      <circle cx="250" cy="250" r="1" fill="#D4A843"/>
+    </g>
+
+    <!-- ==================== GLASS REFLECTION ==================== -->
+    <g id="glassReflection" opacity="0.08">
+      <ellipse cx="200" cy="180" rx="80" ry="50" fill="#FFFFFF" transform="rotate(-20,200,180)"/>
+      <ellipse cx="300" cy="300" rx="40" ry="25" fill="#FFFFFF" transform="rotate(15,300,300)"/>
+    </g>
+
+  </g>
+
+  <!-- ==================== DIAL BEZEL RING ==================== -->
+  <circle cx="250" cy="250" r="148" fill="none" stroke="url(#goldGrad)" stroke-width="4"/>
+  <circle cx="250" cy="250" r="146" fill="none" stroke="#FFF8DC" stroke-width="1" opacity="0.4"/>
+
+</svg>

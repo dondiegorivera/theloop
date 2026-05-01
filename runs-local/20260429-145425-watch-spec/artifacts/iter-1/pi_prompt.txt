@@ -1,0 +1,32 @@
+Goal: Replace the content of `artifact.svg` with a detailed, high-quality SVG illustration of a vintage mechanical pocket watch.
+
+Files to Edit:
+- `artifact.svg`: Replace all existing content with the new SVG code.
+
+Files to Leave Alone:
+- `index.html`
+- `README.md`
+
+Technical Requirements:
+1. The output must be valid XML. Every tag must be closed, and all attributes must be quoted.
+2. Use standard SVG elements (`<svg>`, `<g>`, `<circle>`, `<path>`, `<line>`, `<text>`, `<defs>`, `<linearGradient>`, `<radialGradient>`, `<filter>`).
+3. Do not use external images or fonts. Use system fonts or standard serif fonts for Roman numerals.
+4. Ensure the SVG is self-contained and scalable.
+
+Visual Specifications:
+1. **Overall Composition**: A classic open-face pocket watch, centered in the viewBox (e.g., 0 0 800 800). The watch should have a metallic, brass or gold appearance with realistic shading.
+2. **Case**: A circular metallic case with a beveled edge. Include a crown (winder) at the top (12 o'clock position) and a bow (ring) attached to the crown for the chain.
+3. **Chain**: A simple, elegant metal chain extending from the bow, curving slightly to suggest weight and realism.
+4. **Dial**: A white or cream-colored face with a subtle texture or gradient.
+5. **Roman Numerals**: Use Roman numerals (I, II, III, ..., XII) for the hour markers. They should be clearly legible, black or dark gray, and evenly spaced around the dial.
+6. **Hands**: Three hands (hour, minute, second) originating from the center. The hour and minute hands should be ornate (e.g., dauphine or spade style). The second hand should be thin and red.
+7. **Sub-dials**: Include at least one sub-dial (e.g., small seconds at 6 o'clock) with its own tiny hands and markers to emphasize the "mechanical" aspect.
+8. **Visible Gears**: In the background or as part of the design, include subtle, semi-transparent gear shapes to hint at the internal mechanics. These should not overpower the main dial.
+9. **Shading and Depth**: Use gradients and drop shadows to create a 3D effect. The case should look metallic, the dial should look slightly recessed, and the hands should cast subtle shadows.
+
+Acceptance Criteria:
+- The SVG parses without errors.
+- The illustration clearly depicts a vintage mechanical pocket watch.
+- All elements (case, dial, hands, numerals, chain) are present and visually distinct.
+- The design is detailed and aesthetically pleasing, avoiding generic or simplistic shapes.
+- No external dependencies are used.

@@ -1,0 +1,37 @@
+Let me read the file first to understand its structure.
+
+Now I have a clear picture. I need to:
+
+1. **Remove brand text**: `brandArea` (CHRONOMÈTRE, GENÈVE), serial number "No. 4782", and all non-Roman-numeral text (POWER RESERVE, 0, 42h, SECONDS)
+2. **Replace the fake chain** (text characters) with a detailed gold chain of interlocking oval links
+3. **Add a gold chain gradient** to defs
+
+Let me apply all edits in one call:
+
+All edits applied. Let me verify the result:
+
+All changes applied successfully. Let me verify the acceptance criteria:
+
+All acceptance criteria verified:
+
+| Criterion | Status |
+|---|---|
+| Valid XML (parses without error) | ✓ |
+| No brand text on dial | ✓ (CHRONOMETRE, GENÈVE, No. 4782 all removed) |
+| Only 12 Roman numerals remain as text | ✓ (exactly 12 `<text>` elements: XII through XI) |
+| Hour markers intact | ✓ (12 hour tick marks + 12 minute ticks) |
+| Detailed gold chain attached to crown | ✓ (7 interlocking oval links with highlights, decorative end ring) |
+| Old fake chain (text characters) removed | ✓ |
+
+**Summary of changes:**
+
+1. **Removed brand text**: Deleted the `brandArea` group (CHRONOMÈTRE, GENÈVE), its `<use>` reference, the "No. 4782" serial number, "POWER RESERVE" label, "0"/"42h" end labels, and "SECONDS" sub-dial label.
+
+2. **Added gold chain**: Replaced the old text-character chain with a detailed gold chain featuring:
+   - Attachment loop on the crown ring (right side)
+   - 7 interlocking oval links with outer gold stroke (`#DAA520`), inner shadow (`#B8860B`), and highlight arcs (`#FFD700`)
+   - Slight natural curve (x=218→221→219)
+   - Decorative end ring with inner detail
+   - Drop shadow filter for depth
+
+3. **Added `chainGrad` gradient** to `<defs>` for future gold chain styling.

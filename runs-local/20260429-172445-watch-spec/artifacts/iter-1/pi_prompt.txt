@@ -1,0 +1,24 @@
+Generate a detailed, realistic SVG illustration of a mechanical pocket watch inside `artifact.svg`. The design must feature a metallic aesthetic using linear and radial gradients to simulate gold, silver, and brass materials.
+
+**Structural Requirements:**
+1.  **Outer Case:** A circular gold case with a textured bezel and a crown at the top (12 o'clock position) for winding. Include a bow (loop) at the top for the chain.
+2.  **Dial:** A white or cream-colored face with a subtle radial gradient for depth.
+3.  **Roman Numerals:** Use standard Roman numerals (I through XII) positioned around the dial edge. Use a serif font style, colored in dark brown or black.
+4.  **Hands:** Three hands (hour, minute, second) originating from the center. The hour and minute hands should be ornate (spade or leaf style) in blued steel or black. The second hand should be thin and red.
+5.  **Sub-dials:** Include a small seconds sub-dial at the 6 o'clock position and a power reserve indicator at the 12 o'clock position (or similar symmetrical layout).
+6.  **Visible Movement:** Through an aperture or as background elements, show intricate brass gears with visible teeth and pivots to emphasize the mechanical nature.
+7.  **Chain:** Attach a gold chain to the bow, extending downwards with realistic links.
+
+**Technical Constraints:**
+-   Edit **only** `artifact.svg`. Do not modify `index.html` or `README.md`.
+-   The SVG must be valid XML: close all tags, quote all attribute values, and ensure proper nesting.
+-   Use `<defs>` for gradients (gold, silver, brass, steel) and filters (drop shadow for depth).
+-   Ensure the viewBox is set to `0 0 500 500` (or similar square aspect ratio) to center the watch.
+-   No console errors; the file must render cleanly in any standard SVG viewer.
+
+**Acceptance Criteria:**
+-   The SVG parses without XML errors.
+-   The watch is centered and clearly recognizable as a mechanical pocket watch.
+-   Metallic gradients are applied to the case, gears, and chain.
+-   Roman numerals are legible and correctly positioned.
+-   All tags are properly closed and attributes are quoted.

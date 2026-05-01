@@ -1,0 +1,24 @@
+Goal: Update `artifact.svg` to render a complete, valid SVG graphic that satisfies the adapter's XML parsing requirements and visual completeness criteria.
+
+Files to edit:
+- `artifact.svg`
+
+Files to leave alone:
+- `index.html`
+- `README.md`
+
+Instructions:
+1. Open `artifact.svg`.
+2. Replace the current content with a valid SVG structure.
+3. Ensure the SVG has a `viewBox` attribute (e.g., `0 0 100 100`) and a `width`/`height` of 100%.
+4. Include at least one visible shape (e.g., a `<circle>`, `<rect>`, or `<path>`) with distinct fill and stroke colors to ensure visual presence.
+5. Verify that every opening tag has a corresponding closing tag (or is self-closing with `/>`).
+6. Ensure all attributes are quoted (e.g., `fill="red"` not `fill=red`).
+7. Ensure the document is well-formed XML (no stray characters outside the root element).
+
+Acceptance Criteria:
+- The file `artifact.svg` contains valid XML.
+- The SVG renders a visible graphic (not empty or transparent).
+- All tags are properly closed.
+- All attributes are quoted.
+- No changes were made to `index.html` or `README.md`.

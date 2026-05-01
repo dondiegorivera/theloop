@@ -1,0 +1,40 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 5
+score_threshold: 0.95
+no_improvement_for: 2
+---
+
+# A capybara wearing a kimono drinking matcha tea
+Create svg image of a capybara wearing a kimono drinking matcha tea
+
+## Iteration history
+- iter 0: Draw a recognizable capybara in a detailed kimono actively sipping matcha from a bowl → Establish the core subject and all three required elements in a cohesive composition.
+
+## Iteration directive
+Goal: Generate a detailed SVG of a capybara wearing a traditional kimono and drinking matcha tea from a bowl, by editing `generate_artifact.py` and running it to produce `artifact.svg`.
+
+Requirements:
+1. **Subject**: A recognizable capybara with a blunt snout, small ears, and relaxed posture.
+2. **Clothing**: A detailed traditional kimono with visible patterns (e.g., floral or geometric).
+3. **Action**: The capybara is actively sipping matcha tea from a ceramic bowl held in its paws.
+4. **Composition**: All three elements must interact naturally in a single cohesive scene.
+
+Instructions:
+- Edit `generate_artifact.py` to define the SVG structure.
+- Use Python to generate the SVG content, ensuring proper XML syntax (closed tags, quoted attributes).
+- Run `python generate_artifact.py` to generate `artifact.svg`.
+- Verify `artifact.svg` parses as valid XML using a simple check (e.g., `python -c "import xml.etree.ElementTree as ET; ET.parse('artifact.svg')" `).
+- Do not touch `index.html` or `README.md`.
+- Use **relative paths only** for all file operations and bash commands. Your working directory is the workspace root.
+
+Acceptance Criteria:
+- `artifact.svg` exists and is valid XML.
+- The SVG contains a capybara, a kimono, and a matcha bowl.
+- The capybara is depicted drinking from the bowl.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration. Use relative paths only, including inside bash commands; pi already runs from the workspace root, so do not `cd` to or reference `/src/...`, `/tmp/...`, or any other absolute workspace path.

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>theloop — 20260501-105717-robot</title>
+<style>
+  :root {
+    --bg: #0f1115; --card: #1a1d23; --fg: #e6e6e6; --muted: #9aa0aa;
+    --accent: #6cf; --good: #7c7; --bad: #f88;
+  }
+  html, body { background: var(--bg); color: var(--fg); margin: 0;
+    font: 14px/1.5 -apple-system, system-ui, "Segoe UI", sans-serif; }
+  header { padding: 24px 32px; border-bottom: 1px solid #222; }
+  header h1 { margin: 0 0 8px; font-size: 18px; font-weight: 600; }
+  header .id { color: var(--muted); font-family: ui-monospace, monospace; }
+  header details { margin-top: 16px; max-width: 1200px; }
+  header details summary { color: var(--muted); cursor: pointer;
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
+  header details summary:hover { color: var(--accent); }
+  header details pre { background: #0c0e12; color: #ddd;
+    padding: 12px 16px; border-radius: 6px; margin-top: 8px;
+    font-family: ui-monospace, monospace; font-size: 12px;
+    overflow: auto; max-height: 400px; white-space: pre-wrap; }
+  main { padding: 24px 32px 64px; max-width: 1200px; margin: 0 auto; }
+  section.summary table { border-collapse: collapse; margin-bottom: 32px; }
+  section.summary th, section.summary td {
+    padding: 4px 12px 4px 0; text-align: left; vertical-align: top;
+  }
+  section.summary th { color: var(--muted); font-weight: 400; }
+  .card { background: var(--card); border-radius: 8px; padding: 20px;
+    margin-bottom: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .card .meta h2 { margin: 0 0 12px; font-size: 16px; }
+  .card .score { font-family: ui-monospace, monospace; font-size: 18px; }
+  .card .score.good { color: var(--good); }
+  .card .score.bad { color: var(--bad); }
+  .card .label { color: var(--muted); font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.04em; margin-top: 16px; }
+  .card pre { background: #0c0e12; color: #ddd; padding: 12px; border-radius: 6px;
+    overflow: auto; max-height: 300px; font-size: 12px; }
+  .card img { max-width: 100%; border-radius: 6px; background: #fff; }
+  .card .render-missing { color: var(--muted); font-style: italic; }
+  .card a { color: var(--accent); }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 12px;
+    font-size: 11px; background: #2a2e36; color: var(--muted); margin-left: 6px; }
+  .pill.ok { background: #1d3a1f; color: #9eda9e; }
+  .pill.bad { background: #3a1d1d; color: #da9e9e; }
+</style>
+</head>
+<body>
+<header>
+  <h1>theloop run</h1>
+  <div class="id">20260501-105717-robot</div>
+  <details><summary>original spec</summary><pre>---
+adapter: svg
+max_iters: 10
+score_threshold: 0.99
+no_improvement_for: 5
+---
+
+# A Victorian-era robot reading a newspaper in a cafe
+
+An svg image of a Victorian-era robot reading a newspaper in a cafe
+</pre></details>
+</header>
+<main>
+  <section class="summary">
+    <table><tr><th>adapter</th><td>svg</td></tr><tr><th>max iters</th><td>10</td></tr><tr><th>threshold</th><td>0.99</td></tr><tr><th>plateau window</th><td>5</td></tr><tr><th>stop reason</th><td>done</td></tr><tr><th>best score</th><td>0.95</td></tr><tr><th>iters run</th><td>1</td></tr><tr><th>started</th><td>2026-05-01T08:57:19.241871+00:00</td></tr><tr><th>ended</th><td>2026-05-01T09:03:45.063515+00:00</td></tr></table>
+  </section>
+  
+  <article class="card">
+    <div class="render"><img src="artifacts/iter-0/render.png" alt="iter 0 render"></div>
+    <div class="meta">
+      <h2>iter 0 <span class="score good">0.95</span> <span class="pill ok">runtime ok</span><span class="pill ok">done</span><span class="pill">touched 1</span></h2>
+
+      <div class="label">intent</div>
+      <div>Draw the Victorian-era robot holding and reading a newspaper, seated at a table within a cafe environment, ensuring all three core elements are clearly visible and integrated into the scene.</div>
+
+      <div class="label">judge critique</div>
+      <div>The artifact successfully includes all required elements: the Victorian-era robot, the act of reading a newspaper, and the cafe setting are all clearly present and well-rendered. The composition is coherent with appropriate details like the menu board, teacup, and lighting effects. No significant defects or missing components were identified in the first-pass description.</div>
+
+      <div class="label">runtime check</div>
+      <div>artifact.svg parses as XML</div>
+
+      <div class="label">commit</div>
+      <div>iter/0: <a href="artifacts/iter-0/diff.txt">view diff</a> <code>1f4c9f99</code></div>
+    </div>
+  </article>
+
+</main>
+</body>
+</html>

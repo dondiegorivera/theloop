@@ -1,0 +1,17 @@
+Goal: Update `artifact.svg` to remove all forbidden brand text from the dial (keeping only 12 Roman numerals and hour markers) and add a detailed gold chain attached to the crown.
+
+Specific Files:
+- Edit: `artifact.svg`
+- Do not touch: `index.html`, `README.md`
+
+Concrete Changes:
+1. **Remove Forbidden Text**: Scan the SVG for any text elements (`<text>`) or paths that form brand names, logos, or non-standard markings on the dial face. Remove these entirely. Ensure only the 12 Roman numeral markers (I, II, III, etc.) and the hour tick marks remain on the dial.
+2. **Add Gold Chain**: Create a detailed gold chain attached to the crown (the winding knob at the top of the watch). The chain should appear metallic (use gold colors like `#FFD700`, `#DAA520`, `#B8860B` with gradients or shading for depth). It should hang naturally from the crown, perhaps looping slightly or hanging straight down, depending on the current crown position. Ensure the chain is visually distinct and clearly attached to the crown.
+3. **Verify Dial Integrity**: Ensure the removal of text does not leave orphaned elements or break the symmetry of the hour markers.
+
+Acceptance Criteria:
+- The SVG parses as valid XML (all tags closed, attributes quoted).
+- No brand text or non-standard markings appear on the dial face.
+- Only 12 Roman numerals and hour markers are present on the dial.
+- A detailed gold chain is visible, attached to the crown.
+- Use **relative paths only** for `read` / `write` / `edit` (e.g. `artifact.svg`, not `/abs/path/artifact.svg`); pi's working directory is the workspace root.

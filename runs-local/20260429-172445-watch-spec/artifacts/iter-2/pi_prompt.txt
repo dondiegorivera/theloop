@@ -1,0 +1,27 @@
+Generate a complete, detailed SVG illustration of a mechanical pocket watch within the existing `artifact.svg` file. The SVG must use a 600x600 viewBox and replace the current placeholder content entirely.
+
+**Structural Requirements:**
+1.  **Case:** Draw a circular outer case (radius ~200, centered at 300,300) with metallic gradients (silver/gold) to simulate a polished metal finish. Include a crown/winder at the top (y ~100) and a chain ring attached to it.
+2.  **Dial:** Inside the case, draw a white or cream-colored dial (radius ~180). Add hour markers (1-12) using lines or small circles. Include minute ticks around the perimeter.
+3.  **Hands:** Draw three hands (hour, minute, second) originating from the center (300,300). Style them in black or dark blue with distinct shapes (e.g., spade or leaf style for hour/minute, thin line for second). Position them to show a specific time (e.g., 10:10).
+4.  **Sub-dials:** Add at least one sub-dial (e.g., small seconds at 6 o'clock position) with its own scale and hand.
+5.  **Movement Details:** Add subtle details like brand text ("Swiss Made" or similar) and decorative guilloche patterns or concentric circles on the dial if space permits.
+6.  **Chain:** Draw a simple chain link extending from the crown upwards, suggesting the watch is hanging.
+
+**Stylistic Requirements:**
+- Use `<defs>` for gradients, filters (drop shadow for depth), and patterns.
+- Apply a drop shadow to the main case to give it a 3D appearance against the background.
+- Use appropriate colors: metallic grays/golds for the case, white/cream for the dial, black/dark blue for hands, and red for the second hand.
+- Ensure all elements are properly layered (background -> shadow -> case -> dial -> hands -> details).
+
+**Technical Constraints:**
+- Edit **only** `artifact.svg`. Do not modify `index.html` or `README.md`.
+- The output must be valid XML. Close every tag (`<circle />`, `<path />`, etc.) and quote every attribute.
+- No console errors; the SVG must render correctly in a standard browser.
+- Keep the code clean and organized with comments separating major sections (Case, Dial, Hands, etc.).
+
+**Acceptance Criteria:**
+- The SVG renders a recognizable mechanical pocket watch.
+- All tags are closed and attributes are quoted.
+- The viewBox is 600x600.
+- The illustration includes case, dial, hands, sub-dials, and chain.

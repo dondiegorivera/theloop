@@ -1,0 +1,38 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 10
+score_threshold: 0.99
+no_improvement_for: 5
+---
+
+# A Victorian-era robot reading a newspaper in a cafe
+
+An svg image of a Victorian-era robot reading a newspaper in a cafe
+
+## Iteration history
+- iter 0: Render a Victorian-era robot seated at a cafe table, actively reading a spread newspaper, surrounded by period-appropriate cafe details like a porcelain cup, saucer, and a large window to establish the setting. → Establish the core subject and setting.
+- iter 1: Reposition the robot's eyes and tilt its head downward to clearly direct its gaze at the newspaper, correcting the partial 'reading' action. → Establish active reading posture and narrative focus.
+
+## Iteration directive
+Goal: Reposition the robot's eyes and tilt its head downward to clearly target the newspaper, adjusting hand placement and paper angle to reinforce an active reading posture.
+
+Edit `generate_artifact.py` to modify the robot's head and hand coordinates. Do not edit `artifact.svg` directly; regenerate it by running `python generate_artifact.py`.
+
+1. **Head Tilt & Gaze**: Locate the robot's head group or transform. Apply a slight rotation (e.g., `transform="rotate(10, cx, cy)"`) to tilt the head downward. Move the eye elements (`<circle>` or `<rect>`) lower within the head group so they align with the newspaper's position.
+2. **Hand Placement**: Adjust the coordinates of the robot's hands/arms so they are holding the edges of the newspaper. Ensure the hands overlap the paper slightly to imply grip.
+3. **Newspaper Angle**: If necessary, slightly rotate the newspaper group to match the perspective of the tilted head, ensuring the text lines (if present) or fold lines are consistent with the new angle.
+
+Acceptance Criteria:
+- The robot's eyes must be visually directed at the newspaper.
+- The head must be tilted downward relative to the torso.
+- The hands must appear to be holding the newspaper.
+- `artifact.svg` must be valid XML (parseable).
+- No changes to `index.html` or `README.md`.
+
+Use **relative paths only** for `read` / `write` / `edit` and inside `bash` commands; pi's working directory is the workspace root, so run `python generate_artifact.py`, not `cd /abs/path && python ...`.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration. Use relative paths only, including inside bash commands; pi already runs from the workspace root, so do not `cd` to or reference `/src/...`, `/tmp/...`, or any other absolute workspace path.

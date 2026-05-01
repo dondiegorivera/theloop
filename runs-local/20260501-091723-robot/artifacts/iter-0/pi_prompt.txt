@@ -1,0 +1,40 @@
+## Authoritative spec
+This is the source of truth. Satisfy these requirements even if the iteration directive is narrower or ambiguous.
+
+---
+adapter: svg
+max_iters: 10
+score_threshold: 0.99
+no_improvement_for: 5
+---
+
+# A Victorian-era robot reading a newspaper in a cafe
+
+An svg image of a Victorian-era robot reading a newspaper in a cafe
+
+## Iteration history
+- iter 0: Generate the core scene with a Victorian-era robot at a cafe table reading a newspaper, surrounded by period-appropriate furniture and props. → Establish the primary subject and setting in the initial SVG draft.
+
+## Iteration directive
+Generate the initial `artifact.svg` by editing `generate_artifact.py` and running it. The SVG must depict a Victorian-era robot reading a newspaper in a cafe.
+
+**Scene Composition:**
+1.  **Subject:** A detailed Victorian-era robot (brass, copper, rivets, gears, steam vents) seated at a small cafe table.
+2.  **Action:** The robot is holding a folded newspaper, appearing to read it.
+3.  **Setting:** A period-appropriate cafe interior. Include a wooden table, a ceramic cup (tea/coffee) on the table, and wrought-iron chairs in the background. Add subtle background elements like a window or wall decor to establish the Victorian era.
+
+**Technical Requirements:**
+-   Use **relative paths only** for `read` / `write` / `edit` and inside `bash` commands; pi's working directory is the workspace root, so run `python generate_artifact.py`, not `cd /abs/path && python ...`.
+-   The SVG must be valid XML: close every tag, quote every attribute.
+-   Do not touch `index.html` or `README.md`.
+-   Do not install packages or generate preview PNGs.
+-   Ensure the robot is the focal point, with clear distinction between metallic parts and the paper/newspaper.
+-   Use a color palette consistent with the Victorian era (brass, copper, dark wood, muted tones).
+
+**Acceptance Criteria:**
+-   `artifact.svg` is generated and parses as valid XML.
+-   The scene includes a Victorian-era robot, a cafe table, a newspaper, and period-appropriate furniture (wooden table, wrought-iron chairs, ceramic cup).
+-   No absolute paths are used in the script or bash commands.
+
+## Execution rule
+Call `write` or `edit` on the target artifact promptly. Do not spend the turn only describing a plan; the loop scores file changes, not assistant narration. Use relative paths only, including inside bash commands; pi already runs from the workspace root, so do not `cd` to or reference `/src/...`, `/tmp/...`, or any other absolute workspace path.

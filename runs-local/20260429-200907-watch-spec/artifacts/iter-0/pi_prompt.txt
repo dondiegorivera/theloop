@@ -1,0 +1,22 @@
+Goal: Replace the content of `artifact.svg` with a complete, detailed SVG rendering of a mechanical pocket watch from a front view, featuring a skeletonized lower section to reveal internal gears.
+
+Specific Files:
+- Edit: `artifact.svg`
+- Do NOT touch: `index.html`, `README.md`
+
+Implementation Details:
+1.  **Structure**: Create a valid SVG document with `xmlns`, `viewBox="0 0 400 400"`, and appropriate `width`/`height`.
+2.  **Case**: Draw a circular outer case (radius ~180, center 200,200) with a metallic gradient fill and a crown at the top (y=20).
+3.  **Dial**: Inside the case, draw a white or cream-colored dial (radius ~160). Add hour markers (lines or small circles) around the perimeter.
+4.  **Hands**: Add hour, minute, and second hands originating from the center (200,200). Style them distinctively (e.g., blued steel look).
+5.  **Sub-dials**: Include at least one sub-dial (e.g., small seconds) on the dial face.
+6.  **Skeletonized Movement**: In the lower half of the watch (below the horizontal midline), replace the solid dial background with a visible mechanical movement. Draw several interlocking gears of varying sizes and teeth counts using paths or circles with stroke patterns. Ensure these gears are clearly visible and layered behind the hands but in front of the case back.
+7.  **Aesthetics**: Use gradients for metallic parts (gold/brass for gears and case, silver/steel for hands). Add subtle shadows or highlights to give depth.
+
+Acceptance Criteria:
+- The SVG must parse as valid XML.
+- All tags must be properly closed (e.g., `<circle ... />`).
+- All attributes must be quoted (e.g., `fill="#fff"`).
+- The file must contain no HTML tags or scripts.
+- The visual result must clearly show a pocket watch with a visible skeletonized gear train in the lower section.
+- Use **relative paths only** for `read` / `write` / `edit` (e.g., `artifact.svg`, not `/abs/path/artifact.svg`); pi's working directory is the workspace root.

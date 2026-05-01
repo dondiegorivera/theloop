@@ -1,0 +1,22 @@
+Goal: Replace the contents of `artifact.svg` with a detailed, realistic mechanical pocket watch illustration using clean line art and a brass color palette, centered in a 600x600 viewBox.
+
+Files to touch: `artifact.svg` only. Do not edit `index.html` or `README.md`.
+
+Implementation details:
+1.  **Structure**: Create a valid SVG document with `xmlns`, `viewBox="0 0 600 600"`, and `width="100%"` `height="100%"`.
+2.  **Palette**: Use a brass/gold color scheme (e.g., `#b5a642`, `#d4af37`, `#8b7500`) for metallic parts, cream (`#fdf5e6`) for the dial, and dark grey/black for hands and text.
+3.  **Case**: Draw a circular metallic case (radius ~200) centered at (300, 300). Include a crown at the top (12 o'clock position) and a short chain attached to it.
+4.  **Dial**: Inside the case, draw a cream-colored dial. Add Roman numerals (I through XII) around the perimeter. Add minute ticks (small lines) for each minute mark.
+5.  **Hands**: Draw three hands (hour, minute, second) originating from the center (300, 300). Position them near 10, 2, and 7 o'clock respectively. Ensure they are layered correctly (second on top, then minute, then hour).
+6.  **Sub-dials**: Add two smaller sub-dials: one for small seconds (e.g., at 6 o'clock) and one for power reserve (e.g., at 12 o'clock or integrated into the main dial).
+7.  **Mechanical Details**: In the lower half of the watch (below the main dial area or visible through an open-heart design if preferred, but the intent suggests visible gears/balance wheel in the lower half), draw visible gears and a balance wheel. Use clean line art for these components.
+8.  **Line Art**: Use `<path>`, `<circle>`, `<line>`, and `<text>` elements. Ensure all tags are closed and attributes are quoted.
+
+Acceptance Criteria:
+- The SVG parses as valid XML.
+- The watch is centered in the 600x600 viewBox.
+- All specified features (case, crown, chain, dial, numerals, ticks, three hands, sub-dials, gears, balance wheel) are present.
+- The color palette is consistent with brass and cream.
+- No absolute paths are used in the file content.
+
+Use **relative paths only** for `read` / `write` / `edit` (e.g. `artifact.svg`, not `/abs/path/artifact.svg`); pi's working directory is the workspace root.

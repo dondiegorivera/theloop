@@ -1,0 +1,12 @@
+All done. Here's a summary:
+
+**Generated files:**
+- `generate_artifact.py` — Python script that generates the SVG
+- `artifact.svg` — Valid SVG output (800×600)
+
+**SVG contents:**
+- **Capybara**: Recognizable with blunt snout, small ears, relaxed half-closed eyes, brown fur gradients, and cheek blush
+- **Kimono**: Deep burgundy with V-neck collar, wide sleeves, gold obi sash with back knot, cherry blossom patterns, and geometric diamond motifs
+- **Matcha bowl**: Ceramic chawan with green matcha tea surface, foam/whisk marks, and rising steam
+- **Action**: Both paws holding the bowl up to the mouth, mouth slightly open for sipping
+- **Scene details**: Tatami mat floor, bamboo whisk (chasen), decorative fan, floating cherry blossom petals, subtle background lantern

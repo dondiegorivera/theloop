@@ -1,0 +1,290 @@
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..7cc7e1c
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,9 @@
++# SVG task workspace
++
++The rendered artifact lives at `artifact.svg`. For detailed or repetitive
++SVGs, edit `generate_artifact.py` and run `python generate_artifact.py`
++instead of writing a huge SVG directly. Use direct `artifact.svg` edits only
++for small incremental fixes.
++
++Tools available: read, write, edit, bash. The renderer screenshots
++`index.html` at 1536×1152 after each iteration.
+diff --git a/artifact.svg b/artifact.svg
+new file mode 100644
+index 0000000..9a44084
+--- /dev/null
++++ b/artifact.svg
+@@ -0,0 +1,114 @@
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
++  <!-- Sky / background -->
++  <rect x="0" y="0" width="800" height="600" fill="#87CEEB"/>
++  <!-- Road -->
++  <rect x="0" y="450" width="800" height="150" fill="#555"/>
++  <line x1="0" y1="525" x2="800" y2="525" stroke="#FFF" stroke-width="6" stroke-dasharray="40,30"/>
++
++  <!-- ===== GO-KART ===== -->
++  <g id="go-kart">
++    <!-- Chassis / body -->
++    <rect x="180" y="340" width="440" height="50" rx="10" fill="#E63946"/>
++    <!-- Engine block at rear -->
++    <rect x="160" y="310" width="80" height="80" rx="8" fill="#333"/>
++    <rect x="170" y="300" width="60" height="20" rx="4" fill="#444"/>
++    <!-- Exhaust pipe -->
++    <rect x="130" y="340" width="40" height="12" rx="3" fill="#777"/>
++    <!-- Seat -->
++    <rect x="340" y="290" width="100" height="55" rx="12" fill="#222"/>
++    <!-- Steering column -->
++    <rect x="440" y="260" width="10" height="80" fill="#888"/>
++    <!-- Steering wheel -->
++    <circle cx="445" cy="260" r="35" fill="none" stroke="#333" stroke-width="8"/>
++    <line x1="445" y1="225" x2="445" y2="295" stroke="#333" stroke-width="6"/>
++    <line x1="410" y1="260" x2="480" y2="260" stroke="#333" stroke-width="6"/>
++    <!-- Front bumper -->
++    <rect x="590" y="350" width="30" height="30" rx="5" fill="#CC2936"/>
++    <!-- Rear bumper -->
++    <rect x="170" y="350" width="20" height="30" rx="5" fill="#CC2936"/>
++    <!-- Front wing -->
++    <rect x="580" y="330" width="50" height="10" rx="3" fill="#E63946"/>
++    <!-- Rear wing -->
++    <rect x="150" y="280" width="60" height="10" rx="3" fill="#E63946"/>
++    <rect x="160" y="290" width="8" height="30" fill="#CC2936"/>
++    <rect x="192" y="290" width="8" height="30" fill="#CC2936"/>
++
++    <!-- Wheels -->
++    <!-- Rear left wheel -->
++    <circle cx="230" cy="410" r="45" fill="#222"/>
++    <circle cx="230" cy="410" r="30" fill="#444"/>
++    <circle cx="230" cy="410" r="12" fill="#888"/>
++    <!-- Rear right wheel -->
++    <circle cx="230" cy="410" r="45" fill="#222"/>
++    <circle cx="230" cy="410" r="30" fill="#444"/>
++    <circle cx="230" cy="410" r="12" fill="#888"/>
++    <!-- Front left wheel -->
++    <circle cx="560" cy="410" r="45" fill="#222"/>
++    <circle cx="560" cy="410" r="30" fill="#444"/>
++    <circle cx="560" cy="410" r="12" fill="#888"/>
++    <!-- Front right wheel -->
++    <circle cx="560" cy="410" r="45" fill="#222"/>
++    <circle cx="560" cy="410" r="30" fill="#444"/>
++    <circle cx="560" cy="410" r="12" fill="#888"/>
++  </g>
++
++  <!-- ===== SUSHI ROLL (driver) ===== -->
++  <g id="sushi-roll">
++    <!-- Sushi body (cylinder - side view as driver) -->
++    <!-- Main body - nori (dark seaweed wrap) -->
++    <rect x="355" y="180" width="70" height="120" rx="15" fill="#1a1a2e"/>
++    <!-- Rice layer visible on top -->
++    <rect x="360" y="185" width="60" height="110" rx="12" fill="#F5F5DC"/>
++    <!-- Nori strip wrapping around -->
++    <rect x="355" y="180" width="70" height="120" rx="15" fill="none" stroke="#1a1a2e" stroke-width="6"/>
++
++    <!-- Sushi front face (the circular end facing us) -->
++    <ellipse cx="390" cy="240" rx="35" ry="55" fill="#1a1a2e"/>
++    <!-- Rice on front face -->
++    <ellipse cx="390" cy="240" rx="30" ry="48" fill="#F5F5DC"/>
++    <!-- Cucumber filling (green center) -->
++    <ellipse cx="390" cy="240" rx="14" ry="22" fill="#4CAF50"/>
++    <!-- Crab/cream filling -->
++    <ellipse cx="390" cy="240" rx="8" ry="14" fill="#FFD700"/>
++    <!-- Nori border on front face -->
++    <ellipse cx="390" cy="240" rx="35" ry="55" fill="none" stroke="#1a1a2e" stroke-width="4"/>
++
++    <!-- Sushi top face (rounded top) -->
++    <ellipse cx="390" cy="185" rx="35" ry="12" fill="#F5F5DC"/>
++    <ellipse cx="390" cy="185" rx="35" ry="12" fill="none" stroke="#1a1a2e" stroke-width="3"/>
++
++    <!-- ===== SUNGLASSES on sushi ===== -->
++    <g id="sunglasses">
++      <!-- Left lens -->
++      <rect x="358" y="220" width="26" height="20" rx="4" fill="#111" stroke="#333" stroke-width="2"/>
++      <!-- Right lens -->
++      <rect x="400" y="220" width="26" height="20" rx="4" fill="#111" stroke="#333" stroke-width="2"/>
++      <!-- Bridge -->
++      <rect x="384" y="226" width="16" height="4" fill="#333"/>
++      <!-- Left arm -->
++      <rect x="348" y="224" width="12" height="4" fill="#333"/>
++      <!-- Right arm -->
++      <rect x="426" y="224" width="12" height="4" fill="#333"/>
++      <!-- Lens reflections -->
++      <line x1="362" y1="224" x2="372" y2="236" stroke="#555" stroke-width="2"/>
++      <line x1="404" y1="224" x2="414" y2="236" stroke="#555" stroke-width="2"/>
++    </g>
++
++    <!-- Sushi arms reaching to steering wheel -->
++    <!-- Left arm -->
++    <path d="M 370 280 Q 390 300 420 265" fill="none" stroke="#F5F5DC" stroke-width="10" stroke-linecap="round"/>
++    <!-- Right arm -->
++    <path d="M 410 280 Q 430 300 460 265" fill="none" stroke="#F5F5DC" stroke-width="10" stroke-linecap="round"/>
++    <!-- Hands on wheel -->
++    <circle cx="420" cy="265" r="8" fill="#F5F5DC"/>
++    <circle cx="460" cy="265" r="8" fill="#F5F5DC"/>
++  </g>
++
++  <!-- Speed lines for motion -->
++  <g id="speed-lines" opacity="0.6">
++    <line x1="50" y1="350" x2="120" y2="350" stroke="#FFF" stroke-width="3"/>
++    <line x1="30" y1="380" x2="100" y2="380" stroke="#FFF" stroke-width="3"/>
++    <line x1="60" y1="410" x2="130" y2="410" stroke="#FFF" stroke-width="3"/>
++    <line x1="40" y1="440" x2="110" y2="440" stroke="#FFF" stroke-width="3"/>
++  </g>
++</svg>
+diff --git a/generate_artifact.py b/generate_artifact.py
+new file mode 100644
+index 0000000..02cc9ea
+--- /dev/null
++++ b/generate_artifact.py
+@@ -0,0 +1,123 @@
++#!/usr/bin/env python3
++"""Generate artifact.svg: a sushi roll wearing sunglasses driving a go-kart."""
++
++svg_content = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
++  <!-- Sky / background -->
++  <rect x="0" y="0" width="800" height="600" fill="#87CEEB"/>
++  <!-- Road -->
++  <rect x="0" y="450" width="800" height="150" fill="#555"/>
++  <line x1="0" y1="525" x2="800" y2="525" stroke="#FFF" stroke-width="6" stroke-dasharray="40,30"/>
++
++  <!-- ===== GO-KART ===== -->
++  <g id="go-kart">
++    <!-- Chassis / body -->
++    <rect x="180" y="340" width="440" height="50" rx="10" fill="#E63946"/>
++    <!-- Engine block at rear -->
++    <rect x="160" y="310" width="80" height="80" rx="8" fill="#333"/>
++    <rect x="170" y="300" width="60" height="20" rx="4" fill="#444"/>
++    <!-- Exhaust pipe -->
++    <rect x="130" y="340" width="40" height="12" rx="3" fill="#777"/>
++    <!-- Seat -->
++    <rect x="340" y="290" width="100" height="55" rx="12" fill="#222"/>
++    <!-- Steering column -->
++    <rect x="440" y="260" width="10" height="80" fill="#888"/>
++    <!-- Steering wheel -->
++    <circle cx="445" cy="260" r="35" fill="none" stroke="#333" stroke-width="8"/>
++    <line x1="445" y1="225" x2="445" y2="295" stroke="#333" stroke-width="6"/>
++    <line x1="410" y1="260" x2="480" y2="260" stroke="#333" stroke-width="6"/>
++    <!-- Front bumper -->
++    <rect x="590" y="350" width="30" height="30" rx="5" fill="#CC2936"/>
++    <!-- Rear bumper -->
++    <rect x="170" y="350" width="20" height="30" rx="5" fill="#CC2936"/>
++    <!-- Front wing -->
++    <rect x="580" y="330" width="50" height="10" rx="3" fill="#E63946"/>
++    <!-- Rear wing -->
++    <rect x="150" y="280" width="60" height="10" rx="3" fill="#E63946"/>
++    <rect x="160" y="290" width="8" height="30" fill="#CC2936"/>
++    <rect x="192" y="290" width="8" height="30" fill="#CC2936"/>
++
++    <!-- Wheels -->
++    <!-- Rear left wheel -->
++    <circle cx="230" cy="410" r="45" fill="#222"/>
++    <circle cx="230" cy="410" r="30" fill="#444"/>
++    <circle cx="230" cy="410" r="12" fill="#888"/>
++    <!-- Rear right wheel -->
++    <circle cx="230" cy="410" r="45" fill="#222"/>
++    <circle cx="230" cy="410" r="30" fill="#444"/>
++    <circle cx="230" cy="410" r="12" fill="#888"/>
++    <!-- Front left wheel -->
++    <circle cx="560" cy="410" r="45" fill="#222"/>
++    <circle cx="560" cy="410" r="30" fill="#444"/>
++    <circle cx="560" cy="410" r="12" fill="#888"/>
++    <!-- Front right wheel -->
++    <circle cx="560" cy="410" r="45" fill="#222"/>
++    <circle cx="560" cy="410" r="30" fill="#444"/>
++    <circle cx="560" cy="410" r="12" fill="#888"/>
++  </g>
++
++  <!-- ===== SUSHI ROLL (driver) ===== -->
++  <g id="sushi-roll">
++    <!-- Sushi body (cylinder - side view as driver) -->
++    <!-- Main body - nori (dark seaweed wrap) -->
++    <rect x="355" y="180" width="70" height="120" rx="15" fill="#1a1a2e"/>
++    <!-- Rice layer visible on top -->
++    <rect x="360" y="185" width="60" height="110" rx="12" fill="#F5F5DC"/>
++    <!-- Nori strip wrapping around -->
++    <rect x="355" y="180" width="70" height="120" rx="15" fill="none" stroke="#1a1a2e" stroke-width="6"/>
++
++    <!-- Sushi front face (the circular end facing us) -->
++    <ellipse cx="390" cy="240" rx="35" ry="55" fill="#1a1a2e"/>
++    <!-- Rice on front face -->
++    <ellipse cx="390" cy="240" rx="30" ry="48" fill="#F5F5DC"/>
++    <!-- Cucumber filling (green center) -->
++    <ellipse cx="390" cy="240" rx="14" ry="22" fill="#4CAF50"/>
++    <!-- Crab/cream filling -->
++    <ellipse cx="390" cy="240" rx="8" ry="14" fill="#FFD700"/>
++    <!-- Nori border on front face -->
++    <ellipse cx="390" cy="240" rx="35" ry="55" fill="none" stroke="#1a1a2e" stroke-width="4"/>
++
++    <!-- Sushi top face (rounded top) -->
++    <ellipse cx="390" cy="185" rx="35" ry="12" fill="#F5F5DC"/>
++    <ellipse cx="390" cy="185" rx="35" ry="12" fill="none" stroke="#1a1a2e" stroke-width="3"/>
++
++    <!-- ===== SUNGLASSES on sushi ===== -->
++    <g id="sunglasses">
++      <!-- Left lens -->
++      <rect x="358" y="220" width="26" height="20" rx="4" fill="#111" stroke="#333" stroke-width="2"/>
++      <!-- Right lens -->
++      <rect x="400" y="220" width="26" height="20" rx="4" fill="#111" stroke="#333" stroke-width="2"/>
++      <!-- Bridge -->
++      <rect x="384" y="226" width="16" height="4" fill="#333"/>
++      <!-- Left arm -->
++      <rect x="348" y="224" width="12" height="4" fill="#333"/>
++      <!-- Right arm -->
++      <rect x="426" y="224" width="12" height="4" fill="#333"/>
++      <!-- Lens reflections -->
++      <line x1="362" y1="224" x2="372" y2="236" stroke="#555" stroke-width="2"/>
++      <line x1="404" y1="224" x2="414" y2="236" stroke="#555" stroke-width="2"/>
++    </g>
++
++    <!-- Sushi arms reaching to steering wheel -->
++    <!-- Left arm -->
++    <path d="M 370 280 Q 390 300 420 265" fill="none" stroke="#F5F5DC" stroke-width="10" stroke-linecap="round"/>
++    <!-- Right arm -->
++    <path d="M 410 280 Q 430 300 460 265" fill="none" stroke="#F5F5DC" stroke-width="10" stroke-linecap="round"/>
++    <!-- Hands on wheel -->
++    <circle cx="420" cy="265" r="8" fill="#F5F5DC"/>
++    <circle cx="460" cy="265" r="8" fill="#F5F5DC"/>
++  </g>
++
++  <!-- Speed lines for motion -->
++  <g id="speed-lines" opacity="0.6">
++    <line x1="50" y1="350" x2="120" y2="350" stroke="#FFF" stroke-width="3"/>
++    <line x1="30" y1="380" x2="100" y2="380" stroke="#FFF" stroke-width="3"/>
++    <line x1="60" y1="410" x2="130" y2="410" stroke="#FFF" stroke-width="3"/>
++    <line x1="40" y1="440" x2="110" y2="440" stroke="#FFF" stroke-width="3"/>
++  </g>
++</svg>
++"""
++
++with open("artifact.svg", "w") as f:
++    f.write(svg_content)
++
++print("artifact.svg generated successfully.")
+diff --git a/index.html b/index.html
+new file mode 100644
+index 0000000..70c489f
+--- /dev/null
++++ b/index.html
+@@ -0,0 +1,20 @@
++<!doctype html>
++<html>
++<head>
++<meta charset="utf-8">
++<title>artifact preview</title>
++<style>
++  html, body { margin: 0; padding: 0; height: 100%; background: #fff; }
++  body { display: flex; align-items: center; justify-content: center; }
++  img {
++    display: block;
++    width: 92vw;
++    height: 92vh;
++    object-fit: contain;
++  }
++</style>
++</head>
++<body>
++  <img src="artifact.svg" alt="artifact">
++</body>
++</html>

@@ -1,0 +1,31 @@
+Goal: Rewrite `artifact.svg` to render a detailed, front-view pocket watch centered at (300,300), using a semi-transparent lower dial overlay to resolve visibility contradictions while ensuring precise alignment of hands, markers, sub-dials, and gears.
+
+Files to edit:
+- `artifact.svg`
+
+Files to leave alone:
+- `index.html`
+- `README.md`
+
+Instructions:
+1. Create a valid SVG document with `viewBox="0 0 600 600"` and `xmlns="http://www.w3.org/2000/svg"`.
+2. Define a central pocket watch composition centered at cx="300" cy="300".
+3. Implement a "semi-transparent lower dial overlay" technique:
+   - Draw the main dial background.
+   - Draw the movement details (gears, bridges) underneath.
+   - Overlay a semi-transparent layer (e.g., `opacity="0.3"` or `fill-opacity`) representing the lower dial section to create depth and resolve the front-view/movement visibility conflict.
+4. Ensure precise alignment of all elements relative to the (300,300) center:
+   - Hour markers: 12 distinct markers, evenly spaced, starting at 12 o'clock.
+   - Minute markers: 60 smaller ticks or subtle indicators.
+   - Hands: Hour, minute, and second hands, all originating from (300,300), with distinct lengths and styles.
+   - Sub-dials: At least one sub-dial (e.g., small seconds) aligned correctly within the main dial.
+   - Gears: Visible mechanical gears in the movement area, aligned with the center axis.
+5. Use appropriate colors: metallic gold/silver for the case and hands, white/cream for the dial, dark blue/black for markers and hands, and subtle copper/bronze for gears.
+6. Ensure all tags are properly closed and all attributes are quoted. The SVG must parse as valid XML.
+
+Acceptance Criteria:
+- The SVG parses without errors.
+- The watch is centered at (300,300).
+- The semi-transparent lower dial overlay is visible and contributes to the aesthetic.
+- All hands, markers, sub-dials, and gears are aligned relative to the center.
+- No HTML or README files are modified.

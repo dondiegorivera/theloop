@@ -1,0 +1,13 @@
+## Required elements
+- **Case & Crown**: PRESENT — A circular outer case with a metallic gradient is visible. A crown (winder knob) is present at the 12 o'clock position, attached to a stem extending into the case. A bezel ring surrounds the edge.
+- **Dial Face**: PARTIAL — The upper half of the dial is cream-colored, but the lower half is open/skeletonized. The spec requires a "white or cream-colored dial face (radius ~170)" which implies a full circle; the skeletonization violates this specific geometric constraint for the dial itself.
+- **Hour Markers**: MISSING — There are no distinct hour markers (thick lines at 12, 3, 6, 9) visible on the cream-colored portion of the dial. The perimeter is bare.
+- **Roman Numerals**: MISSING — The spec requires "12 Roman numerals... positioned just inside the hour markers". There are no text elements or numerals visible anywhere on the dial face.
+- **Minute Tick Marks**: PARTIAL — Minute tick marks are visible around the outer edge of the *skeletonized* lower half, but they are absent from the upper cream-colored section where a standard dial would be.
+- **Hands**: PRESENT — Three hands originate from the center. The hour hand points near 10 o'clock, the minute hand near 2 o'clock, and a thin red second hand points near 7 o'clock.
+- **Sub-dials**: PARTIAL — A small seconds sub-dial is visible at the 6 o'clock position (within the skeletonized area). However, the power reserve indicator at 12 o'clock is present but shows an arc that appears to indicate a low charge (near empty), whereas the spec requires "~60% charge".
+- **Movement**: PRESENT — The lower portion is open/skeletonized. At least 3 visible gears of different sizes with teeth are shown in the bottom half, along with a balance wheel near the bottom-right.
+- **Chain**: MISSING — The spec requires a "detailed gold chain consisting of 3-4 distinct links attached to the crown". There is no chain visible in the image; only the crown knob itself is present at the top.
+
+## Other observations
+The artifact depicts a pocket watch with a split design (solid dial top, skeleton bottom). While visually interesting, it fails to include the specific text elements (Roman Numerals) and structural elements (Chain) explicitly required by the spec. The absence of Roman numerals is a critical failure given the "STRICT CONSTRAINT" regarding dial content. The power reserve indicator's state (low vs 60%) is also a deviation from the spec.

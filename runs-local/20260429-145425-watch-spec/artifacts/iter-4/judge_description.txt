@@ -1,0 +1,11 @@
+## Required elements
+- **Case & Crown**: PRESENT — A circular gold/brass outer case is visible with a metallic gradient. A crown (winder knob) is present at the 12 o'clock position, connected to a stem extending into the watch.
+- **Dial**: PARTIAL — The dial face is cream-colored and centered. Roman numerals are present (I through XII). However, minute tick marks are missing; only hour markers are visible.
+- **Hands**: PRESENT — Three hands originate from the center. Hour hand points near 10 o'clock, minute hand near 2 o'clock, and a thin red second hand points near 7 o'clock.
+- **Sub-dials**: PARTIAL — A power reserve indicator is present at 12 o'clock with a green arc showing "60%". However, the small seconds sub-dial is missing; instead, there is a generic dial at 6 o'clock labeled with numbers like "45", "30", and "15" rather than a standard seconds track.
+- **Movement**: PARTIAL — Visible gears are present in the bottom half (y > 400) with high opacity. However, the balance wheel is missing; there is no distinct large wheel with a hairspring at the bottom-right (approx coordinates 550, 550). The gears shown are standard toothed wheels.
+- **Chain**: PRESENT — A short chain consisting of 3-4 links is attached to the crown and curves upward.
+- **Style**: PRESENT — The image uses a metallic/brass color palette with clean line art and shading, appearing as a realistic illustration rather than a cartoon.
+
+## Other observations
+The artifact is an SVG image centered in a dark background. The composition is balanced. The text "60%" inside the power reserve sub-dial is clearly legible. The Roman numerals are serif style. The gears at the bottom left and right overlap realistically. There are no visible broken links or malformed XML structures apparent from the visual rendering.

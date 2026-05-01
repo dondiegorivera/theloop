@@ -1,0 +1,32 @@
+I'll read the file first to understand the current structure, then make all three changes.
+
+Now I have a clear picture. I'll make three targeted edits:
+
+1. **Chain links** between crown and chain ring
+2. **All 12 Roman numerals** (currently only 4: XII, III, VI, IX)
+3. **Power reserve sub-dial** at 12 o'clock position
+
+All three edits applied. Let me verify the SVG is valid XML:
+
+XML is valid, all 12 Roman numerals confirmed, and the power reserve label is present. The error at the end was just from an overly complex XPath predicate — not a real issue. Let me do a simpler chain verification:
+
+All three changes are in place. Here's a summary:
+
+**1. Chain attached to the crown** — Added a chain section with:
+- A connector circle at the crown (cx=200, cy=48)
+- 3 vertical chain links going up toward the chain ring
+- 3 links extending left and 3 extending right, forming a V-shape
+- Connecting lines between all links
+- Uses the existing `chainGrad` gold gradient for visual consistency
+
+**2. All 12 Roman numerals** — Replaced the 4 numerals (XII, III, VI, IX) with all 12, correctly positioned at 30° intervals on a radial circle (R=90 from center):
+- XII moved to y=72 (above the new sub-dial)
+- I, II, III, IV, V, VI, VII, VIII, IX, X, XI all at proper radial positions
+
+**3. Power reserve sub-dial at 12 o'clock** — Added at (cx=200, cy=100, r=22) with:
+- Cream-filled background matching the dial aesthetic
+- Scale arc from 300° to 60° (120° arc at the top)
+- 5 major tick marks at 0, 30, 60, 300, 330°
+- Labels: "0" (left), "36" (top), "72" (right)
+- Red hand pointing to ~50 hours (70% full)
+- "POWER RESERVE" label at the bottom of the sub-dial

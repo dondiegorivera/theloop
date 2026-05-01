@@ -1,0 +1,28 @@
+## Required elements
+
+- **Circular outer case**: PRESENT — A large circular metallic structure dominates the center of the image, with a gold/brass gradient fill.
+- **Crown (winder knob)**: PRESENT — Located at the 12 o'clock position on the outer rim; it is a small golden knob.
+- **Stem**: PARTIAL — The crown appears to sit directly on the case surface without a clearly defined stem extending into the case interior, though a connection point exists.
+- **Bezel ring**: PRESENT — A distinct metallic ring surrounds the dial face.
+- **Dial face**: PRESENT — A cream-colored circular area inside the bezel.
+- **12 hour markers (thick lines)**: PARTIAL — Thick black lines are visible at 12, 3, 6, and 9 o'clock positions. However, the line at 9 o'clock is labeled "IX" instead of being a standard marker, and the line at 3 o'clock is labeled "III". The markers at 12 and 6 are present but lack Roman numerals (see below).
+- **12 hour markers (thinner lines)**: PARTIAL — Thinner tick marks are visible between the main markers, though their count and precision are difficult to verify due to image resolution.
+- **Roman numerals**: MISSING — The dial features Arabic numerals (I, II, III, IV, V, VII, VIII, IX, X, XI) but lacks Roman numerals (e.g., VI is missing, VII is present). The spec requires Roman numerals I through XII.
+- **Minute tick marks**: PARTIAL — A ring of small ticks is visible around the dial edge, but the count and spacing are not clearly verifiable as 60 ticks.
+- **Hour hand (shorter, thicker)**: PRESENT — A black hand pointing near the 10 o'clock position.
+- **Minute hand (longer, thinner)**: PRESENT — A black hand pointing near the 2 o'clock position.
+- **Second hand (thin, red/dark)**: PRESENT — A thin red hand pointing near the 7 o'clock position.
+- **Hands originating from center**: PRESENT — All three hands converge at the center of the dial.
+- **Small seconds sub-dial (6 o'clock)**: PRESENT — A small circular dial is visible at the 6 o'clock position with a tiny hand.
+- **Power reserve indicator (12 o'clock)**: PARTIAL — A small circular element is present at the 12 o'clock position, but it appears to be a simple arc or gauge rather than a clear power reserve indicator with an arc showing ~60% charge. The label "HUNTRESS" is above it, not part of the sub-dial.
+- **Movement (gears)**: PARTIAL — Gears are visible in the bottom half of the watch, but they appear to be outside the case or partially obscured by a semi-transparent overlay. The spec requires them to be "below the dial area" and "visible through caseback or cutaway". The current rendering shows gears that are not clearly integrated into the movement structure.
+- **Balance wheel**: MISSING — No distinct balance wheel is visible near the bottom-right of the movement area.
+- **Chain (3-4 links)**: PARTIAL — A chain with 3-4 links is attached to the crown, curving upward and outward. However, the links are not clearly defined as individual segments; they appear as a single curved line with small circles.
+- **Metallic/brass color palette**: PRESENT — The case and gears use gold/brass tones.
+- **Clean line art with subtle shading**: PRESENT — The image has clean lines and shading effects.
+- **Centered and balanced**: PRESENT — The watch is centered in the 600x600 viewBox.
+- **Valid XML**: MISSING — Cannot be verified from the image alone, but the SVG structure appears valid based on the rendering.
+
+## Other observations
+
+The artifact is a detailed illustration of a pocket watch, but it deviates significantly from the spec in key areas. The most notable issues are the absence of Roman numerals (replaced by Arabic numerals) and the lack of a clear power reserve indicator with an arc showing ~60% charge. The movement gears are present but not clearly integrated into the case structure, and the balance wheel is missing. The chain is present but not clearly defined as individual links. The overall composition is centered and balanced, and the metallic/brass color palette is consistent. The image quality is high, with clean lines and subtle shading.

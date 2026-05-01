@@ -1,0 +1,19 @@
+I can see the SVG clearly. Let me identify the three areas to modify:
+
+1. **Chain** — has two continuous `<path>` elements that need to become distinct links
+2. **Power reserve** — has ticks and a hand but no visible arc track
+3. **Bottom-right quadrant** — no balance wheel exists there (one exists at lower-center)
+
+Let me apply all three edits:
+
+All three edits applied successfully. Let me verify the result:
+
+XML is valid. Let me confirm all three changes are present:
+
+All three changes are confirmed and the SVG is valid XML:
+
+| Change | Status |
+|---|---|
+| **Balance wheel (bottom-right)** | New `<g id="balance-wheel-secondary">` at `translate(480, 480)` — 80% across/down, with outer ring, inner ring, 4 spokes, hairspring spiral, and center jewel |
+| **Power reserve arc track** | Added `<path d="M 330,200 A 30,30 0 0,1 270,200">` — a visible 180° arc from right to left through the top, stroke-width 2.5 in `#999` |
+| **Chain links** | Replaced 2 continuous `<path>` elements with **16 distinct `<ellipse>` elements**, each a separate link with individual rotation to follow the chain's curve |

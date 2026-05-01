@@ -1,0 +1,16 @@
+diff --git a/artifact.svg b/artifact.svg
+index 5c63f25..e4cab53 100644
+--- a/artifact.svg
++++ b/artifact.svg
+@@ -496,9 +496,9 @@
+     </g>
+ 
+     <!-- Sub-dial second hand (pointing to ~38 seconds) -->
+-    <line x1="200" y1="270" x2="200" y2="248" stroke="#4060a0" stroke-width="0.8" stroke-linecap="round" transform="rotate(228, 200, 270)"/>
++    <line x1="200" y1="270" x2="200" y2="248" stroke="#FF0000" stroke-width="0.8" stroke-linecap="round" transform="rotate(228, 200, 270)"/>
+     <!-- Sub-dial center -->
+-    <circle cx="200" cy="270" r="2.5" fill="#4060a0"/>
++    <circle cx="200" cy="270" r="2.5" fill="#FF0000"/>
+     <circle cx="200" cy="270" r="1" fill="#f0ebe0"/>
+   </g>
+ 

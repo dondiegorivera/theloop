@@ -1,0 +1,13 @@
+## Required elements
+
+- **Case & Crown**: PRESENT — A circular outer case with metallic gradient fill is visible. A gold crown (winder knob) is attached at the 12 o'clock position. A subtle bezel ring surrounds the dial.
+- **Dial**: PARTIAL — The white/cream dial face is present. Roman numerals I through XII are clearly visible and legible. However, there are only 12 minute tick marks (one for each hour), not the required 60 ticks spaced every 6°.
+- **Hands**: PRESENT — Three hands originate from the center. The hour hand (gold) points near 10 o'clock. The minute hand (blue) points near 2 o'clock. The second hand (red) points to 7 o'clock.
+- **Sub-dials**: PARTIAL — A power reserve indicator sub-dial is present at the 12 o'clock position with an arc showing charge. However, the small seconds sub-dial at the 6 o'clock position has a blue hand pointing near 8 o'clock, not the required red/dark hand (likely due to color matching the minute hand).
+- **Movement**: MISSING — The spec requires visible gears of different sizes with teeth positioned below the dial area. The image shows a solid cream-colored dial face covering the entire lower half; no gears or balance wheel are visible.
+- **Chain**: MISSING — No chain is attached to the crown. The crown is bare.
+- **Style**: PRESENT — Metallic/brass color palette used for case and hands. Clean line art with shading. Composition is centered.
+
+## Other observations
+
+The artifact depicts a clean, realistic pocket watch illustration but fails to include several critical mechanical details specified in the prompt. Most notably, the movement (gears) is completely hidden behind an opaque dial, violating the requirement for visible gears below the dial area. The chain attachment is entirely absent. The minute track is simplified to 12 marks instead of 60. The sub-dial at 6 o'clock uses a blue hand that blends with the minute hand rather than a contrasting red/dark color as specified. The Roman numerals are correctly rendered and legible.

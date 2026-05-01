@@ -1,0 +1,8 @@
+## Required elements
+- **Victorian-era robot**: MISSING — The artifact is a blank white canvas containing only a small central placeholder box with the text "edit artifact.svg". No robot figure, mechanical parts, or Victorian styling (e.g., brass, gears, top hat) are visible.
+- **Reading a newspaper**: MISSING — There is no newspaper depicted, nor any action of reading. The scene is entirely empty aside from the file label.
+- **Cafe setting**: MISSING — No background elements such as tables, chairs, windows, or walls are present to establish a cafe environment.
+- **Coffee cup**: MISSING — No coffee cup or beverage container is visible in the artifact.
+
+## Other observations
+The artifact appears to be an empty SVG file that has not been rendered with any graphical content. The only visual element is a small grey box in the center of the white background containing the text "edit artifact.svg". This indicates a failure to generate the requested image content entirely. There are no structural defects to analyze because there is no structure present; the subject matter is completely absent.

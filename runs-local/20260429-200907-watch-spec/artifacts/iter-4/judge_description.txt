@@ -1,0 +1,11 @@
+## Required elements
+- **Case & Crown**: PRESENT — A circular outer case is visible with a metallic gradient. A crown (winder knob) is present at the 12 o'clock position, and a subtle bezel ring surrounds the edge.
+- **Dial**: PARTIAL — The dial face is cream-colored. However, it lacks Roman numerals; instead, it features the text "CHRONOMÈTRE GENEVE" (a brand name) and simple tick marks. There are no distinct hour markers or minute ticks around the perimeter as specified.
+- **Hands**: PRESENT — Three hands originate from the center: a short thick hour hand pointing near 10, a long thin minute hand pointing near 2, and a thin red second hand pointing near 7.
+- **Sub-dials**: PARTIAL — A small seconds sub-dial is visible at the 6 o'clock position with its own hand. A power reserve indicator arc is present at the 12 o'clock position showing charge.
+- **Movement**: PRESENT — The lower portion of the watch face is skeletonized, revealing gold gears of different sizes and a balance wheel near the bottom right.
+- **Chain**: MISSING — There is no chain attached to the crown or visible anywhere in the image.
+- **Style**: PARTIAL — The style is realistic and metallic, but the presence of brand text ("CHRONOMÈTRE") violates the negative constraint against brand names.
+
+## Other observations
+The artifact depicts a high-quality illustration of a pocket watch with a skeletonized lower half. While it successfully renders the mechanical movement and hands accurately, it fails to include the required chain entirely. Furthermore, the dial lacks the specified Roman numerals and instead displays text that is explicitly forbidden by the spec ("Do not use brand names"). The hour markers are simplified lines rather than the requested mix of thick/thin lines with numerals.

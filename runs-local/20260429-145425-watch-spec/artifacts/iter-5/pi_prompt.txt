@@ -1,0 +1,20 @@
+Goal: Update `artifact.svg` to improve the visibility of minute tick marks and correct the small seconds sub-dial to use a standard seconds track instead of non-standard numerals.
+
+Files to edit:
+- `artifact.svg`
+
+Files to leave alone:
+- `index.html`
+- `README.md`
+
+Concrete changes:
+1. **Minute Tick Marks**: Locate the group or path elements responsible for the minute tick marks on the main dial. Increase their opacity from the current low value to at least 0.8 (or 80%). Increase the stroke-width to 1.5px or 2px to ensure they are clearly distinct against the background. Ensure the color remains high-contrast (e.g., black or dark gray).
+
+2. **Small Seconds Sub-dial**: Identify the small seconds sub-dial. Remove any existing non-standard numerals or irregular markings. Replace them with a proper seconds track consisting of 60 evenly spaced tick marks (or 12 major ticks with 4 minor ticks between them, depending on the existing scale, but explicitly standard). Ensure the sub-dial has a clear center point and a hand that rotates correctly. The track should be visually distinct from the main dial's minute track but consistent in style.
+
+Acceptance criteria:
+- The SVG must parse as valid XML. Every tag must be closed, and every attribute must be quoted.
+- Minute tick marks are visibly thicker and more opaque than before.
+- The small seconds sub-dial displays a standard seconds track (ticks) rather than non-standard numerals.
+- No other parts of the SVG are altered unless necessary for these specific changes.
+- The overall layout and positioning of the watch face remain unchanged.

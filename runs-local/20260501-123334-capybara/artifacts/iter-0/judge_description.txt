@@ -1,0 +1,8 @@
+## Required elements
+- **Capybara**: PRESENT — A brown rodent figure with a blunt snout, small ears, and four legs is centered in the frame.
+- **Kimono**: PRESENT — The capybara wears a blue garment with a red sash (obi) and gold trim; however, the sleeves are rendered as detached floating shapes rather than connecting to the arms or body.
+- **Matcha tea**: PRESENT — A bowl containing green liquid sits on a tray in front of the figure.
+- **Drinking**: PARTIAL — The capybara is positioned behind the tea with steam rising toward its face, but it is not holding a utensil (chasen) or tilting the bowl to drink; the action is implied by proximity rather than depicted physically.
+
+## Other observations
+The composition includes background elements like a cherry blossom branch and a sun/moon icon, which are not required but add context. The kimono's sleeves are structurally disconnected from the capybara's arms, floating in space above the obi. The "drinking" action is ambiguous; without a whisk or spoon, the figure appears to be merely sitting behind the tea rather than actively consuming it.
