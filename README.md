@@ -156,7 +156,7 @@ be swapped without touching code. The roles:
 | -------------- | ------------------------------ | -------------------------------------------------------- |
 | `PLANNER`      | `Qwen3.6-Mesh-Thinking-Long`   | Refine spec + emit iteration intent                      |
 | `DIRECTOR`     | `Qwen3.6-Mesh-Structured`      | Translate intent into a concrete pi prompt               |
-| `CODER`        | `Qwen3.6-Mesh-Code-Long`       | The pi backing model (writes/edits files)                |
+| `CODER`        | `Qwen3.6-Mesh-Code-Long`       | The pi backing model (writes/edits files; thinking off by default in CLI) |
 | `WRITER`       | `Qwen3.6-Mesh-Thinking-Long`   | Long prose — currently unused; doc tasks use CODER       |
 | `JUDGE_VISION` | `Qwen3.6-Mesh`                 | First-pass describe (vision)                             |
 | `JUDGE_TEXT`   | `Qwen3.6-Mesh-Structured`      | First-pass describe (text-only) + verdict pass           |

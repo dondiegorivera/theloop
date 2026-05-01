@@ -16,6 +16,12 @@ that pass can rely on.
    - For a code/output spec: required files, required outputs, required
      behaviors.
 
+   **Do not invent requirements that aren't in the spec.** If the spec
+   doesn't ask for "raw SVG code output", "high-resolution rendering",
+   "specific color palette", etc., do not classify them. Format details
+   (PNG vs SVG, image vs text) are about the *delivery channel*, not the
+   spec — never list them as required elements.
+
 2. **For each required element, classify:**
    - **PRESENT** — clearly visible / present, with one sentence of
      concrete evidence pointing at what you see.
@@ -32,6 +38,11 @@ that pass can rely on.
    noting that the spec didn't explicitly require but the second pass
    should know about (overall composition, style, additional content,
    visible defects, broken text/markup).
+4. **Do a whole-subject sanity check.** Ask whether the artifact still
+   makes common sense as the requested subject, not just whether isolated
+   checklist pieces exist. If a mechanical watch has its gear train outside
+   the case, a bicycle has disconnected wheels, or a game UI has controls
+   detached from the play area, call that out as a major structural defect.
 
 ## Critical rules — read carefully
 
@@ -42,6 +53,15 @@ that pass can rely on.
   the frame is PARTIAL or MISSING — even if the image reads as a
   bicycle at a glance. Pattern-matching expected parts is the failure
   this prompt was written to prevent.
+- **Position-specific requirements must match the requested position.**
+  If the spec asks for an hour hand near 10 o'clock and the artifact's
+  hour hand points to 12, the hour hand is PARTIAL, not PRESENT. Apply
+  the same rule to clock hands, labels, object locations, counts, and
+  named directions.
+- **Spatial context matters.** Parts that are outside the object they are
+  supposed to belong to are not fully present. For example, watch gears
+  outside the case are PARTIAL or MISSING as a movement/cutaway, even if
+  gear shapes exist somewhere in the image.
 - **Cite evidence concretely.** "FRAME: PRESENT — diamond shape with
   red top tube from x≈170 to x≈220" beats "FRAME: PRESENT — bike has
   a frame".

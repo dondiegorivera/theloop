@@ -39,13 +39,43 @@ _PLACEHOLDER_SVG = """<?xml version="1.0" encoding="UTF-8"?>
 _README = """\
 # SVG task workspace
 
-The artifact pi should iteratively edit lives at `artifact.svg`. The
-preview wrapper at `index.html` opens it in the browser; do not touch
-the wrapper unless you need a different presentation surface.
+The rendered artifact lives at `artifact.svg`. For detailed or repetitive
+SVGs, edit `generate_artifact.py` and run `python generate_artifact.py`
+instead of writing a huge SVG directly. Use direct `artifact.svg` edits only
+for small incremental fixes.
 
 Tools available: read, write, edit, bash. The renderer screenshots
-`index.html` at 1024×768 after each iteration.
+`index.html` at 1536×1152 after each iteration.
 """
+
+_GENERATOR_PY = '''"""Generate artifact.svg for this SVG task.
+
+Edit this file for detailed/repetitive drawings, then run:
+
+    python generate_artifact.py
+
+Keep generated output in artifact.svg. Do not write to /tmp or absolute paths.
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+
+def main() -> None:
+    svg = """<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect x="0" y="0" width="200" height="200" fill="#f4f4f4"/>
+  <text x="100" y="105" text-anchor="middle" font-size="16"
+        font-family="sans-serif" fill="#888">edit generate_artifact.py</text>
+</svg>
+"""
+    Path("artifact.svg").write_text(svg, encoding="utf-8")
+
+
+if __name__ == "__main__":
+    main()
+'''
 
 
 class SVGAdapter(TaskAdapter):
@@ -54,6 +84,7 @@ class SVGAdapter(TaskAdapter):
     def prepare(self, workspace: Path) -> None:
         (workspace / "index.html").write_text(_INDEX_HTML)
         (workspace / "artifact.svg").write_text(_PLACEHOLDER_SVG)
+        (workspace / "generate_artifact.py").write_text(_GENERATOR_PY)
         (workspace / "README.md").write_text(_README)
         log.debug("svg scaffold written to %s", workspace)
 

@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import logging
 import re
+import shutil
 from datetime import datetime
 from pathlib import Path
 
@@ -124,6 +125,50 @@ class Workspace:
         """Diff between this iter's parent and this iter."""
         base = "main" if iter_n == 0 else f"iter/{iter_n - 1}"
         return self.repo.git.diff(base, f"iter/{iter_n}")
+
+    def reconcile_external_writes(self, touched: list[Path]) -> list[tuple[Path, Path]]:
+        """Move plausible pi writes from the run root back into workspace.
+
+        Pi occasionally hallucinates an absolute path like
+        `runs/<id>/artifact.svg` instead of `runs/<id>/workspace/artifact.svg`.
+        The tool call succeeds, but the loop renders and commits the unchanged
+        workspace file. Recover those writes when the intended workspace path
+        is unambiguous.
+        """
+        copied: list[tuple[Path, Path]] = []
+        run_dir = self.run_dir.resolve()
+        workspace = self.workspace_path.resolve()
+
+        for src in touched:
+            if not src.is_absolute() or not src.exists() or not src.is_file():
+                continue
+            resolved = src.resolve()
+            try:
+                resolved.relative_to(workspace)
+                continue
+            except ValueError:
+                pass
+            try:
+                rel = resolved.relative_to(run_dir)
+            except ValueError:
+                continue
+            if rel.parts and rel.parts[0] in {"artifacts", "workspace"}:
+                continue
+
+            dest = workspace / rel
+            if not dest.exists():
+                sibling = workspace / resolved.name
+                if sibling.exists():
+                    dest = sibling
+                else:
+                    continue
+            if dest.resolve() == resolved:
+                continue
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(resolved, dest)
+            copied.append((resolved, dest))
+
+        return copied
 
 
 # ── manual smoke test ───────────────────────────────────────────────────────

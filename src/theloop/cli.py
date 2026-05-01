@@ -32,13 +32,38 @@ log = logging.getLogger(__name__)
 app = typer.Typer(add_completion=False, no_args_is_help=True)
 
 _FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n", re.DOTALL)
+_BLANK_LINES_RE = re.compile(r"\n{3,}")
 
 # Default per-adapter pi guidance. Loop hands this string to the director
 # verbatim so it knows which file pi should edit and how.
+_PATH_RULE = (
+    "Use **relative paths only** in `read` / `write` / `edit` / `create` calls "
+    "and inside `bash` commands (e.g. `artifact.svg`, not "
+    "`/abs/path/artifact.svg`). Your working directory IS the workspace root — "
+    "do not construct absolute paths and do not `cd` to `/src/...`."
+)
+
 _ADAPTER_NOTES: dict[str, str] = {
     "svg": (
-        "Edit `artifact.svg` only. Do not touch `index.html` or `README.md`. "
-        "The SVG must parse as XML; close every tag and quote every attribute."
+        "Primary output is `artifact.svg`. Do not touch `index.html` or "
+        "`README.md`. For a new detailed/repetitive SVG, edit the relative "
+        "workspace helper `generate_artifact.py` and run "
+        "`python generate_artifact.py`; do not attempt a giant one-shot "
+        "`artifact.svg` write. Direct `artifact.svg` edits are only for small "
+        "incremental fixes. If pi thinks a file was truncated, it must switch "
+        "to `generate_artifact.py`, not retry the same huge write. Never write "
+        "helper files under `/tmp` or any absolute path. On later iterations, "
+        "do not read all of `artifact.svg`; it is generated output and can be "
+        "large. Inspect/edit `generate_artifact.py`, then run it and use small "
+        "`grep`/XML checks against `artifact.svg`. On fix iterations, do not "
+        "read full generated files. Use `rg`, `sed -n`, or `read` with small "
+        "`offset`/`limit` windows to inspect only the relevant generator "
+        "section before editing. On fix iterations, make the edit promptly: "
+        "at most one locating `rg`/`grep` command before `edit`, no broad "
+        "inspection phase. The SVG must parse as XML; close every tag "
+        "and quote every attribute. Do not install packages or generate "
+        "preview PNGs; the loop renderer creates screenshots after pi exits. "
+        f"{_PATH_RULE}"
     ),
     "web": (
         "Edit `index.html` and `app.js` (and add JS/CSS files as needed). "
@@ -46,13 +71,15 @@ _ADAPTER_NOTES: dict[str, str] = {
         "to import maps if you prefer. The page MUST set "
         "`window.__ready = true` once the first frame has rendered, "
         "otherwise the renderer falls back to a dom-loaded screenshot. "
-        "Avoid uncaught console errors. The page is captured at 1024×768."
+        "Avoid uncaught console errors. The page is captured at 1536×1152. "
+        f"{_PATH_RULE}"
     ),
     "generic": (
         "Create whatever files the spec requires (Python scripts, data, "
         "configs, etc.). There is no rendered preview — the judge scores "
         "from the spec plus your final assistant message. End your turn "
-        "with a clear summary of what you produced and where to find it."
+        "with a clear summary of what you produced and where to find it. "
+        f"{_PATH_RULE}"
     ),
     "doc": (
         "Edit `document.md` directly — it is already populated with the "
@@ -65,7 +92,8 @@ _ADAPTER_NOTES: dict[str, str] = {
         "The judge scores improvement *over the original* against the "
         "rubric in the spec; lost content counts against you even if "
         "the result looks cleaner. End your turn with a one-paragraph "
-        "summary of what you changed and why."
+        "summary of what you changed and why. "
+        f"{_PATH_RULE}"
     ),
 }
 
@@ -79,11 +107,30 @@ def _parse_frontmatter(text: str) -> tuple[dict[str, Any], str]:
     return fm, body
 
 
+def _normalize_spec_text(text: str) -> str:
+    """Compact markdown specs before sending them through every agent turn."""
+    lines: list[str] = []
+    in_fence = False
+    for raw_line in text.replace("\t", " ").replace("\u00a0", " ").splitlines():
+        stripped = raw_line.strip()
+        if stripped.startswith("```"):
+            in_fence = not in_fence
+            lines.append(raw_line.rstrip())
+            continue
+        if in_fence:
+            lines.append(raw_line.rstrip())
+        elif stripped:
+            lines.append(" ".join(stripped.split()))
+        else:
+            lines.append("")
+    compact = _BLANK_LINES_RE.sub("\n\n", "\n".join(lines)).strip()
+    return compact + "\n" if compact else ""
+
+
 def _pi_alias_for_adapter(adapter_name: str) -> str:
-    # `doc` historically pointed at the WRITER hat (Mesh-Thinking-Long), but
-    # in practice that alias spends its budget thinking and emits nothing
-    # for prose editing. Mesh-Code-Long has a similar reasoning budget but
-    # is tuned to actually write output, which is what we want.
+    # Pi is on the hot path every iteration. Use the CODER hat for enough
+    # output budget; the CLI's default --pi-thinking=off keeps it from spending
+    # that budget on reasoning instead of edits.
     return alias_for(Hat.CODER)
 
 
@@ -97,6 +144,28 @@ def run(
     runs_dir: Annotated[Path, typer.Option(help="Where to put runs/.")] = Path("runs"),
     run_id: Annotated[str | None, typer.Option(help="Override the auto-generated run id.")] = None,
     pi_timeout_s: Annotated[float, typer.Option(help="Per-iteration pi timeout.")] = 600.0,
+    pi_no_write_timeout_s: Annotated[
+        float,
+        typer.Option(
+            help=(
+                "Abort a pi turn if it has not called write/edit/create within "
+                "this many seconds. Set 0 to disable."
+            )
+        ),
+    ] = 120.0,
+    pi_thinking: Annotated[
+        str | None,
+        typer.Option(
+            help=(
+                "Optional pi thinking level override: off, minimal, low, medium, "
+                "high, xhigh. Defaults to off for faster tool use."
+            )
+        ),
+    ] = "off",
+    pi_no_session: Annotated[
+        bool,
+        typer.Option(help="Launch pi with --no-session for ephemeral sessions."),
+    ] = False,
     log_level: Annotated[str, typer.Option(help="Python logging level.")] = "INFO",
 ) -> None:
     """Run a closed agentic loop against a spec."""
@@ -111,7 +180,8 @@ def run(
         logging.getLogger("openai").setLevel(logging.WARNING)
 
     text = spec_path.read_text()
-    frontmatter, body = _parse_frontmatter(text)
+    frontmatter, _body = _parse_frontmatter(text)
+    spec_text = _normalize_spec_text(text)
 
     adapter_name = adapter or frontmatter.get("adapter")
     if not adapter_name:
@@ -129,7 +199,7 @@ def run(
     rid = run_id or make_run_id(slug)
     asyncio.run(
         _run_loop(
-            spec_text=text,
+            spec_text=spec_text,
             spec_path=spec_path.resolve(),
             frontmatter=frontmatter,
             adapter_name=adapter_name,
@@ -138,6 +208,9 @@ def run(
             runs_dir=runs_dir,
             run_id=rid,
             pi_timeout_s=pi_timeout_s,
+            pi_no_write_timeout_s=pi_no_write_timeout_s,
+            pi_thinking=pi_thinking,
+            pi_no_session=pi_no_session,
         )
     )
 
@@ -152,6 +225,9 @@ async def _run_loop(
     runs_dir: Path,
     run_id: str,
     pi_timeout_s: float,
+    pi_no_write_timeout_s: float,
+    pi_thinking: str | None,
+    pi_no_session: bool,
 ) -> None:
     workspace = Workspace.create(runs_dir, run_id=run_id)
     adapter = get_adapter(adapter_name)
@@ -167,6 +243,9 @@ async def _run_loop(
     print(f"threshold:     {cfg.score_threshold}")
     print(f"no_improve_for:{cfg.no_improvement_for}")
     print(f"pi model:      {pi_alias}")
+    print(f"pi thinking:   {pi_thinking or '(pi default)'}")
+    print(f"pi no-session: {pi_no_session}")
+    print(f"pi no-write:   {pi_no_write_timeout_s}s")
     print(f"workspace:     {workspace.workspace_path}")
 
     orchestrator = Orchestrator()
@@ -177,7 +256,12 @@ async def _run_loop(
     terminator = Terminator(cfg)
 
     def pi_factory() -> PiClient:
-        return PiClient(workspace=workspace.workspace_path, model_alias=pi_alias)
+        return PiClient(
+            workspace=workspace.workspace_path,
+            model_alias=pi_alias,
+            thinking_level=pi_thinking,
+            no_session=pi_no_session,
+        )
 
     with Reporter(workspace.run_dir) as reporter:
         if adapter.has_visual_artifact:
@@ -194,6 +278,7 @@ async def _run_loop(
                     workspace=workspace,
                     reporter=reporter,
                     pi_timeout_s=pi_timeout_s,
+                    pi_no_write_timeout_s=pi_no_write_timeout_s,
                 )
                 result = await loop.run()
         else:
@@ -209,6 +294,7 @@ async def _run_loop(
                 workspace=workspace,
                 reporter=reporter,
                 pi_timeout_s=pi_timeout_s,
+                pi_no_write_timeout_s=pi_no_write_timeout_s,
             )
             result = await loop.run()
 

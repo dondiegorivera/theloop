@@ -30,6 +30,8 @@ _FENCE_RE = re.compile(r"^\s*```(?:json)?\s*|\s*```\s*$", re.MULTILINE)
 # Some thinking-mode models still emit <think>...</think> blocks even when
 # the proxy enforces a thinking budget. Strip them defensively.
 _THINK_RE = re.compile(r"<think>.*?</think>\s*", re.DOTALL)
+_WS_RE = re.compile(r"\s+")
+_BLANK_LINES_RE = re.compile(r"\n{3,}")
 
 
 @dataclass(frozen=True, slots=True)
@@ -77,19 +79,33 @@ class Orchestrator:
 
     # ── planner hat ───────────────────────────────────────────────────────
 
-    async def plan(self, spec: str, critique: str | None) -> PlanResult:
+    async def plan(
+        self,
+        spec: str,
+        critique: str | None,
+        description: str | None = None,
+    ) -> PlanResult:
         """Return the next-iteration spec + intent.
+
+        `description` is the prior iteration's judge first-pass output
+        (PRESENT / PARTIAL / HIDDEN / MISSING per spec element). The planner
+        uses it to pick which gap to attack — the one-paragraph critique
+        names a single defect, but the description names them all, with
+        evidence. None on iter 0 (or when describe failed).
 
         Parses the model's JSON output. Falls back to a best-effort regex
         extraction on JSON failure rather than raising, so the loop can
         keep going with a degraded plan.
         """
         prev = critique.strip() if critique else "(none — first iteration)"
+        prev_desc = description.strip() if description else "(none — first iteration)"
         user = (
             "## Spec\n"
             f"{spec.strip()}\n\n"
             "## Previous critique\n"
-            f"{prev}\n"
+            f"{prev}\n\n"
+            "## Previous element-by-element description\n"
+            f"{prev_desc}\n"
         )
         resp = await self._planner.arun(user)
         raw = (resp.content or "").strip()
@@ -99,6 +115,7 @@ class Orchestrator:
 
     async def direct(
         self,
+        spec: str,
         intent: str,
         workspace: Path,
         adapter_notes: str,
@@ -106,6 +123,8 @@ class Orchestrator:
         """Turn an iteration intent into a prompt for pi."""
         inventory = _workspace_inventory(workspace)
         user = (
+            "## Authoritative spec\n"
+            f"{spec.strip()}\n\n"
             "## Intent\n"
             f"{intent.strip()}\n\n"
             "## Workspace inventory\n"
@@ -116,20 +135,32 @@ class Orchestrator:
         resp = await self._director.arun(user)
         text = (resp.content or "").strip()
         text = _THINK_RE.sub("", text).strip()
-        return text
+        return _compose_pi_prompt(spec=spec, directive=text)
 
 
 # ── helpers ──────────────────────────────────────────────────────────────────
 
 
 def _parse_plan(raw: str, *, fallback_spec: str) -> PlanResult:
+    fallback_spec = _normalize_markdown(fallback_spec)
     body = _THINK_RE.sub("", raw)
     body = _FENCE_RE.sub("", body).strip()
     try:
         obj = json.loads(body)
+        candidate_spec = _normalize_markdown(str(obj["spec"]))
+        intent = _coerce_intent(obj)
+        if not _preserves_spec(candidate_spec, fallback_spec):
+            log.warning(
+                "planner returned a condensed or rewritten spec; preserving prior spec. "
+                "candidate=%d chars fallback=%d chars",
+                len(candidate_spec),
+                len(fallback_spec),
+            )
+            candidate_spec = fallback_spec
+        intent = _retarget_spec_edit_intent(intent, fallback_spec)
         return PlanResult(
-            spec=str(obj["spec"]),
-            intent=str(obj["intent"]).strip(),
+            spec=candidate_spec,
+            intent=intent,
         )
     except (json.JSONDecodeError, KeyError, TypeError) as e:
         log.warning(
@@ -140,6 +171,137 @@ def _parse_plan(raw: str, *, fallback_spec: str) -> PlanResult:
         # Best-effort: keep prior spec, treat raw text as the intent.
         intent = raw.strip()[:600] or "(planner produced no usable output)"
         return PlanResult(spec=fallback_spec, intent=intent)
+
+
+def _preserves_spec(candidate: str, fallback: str) -> bool:
+    """Reject planner specs that rewrite the user's requirements.
+
+    The planner may append or extend an ``## Iteration history`` section, but
+    the user-authored body before that section is the contract. Rewriting it
+    can turn a failed artifact into a changed task, which breaks improvement
+    loops and is especially bad for visual specs with a named subject.
+    """
+    candidate_norm = _WS_RE.sub(" ", candidate).strip()
+    fallback_norm = _WS_RE.sub(" ", fallback).strip()
+    candidate_l = candidate.lower()
+    fallback_l = fallback.lower()
+    if not candidate_norm:
+        return False
+    if len(candidate_norm) < 0.8 * len(fallback_norm):
+        return False
+    if len(candidate_norm) > 2.5 * len(fallback_norm):
+        return False
+    if "<svg" in candidate_l and "<svg" not in fallback_l:
+        return False
+    if "</svg" in candidate_l and "</svg" not in fallback_l:
+        return False
+    fallback_frontmatter = _frontmatter(fallback)
+    if fallback_frontmatter and _frontmatter(candidate) != fallback_frontmatter:
+        return False
+    if _spec_contract(candidate) != _spec_contract(fallback):
+        return False
+    return True
+
+
+def _coerce_intent(obj: dict) -> str:
+    for key in ("intent", "plan", "next_step", "instruction"):
+        value = obj.get(key)
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+    return (
+        "Implement the spec as completely as possible in the target artifact, "
+        "prioritizing visible required elements and valid output."
+    )
+
+
+def _retarget_spec_edit_intent(intent: str, fallback_spec: str) -> str:
+    """Convert a planner's "change the spec" intent into artifact work."""
+    lowered = intent.lower()
+    spec_targeted = (
+        "spec body" in lowered
+        or "update the spec" in lowered
+        or "rewrite the spec" in lowered
+        or "change the spec" in lowered
+        or "modify the spec" in lowered
+        or "resolve the contradiction" in lowered
+    )
+    if not spec_targeted:
+        return intent
+    heading = _primary_heading(fallback_spec)
+    if heading:
+        return (
+            f"Revise the artifact so it visibly depicts {heading}, using the "
+            "authoritative spec as-is. Do not change the spec text to match "
+            "the previous artifact."
+        )
+    return (
+        "Revise the artifact to satisfy the authoritative spec as-is. Do not "
+        "change the spec text to match the previous artifact."
+    )
+
+
+def _frontmatter(text: str) -> str:
+    if not text.startswith("---\n"):
+        return ""
+    end = text.find("\n---", 4)
+    if end == -1:
+        return ""
+    return text[: end + 4]
+
+
+_ITER_HISTORY_RE = re.compile(r"(?im)^##\s+Iteration history\s*$")
+
+
+def _spec_contract(text: str) -> str:
+    match = _ITER_HISTORY_RE.search(text)
+    contract = text[: match.start()] if match else text
+    return _WS_RE.sub(" ", _normalize_markdown(contract)).strip()
+
+
+def _primary_heading(text: str) -> str:
+    for line in text.splitlines():
+        stripped = line.strip()
+        if stripped.startswith("# "):
+            return stripped[2:].strip()
+    return ""
+
+
+def _compose_pi_prompt(*, spec: str, directive: str) -> str:
+    spec = _normalize_markdown(spec)
+    return (
+        "## Authoritative spec\n"
+        "This is the source of truth. Satisfy these requirements even if the "
+        "iteration directive is narrower or ambiguous.\n\n"
+        f"{spec.strip()}\n\n"
+        "## Iteration directive\n"
+        f"{directive.strip()}\n\n"
+        "## Execution rule\n"
+        "Call `write` or `edit` on the target artifact promptly. Do not spend "
+        "the turn only describing a plan; the loop scores file changes, not "
+        "assistant narration. Use relative paths only, including inside bash "
+        "commands; pi already runs from the workspace root, so do not `cd` to "
+        "or reference `/src/...`, `/tmp/...`, or any other absolute workspace "
+        "path."
+    )
+
+
+def _normalize_markdown(text: str) -> str:
+    lines: list[str] = []
+    in_fence = False
+    for raw_line in text.replace("\t", " ").replace("\u00a0", " ").splitlines():
+        stripped = raw_line.strip()
+        if stripped.startswith("```"):
+            in_fence = not in_fence
+            lines.append(raw_line.rstrip())
+            continue
+        if in_fence:
+            lines.append(raw_line.rstrip())
+        elif stripped:
+            lines.append(" ".join(stripped.split()))
+        else:
+            lines.append("")
+    compact = _BLANK_LINES_RE.sub("\n\n", "\n".join(lines)).strip()
+    return compact + "\n" if compact else ""
 
 
 def _workspace_inventory(workspace: Path, *, max_entries: int = 30) -> str:
@@ -212,6 +374,7 @@ async def _smoke() -> None:
             "`README.md`. The SVG must parse as XML."
         )
         pi_prompt = await orch.direct(
+            plan0.spec,
             intent=plan0.intent,
             workspace=ws.workspace_path,
             adapter_notes=adapter_notes,

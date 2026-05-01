@@ -1,0 +1,1 @@
+THELOOP_MODEL_CODER=Qwen3.6-Mesh-Thinking-Long python -m theloop run examples/watch.spec.md --pi-thinking medium

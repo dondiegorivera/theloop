@@ -24,7 +24,11 @@ from playwright.async_api import (
 
 log = logging.getLogger(__name__)
 
-DEFAULT_VIEWPORT = (1024, 768)
+# 1536×1152 = 1.5× the prior 1024×768. The vision encoder needs enough
+# pixels to verify structural detail (e.g. 60 minute ticks on a 600px-viewBox
+# watch were sub-pixel-noisy at 1024 — the describe pass kept marking them
+# MISSING even when the source had them).
+DEFAULT_VIEWPORT = (1536, 1152)
 
 
 class RendererError(RuntimeError):

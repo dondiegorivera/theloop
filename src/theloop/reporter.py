@@ -116,8 +116,18 @@ def build_html_report(run_dir: Path) -> Path:
         d.mkdir(parents=True, exist_ok=True)
         (d / "diff.txt").write_text(diff_text or "(empty diff)")
 
+    spec_text: str | None = None
+    spec_path = run_dir / "spec.md"
+    if spec_path.exists():
+        try:
+            spec_text = spec_path.read_text()
+        except Exception as e:
+            log.debug("could not read original spec for header: %s", e)
+
     out_path = run_dir / "index.html"
-    out_path.write_text(_render_html(run_dir.name, run_meta, run_end, by_iter, diffs))
+    out_path.write_text(
+        _render_html(run_dir.name, run_meta, run_end, by_iter, diffs, spec_text)
+    )
     log.info("wrote report: %s", out_path)
     return out_path
 
@@ -128,6 +138,7 @@ def _render_html(
     run_end: dict[str, Any],
     by_iter: dict[int, dict[str, Any]],
     diffs: dict[int, str],
+    spec_text: str | None = None,
 ) -> str:
     cards = "\n".join(_render_iter_card(i, by_iter[i], diffs.get(i, "")) for i in sorted(by_iter))
 
@@ -162,6 +173,14 @@ def _render_html(
   header {{ padding: 24px 32px; border-bottom: 1px solid #222; }}
   header h1 {{ margin: 0 0 8px; font-size: 18px; font-weight: 600; }}
   header .id {{ color: var(--muted); font-family: ui-monospace, monospace; }}
+  header details {{ margin-top: 16px; max-width: 1200px; }}
+  header details summary {{ color: var(--muted); cursor: pointer;
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }}
+  header details summary:hover {{ color: var(--accent); }}
+  header details pre {{ background: #0c0e12; color: #ddd;
+    padding: 12px 16px; border-radius: 6px; margin-top: 8px;
+    font-family: ui-monospace, monospace; font-size: 12px;
+    overflow: auto; max-height: 400px; white-space: pre-wrap; }}
   main {{ padding: 24px 32px 64px; max-width: 1200px; margin: 0 auto; }}
   section.summary table {{ border-collapse: collapse; margin-bottom: 32px; }}
   section.summary th, section.summary td {{
@@ -191,6 +210,7 @@ def _render_html(
 <header>
   <h1>theloop run</h1>
   <div class="id">{html.escape(run_id)}</div>
+  {_render_spec_block(spec_text)}
 </header>
 <main>
   <section class="summary">
@@ -201,6 +221,17 @@ def _render_html(
 </body>
 </html>
 """
+
+
+def _render_spec_block(spec_text: str | None) -> str:
+    if not spec_text:
+        return ""
+    return (
+        "<details>"
+        "<summary>original spec</summary>"
+        f"<pre>{html.escape(spec_text)}</pre>"
+        "</details>"
+    )
 
 
 def _render_iter_card(it: int, ev: dict[str, Any], diff_text: str) -> str:

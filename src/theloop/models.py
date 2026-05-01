@@ -30,6 +30,9 @@ class Hat(StrEnum):
 _DEFAULT_ALIAS: dict[Hat, str] = {
     Hat.PLANNER: "Qwen3.6-Mesh-Thinking-Long",
     Hat.DIRECTOR: "Qwen3.6-Mesh-Structured",
+    # Pi needs enough output budget to write complete first-pass artifacts.
+    # The CLI forces thinking off by default to avoid Code-Long spending
+    # minutes streaming reasoning before it edits.
     Hat.CODER: "Qwen3.6-Mesh-Code-Long",
     Hat.WRITER: "Qwen3.6-Mesh-Thinking-Long",
     Hat.JUDGE_VISION: "Qwen3.6-Mesh",

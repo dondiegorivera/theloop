@@ -5,9 +5,11 @@ enumeration for images, structural enumeration for text. The describe call
 sees the spec only as context for what to look for, never as something to
 score against. Vision path uses JUDGE_VISION; text path uses JUDGE_TEXT.
 
-Pass 2 (`evaluate`) reads spec + first-pass description + artifact text +
-last coder output and returns the JSON verdict. Always JUDGE_TEXT — by the
-time the verdict pass runs, all the visual extraction has already happened.
+Pass 2 (`evaluate`) reads spec + first-pass description + last coder output
+and returns the JSON verdict. Always JUDGE_TEXT — by the time the verdict
+pass runs, all the visual extraction has already happened. The raw artifact is
+not sent to pass 2; otherwise the model can re-examine it and contradict the
+description it is supposed to score from.
 
 Why two passes: a single-call judge collapses observation and judgment,
 which lets the model rubber-stamp obviously-broken artifacts ("a pelican
@@ -43,6 +45,13 @@ _FENCE_RE = re.compile(r"^\s*```(?:json)?\s*|\s*```\s*$", re.MULTILINE)
 # doesn't see this anyway, and for text the verdict pass sees the full
 # artifact regardless.
 _DESCRIBE_TEXT_LIMIT = 12_000
+_CLASSIFICATION_CREDIT = {
+    "PRESENT": 1.0,
+    "HIDDEN": 0.5,
+    "PARTIAL": 0.4,
+    "MISSING": 0.0,
+}
+_CLASSIFICATION_RE = re.compile(r"\b(PRESENT|PARTIAL|HIDDEN|MISSING)\b")
 
 # 32×32 solid-red PNG. llama.cpp's vision encoder rejects very small images,
 # so the probe needs something the vision tokenizer can actually process.
@@ -167,14 +176,13 @@ class Judge:
         )
 
         # ── Pass 2: score ────────────────────────────────────────────────
+        # Deliberately *do not* pass the raw artifact (image or source) to
+        # the verdict pass. The describe pass already examined the artifact
+        # and committed to PRESENT/PARTIAL/HIDDEN/MISSING with evidence.
+        # Letting verdict re-examine has been observed to override the
+        # describe pass on negative findings ("balance wheel MISSING" → "is
+        # correctly positioned"), which destroys the whole two-stage design.
         verdict_alias = alias_for(Hat.JUDGE_TEXT)
-
-        if artifact_text:
-            artifact_block = artifact_text.strip()
-        elif use_vision:
-            artifact_block = "(image was described in the first pass; see description above)"
-        else:
-            artifact_block = "(no artifact text — judge from spec + description + coder output)"
 
         verdict_text = (
             f"{self.prompt_template}\n\n"
@@ -183,9 +191,7 @@ class Judge:
             "## First-pass description\n"
             f"{description.strip()}\n\n"
             "## Last coder output\n"
-            f"{(last_pi_output or '(empty)').strip()}\n\n"
-            "## Artifact\n"
-            f"{artifact_block}"
+            f"{(last_pi_output or '(empty)').strip()}\n"
         )
 
         resp = await self._client.chat.completions.create(
@@ -194,7 +200,7 @@ class Judge:
             temperature=0.0,
         )
         raw = (resp.choices[0].message.content or "").strip()
-        return _parse_verdict(raw, description=description)
+        return _parse_verdict(raw, description=description, spec=spec)
 
     async def _describe(
         self,
@@ -252,16 +258,23 @@ class Judge:
             return f"(describe pass failed: {e})"
 
 
-def _parse_verdict(raw: str, *, description: str = "") -> JudgeVerdict:
+def _parse_verdict(raw: str, *, description: str = "", spec: str = "") -> JudgeVerdict:
     body = _FENCE_RE.sub("", raw).strip()
     try:
         obj = json.loads(body)
         score = obj.get("score")
         score_f = float(score) if score is not None else None
+        score_f, done, critique = _apply_description_score_guard(
+            score=score_f,
+            done=bool(obj.get("done", False)),
+            critique=str(obj.get("critique", "")).strip(),
+            description=description,
+            spec=spec,
+        )
         return JudgeVerdict(
             score=score_f,
-            critique=str(obj.get("critique", "")).strip(),
-            done=bool(obj.get("done", False)),
+            critique=critique,
+            done=done,
             raw=raw,
             description=description,
         )
@@ -270,6 +283,196 @@ def _parse_verdict(raw: str, *, description: str = "") -> JudgeVerdict:
         return JudgeVerdict(
             score=None, critique=raw[:500], done=False, raw=raw, description=description
         )
+
+
+def _apply_description_score_guard(
+    *,
+    score: float | None,
+    done: bool,
+    critique: str,
+    description: str,
+    spec: str = "",
+) -> tuple[float | None, bool, str]:
+    """Keep verdict scoring bounded by first-pass classifications.
+
+    Prompt instructions alone are not enough here: the regression that
+    triggered this guard was a verdict pass scoring 0.95 while its own
+    first-pass description marked multiple required elements MISSING/PARTIAL.
+    The parser is intentionally conservative and only acts when the
+    description contains explicit uppercase classifications.
+    """
+    desc_score = _score_from_description(description)
+    if desc_score is None:
+        return score, done, critique
+
+    guarded_score, counts = desc_score
+    contradiction_note = _apply_position_contradiction_guard(
+        counts=counts,
+        description=description,
+        spec=spec,
+    )
+    layout_note = _apply_spatial_layout_guard(
+        counts=counts,
+        description=description,
+        spec=spec,
+    )
+    guard_notes = [note for note in (contradiction_note, layout_note) if note]
+    if guard_notes:
+        guarded_score = _score_from_counts(counts)
+    if layout_note:
+        guarded_score = min(guarded_score, 0.65)
+    defects = counts["HIDDEN"] + counts["PARTIAL"] + counts["MISSING"]
+    adjusted = score is None or score > guarded_score or bool(guard_notes)
+    if adjusted:
+        score = guarded_score
+        suffix = (
+            " Score adjusted from first-pass classifications: "
+            f"{counts['PRESENT']} PRESENT, {counts['HIDDEN']} HIDDEN, "
+            f"{counts['PARTIAL']} PARTIAL, {counts['MISSING']} MISSING."
+        )
+        if guard_notes:
+            suffix += " " + " ".join(guard_notes)
+        critique = (critique + suffix).strip() if critique else suffix.strip()
+
+    if score is None or score < 0.95 or defects:
+        done = False
+    return score, done, critique
+
+
+def _score_from_description(description: str) -> tuple[float, dict[str, int]] | None:
+    counts = {key: 0 for key in _CLASSIFICATION_CREDIT}
+    for line in description.splitlines():
+        matches = _CLASSIFICATION_RE.findall(line)
+        # Skip legends/summaries like "PRESENT / PARTIAL / HIDDEN / MISSING".
+        if len(set(matches)) != 1:
+            continue
+        counts[matches[0]] += 1
+
+    total = sum(counts.values())
+    if total == 0:
+        return None
+
+    return _score_from_counts(counts), counts
+
+
+def _score_from_counts(counts: dict[str, int]) -> float:
+    total = sum(counts.values())
+    if total == 0:
+        return 0.05
+    earned = sum(counts[k] * _CLASSIFICATION_CREDIT[k] for k in counts)
+    return round(0.05 + 0.90 * (earned / total), 2)
+
+
+def _apply_position_contradiction_guard(
+    *,
+    counts: dict[str, int],
+    description: str,
+    spec: str,
+) -> str:
+    """Downgrade obvious PRESENT classifications contradicted by evidence.
+
+    The vision pass can say "Hour Hand: PRESENT — points directly upwards"
+    even when the spec requires the hour hand near 10 o'clock. The formula
+    guard only sees classifications, so catch the narrow class of
+    position-specific contradictions deterministically.
+    """
+    spec_l = spec.lower()
+    if not spec_l:
+        return ""
+
+    downgraded: list[str] = []
+    for line in description.splitlines():
+        line_l = line.lower()
+        if "present" not in line_l:
+            continue
+        if _requires_clock_position(spec_l, "hour", "10") and _line_is_hand_at_12(
+            line_l, "hour"
+        ):
+            downgraded.append("hour hand")
+        if _requires_clock_position(spec_l, "minute", "2") and _line_is_hand_at_12(
+            line_l, "minute"
+        ):
+            downgraded.append("minute hand")
+
+    unique = sorted(set(downgraded))
+    if not unique:
+        return ""
+    shift = min(len(unique), counts.get("PRESENT", 0))
+    counts["PRESENT"] -= shift
+    counts["PARTIAL"] += shift
+    return (
+        "Position-specific contradiction guard downgraded "
+        + ", ".join(unique)
+        + " from PRESENT to PARTIAL because the description says the hand "
+        "points to 12/XII while the spec requires a different clock position."
+    )
+
+
+def _apply_spatial_layout_guard(
+    *,
+    counts: dict[str, int],
+    description: str,
+    spec: str,
+) -> str:
+    """Penalize common-sense layout failures that break the subject.
+
+    A watch with its gear train outside the case may still have "gears"
+    and a "case" in a checklist sense, but it no longer reads as a plausible
+    mechanical watch. Treat that as a missing movement integration rather
+    than a minor partial.
+    """
+    spec_l = spec.lower()
+    if "watch" not in spec_l or "movement" not in spec_l or "gear" not in spec_l:
+        return ""
+    bad_lines: list[str] = []
+    for line in description.splitlines():
+        line_l = line.lower()
+        if "movement" not in line_l and "gear" not in line_l:
+            continue
+        if "outside" not in line_l:
+            continue
+        if "case" not in line_l and "watch" not in line_l and "boundary" not in line_l:
+            continue
+        if "partial" in line_l:
+            bad_lines.append(line)
+
+    if not bad_lines:
+        return ""
+    if counts.get("PARTIAL", 0) > 0:
+        counts["PARTIAL"] -= 1
+        counts["MISSING"] += 1
+    return (
+        "Spatial-layout guard downgraded the movement/gears from PARTIAL to "
+        "MISSING because the description says they are outside the watch case, "
+        "which breaks the mechanical watch structure."
+    )
+
+
+def _requires_clock_position(spec_l: str, hand: str, hour: str) -> bool:
+    hand_idx = spec_l.find(f"{hand} hand")
+    if hand_idx == -1:
+        return False
+    window = spec_l[hand_idx : hand_idx + 180]
+    return (
+        f"{hour} o'clock" in window
+        or f"{hour} o’clock" in window
+        or f"position {hour}" in window
+        or f"near {hour}" in window
+    )
+
+
+def _line_is_hand_at_12(line_l: str, hand: str) -> bool:
+    if f"{hand} hand" not in line_l:
+        return False
+    return (
+        "directly upwards" in line_l
+        or "straight up" in line_l
+        or "towards xii" in line_l
+        or "toward xii" in line_l
+        or "towards 12" in line_l
+        or "toward 12" in line_l
+        or "12:00" in line_l
+    )
 
 
 # ── manual smoke test ───────────────────────────────────────────────────────

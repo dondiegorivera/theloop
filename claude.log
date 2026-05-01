@@ -1,0 +1,324 @@
+the last run was a regression, the judge approved a pass to a definetely broken design (wheel is outside the clock) -             
+  runs/20260429-184937-watch-spec                                                                                                   
+                                                                                                                                    
+● Bash(ls /src/theloop/runs/20260429-184937-watch-spec/ && echo "---" && grep judge_end                                             
+      /src/theloop/runs/20260429-184937-watch-spec/events.jsonl | python -c "
+      import…)                                                                                                                      
+  ⎿  artifacts
+     events.jsonl                                                                                                                   
+     index.html                                                                    
+     … +28 lines (ctrl+o to expand)
+                                                                                                                                    
+  Read 1 file (ctrl+o to expand)                             
+                                                                                                                                    
+● You're right — that's a regression. Let me trace what happened.                                                                   
+                                                                                   
+  Describe pass actually got it right:                                                                                              
+                                                                                                                                    
+  ▎ "Balance wheel in bottom-right quadrant: MISSING — There is a distinct circular component with spokes located in the            
+  ▎ bottom-right area (outside the main case boundary), but it appears to be a separate floating element rather than integrated into
+  ▎  the movement"                                                                                                                  
+                                                                                                                                    
+  Plus 3 MISSING + 3 PARTIAL out of 28 elements. Formula would give:                                                                
+  r = (22×1.0 + 3×0.4 + 3×0.0) / 28 = 23.2/28 = 0.83 → score ≈ 0.80                                                               
+                                                                                                                                    
+  Verdict pass overrode the description and gave 0.95 — its critique even reads: "The balance wheel is correctly positioned in the
+  bottom-right quadrant with a visible hairspring" — directly contradicting what the describe pass marked MISSING.                  
+                                                                                                                                    
+  Two real bugs:                                                                                                                    
+                                                                                                                                    
+  1. Verdict pass didn't compute the formula. It vibe-scored despite the prompt instruction. Worse, when given the raw artifact for
+  "cross-checking", it re-examined and overrode the describe pass.                                                                
+                                                                                                                                    
+  2. Describe pass invented a requirement. It added "Output raw SVG code only: MISSING" because it was given a PNG, not the SVG
+  text. That's noise — the spec didn't ask for raw code.                                                                            
+                                                                                                                                    
+  Fix plan:                       
+  - Don't show the raw artifact (image or source) to the verdict pass at all. Only spec + description + critique-source. The        
+  describe pass already saw the artifact; that's the whole point of two-pass.                                               
+  - Force the verdict pass to show its arithmetic before producing the JSON.                                                      
+  - Tighten describe prompt: classify only requirements the spec actually states, don't invent ones.                                
+                                  
+● Update(/src/theloop/src/theloop/judge.py)                                                                                         
+  ⎿  Added 7 lines, removed 10 lines                                                                                                
+      167          )                                                                                                                
+      168                                                                                                                           
+      169          # ── Pass 2: score ────────────────────────────────────────────────                                              
+      170 +        # Deliberately *do not* pass the raw artifact (image or source) to                                             
+      171 +        # the verdict pass. The describe pass already examined the artifact                                              
+      172 +        # and committed to PRESENT/PARTIAL/HIDDEN/MISSING with evidence.                                          
+      173 +        # Letting verdict re-examine has been observed to override the                                                   
+      174 +        # describe pass on negative findings ("balance wheel MISSING" → "is                                       
+      175 +        # correctly positioned"), which destroys the whole two-stage design.                                      
+      176          verdict_alias = alias_for(Hat.JUDGE_TEXT)
+      177  
+      172 -        if artifact_text:                                                                                         
+      173 -            artifact_block = artifact_text.strip()                                                                
+      174 -        elif use_vision:                                                                                          
+      175 -            artifact_block = "(image was described in the first pass; see description above)"                     
+      176 -        else:                                                                                                     
+      177 -            artifact_block = "(no artifact text — judge from spec + description + coder output)"                  
+      178 -                                                                                                                  
+      178          verdict_text = (
+      179              f"{self.prompt_template}\n\n"
+      180              "## Spec\n"
+     ...
+      182              "## First-pass description\n"
+      183              f"{description.strip()}\n\n"
+      184              "## Last coder output\n"
+      186 -            f"{(last_pi_output or '(empty)').strip()}\n\n"                                                        
+      187 -            "## Artifact\n"                                                                                       
+      188 -            f"{artifact_block}"                                                                                   
+      185 +            f"{(last_pi_output or '(empty)').strip()}\n"                                                          
+      186          )
+      187  
+      188          resp = await self._client.chat.completions.create(
+
+❯ also to the html report's header pls include the original spec 
+
+● Acknowledged — will add original spec to the HTML report header after these judge fixes.
+                                                                                                                                  
+● Update(/src/theloop/src/theloop/prompts/judge.md)                                                                                 
+  ⎿  Added 6 lines, removed 6 lines            
+      11  2. **First-pass description** — an element-by-element classification of                                                   
+      12     what is present in the artifact, produced by the first pass. Each                                                    
+      13     required spec element is marked PRESENT / PARTIAL / HIDDEN / MISSING                                                   
+      14 -   with concrete evidence. Trust the classifications; use them instead                                                    
+      15 -   of re-examining the raw artifact yourself. That is the whole point                                                     
+      16 -   of the two-stage design.                                                                                               
+      14 +   with concrete evidence. **This is your only window into the artifact.**                                         
+      15 +   The raw artifact is deliberately not provided to you — the describe                                                    
+      16 +   pass already examined it and committed to these classifications. Do                                             
+      17 +   not invent observations beyond what the description states.                                                     
+      18  3. **Last coder output** — what the coding agent said it changed this
+      18 -   iteration. May be empty.                                                                                        
+      19 -4. **Artifact** — either an image, the artifact text, or both. Available                                           
+      20 -   for cross-checking but the description is the primary signal.                                                   
+      19 +   iteration. Use only as supporting context; do not infer artifact                                                
+      20 +   state from coder claims.                                                                                        
+      21  
+      22  ## What to do
+      23  
+
+❯ perhaps it only judget one fixed problem instead of judging the big picture 
+
+❯ as well 
+                                                                                                                                  
+● Good catch on both. Continuing the judge fix to address the "only judged the fixed problem" issue — that's the verdict pass     
+  anchoring on pi's last_pi_output (pi's "I fixed the balance wheel" claim) rather than the description. Let me address that as part
+   of the same prompt change.                                                                                                       
+                                                                                                                                    
+● Update(/src/theloop/src/theloop/prompts/judge.md)                                                                                 
+  ⎿  Added 27 lines, removed 11 lines                                              
+      21                                                                                                                            
+      22  ## What to do
+      23                                                                                                                            
+      24 +You are scoring the **whole artifact against the whole spec**, not                                                 
+      25 +"did the coder fix the previous defect". Pi may claim in `Last coder                                                      
+      26 +output` that it fixed something — ignore those claims. The describe                                                
+      27 +pass examined the actual current state. If the description says a                                                  
+      28 +required element is MISSING or PARTIAL, it is, regardless of what pi                                               
+      29 +says it did.                                                                                                       
+      30 +                                                                                                                   
+      31  1. Read the first-pass description's "Required elements" classifications.
+      32  2. Assign each requirement a credit value:
+      33     - **PRESENT → 1.00**
+     ...
+      50     - All PRESENT (`r = 1.0`) → 0.95.
+      51     - Half present, half MISSING (`r = 0.5`) → 0.50.
+      52     - All MISSING (`r = 0.0`) → 0.05.
+      46 -   This is continuous on purpose — earlier ceilings collapsed score so                                             
+      47 -   any 2 defects looked the same as 6, killing plateau detection.                                                  
+      53  6. Apply the **subject-missing floor**: if any *named subject* of the
+      49 -   spec (the thing the artifact is supposed to be) is MISSING, hard-cap                                            
+      50 -   the final score at **0.30** regardless of formula. ("Pelican on a                                               
+      51 -   bicycle" without a pelican is not 0.6.)                                                                         
+      54 +   spec is MISSING, hard-cap at **0.30** regardless of formula.                                                    
+      55  7. Reserve **score = 1.00** for the rare case where every required
+      56     element is PRESENT *and* there is no plausible improvement worth
+      57     making. Otherwise the formula's natural ceiling at 0.95 should hold.
+      58  8. Write a critique pointing at the worst-classified high-weight element
+      59     and the single most impactful next change.
+      60  
+      58 -If the first-pass description disagrees with what *you* see when                                                   
+      59 -re-examining the artifact (image or source), trust the first pass —                                                
+      60 -unless its claim is impossible (e.g. claims a section exists that you                                              
+      61 -can confirm by quote does not). The first pass was instructed to                                                   
+      62 -distinguish PRESENT-with-evidence from MISSING, so its calls are more                                              
+      63 -reliable than your re-reading.                                                                                     
+      61 +## Show your arithmetic                                                                                            
+      62  
+      63 +Before emitting JSON, work out the math in your reasoning:                                                         
+      64 +- Count how many requirements were PRESENT vs PARTIAL vs HIDDEN vs MISSING.                                        
+      65 +- Compute `sum(weight × credit)` and `sum(weight)` and divide.                                                     
+      66 +- Plug into `0.05 + 0.90 × r` to get the score.                                                                    
+      67 +                                                                                                                   
+      68 +The score in the JSON output **must equal** what the formula produced                                              
+      69 +(rounded to 2 decimals). If your gut says higher, you're wrong — the                                               
+      70 +two-stage design exists specifically to override gut-scoring. If you                                               
+      73 +                                                                                                                   
+      74 +## Pi's claims are not evidence                                                                                    
+      75 +                                                                                                                   
+      76 +If `Last coder output` says "fixed the balance wheel position", that                                               
+      77 +*does not* turn a MISSING balance wheel into a PRESENT one. Pi's                                                   
+      78 +narrative is what pi *attempted*; the describe pass observed what                                                  
+      79 +actually shipped. They diverge often enough to matter.                                                             
+      80 +                                                                                                                   
+      81  ## What to return
+      82  
+      83  A single JSON object, exactly this shape:
+
+● Now tighten the describe prompt against inventing requirements, and address the 4th input still listed in judge.md:
+
+  Read 1 file (ctrl+o to expand)
+
+● Good — already cleaned up. Now tighten the describe prompt to stop inventing requirements:
+
+● Update(/src/theloop/src/theloop/prompts/judge_describe.md)
+  ⎿  Added 6 lines
+      16     - For a code/output spec: required files, required outputs, required
+      17       behaviors.
+      18  
+      19 +   **Do not invent requirements that aren't in the spec.** If the spec                                             
+      20 +   doesn't ask for "raw SVG code output", "high-resolution rendering",                                             
+      21 +   "specific color palette", etc., do not classify them. Format details                                            
+      22 +   (PNG vs SVG, image vs text) are about the *delivery channel*, not the                                           
+      23 +   spec — never list them as required elements.                                                                    
+      24 +                                                                                                                   
+      25  2. **For each required element, classify:**
+      26     - **PRESENT** — clearly visible / present, with one sentence of
+      27       concrete evidence pointing at what you see.
+
+● Now wire the original spec into the HTML report header. Let me look at the report builder:
+
+  Searched for 1 pattern, read 2 files (ctrl+o to expand)     
+                                         
+● Update(/src/theloop/src/theloop/loop.py)                                                                                          
+  ⎿  Added 9 lines                                                                      
+       86                                                                                                                           
+       87      async def run(self) -> RunResult:                                                                                    
+       88          rep = self.reporter                                                                                              
+       89 +        # Persist the original (user-authored) spec at the run root. The                                                 
+       90 +        # report builder reads it back into the header so anyone opening                                                 
+       91 +        # the report can see what the user actually asked for, not just                                                  
+       92 +        # the planner's evolved version. spec.md inside artifacts/iter-N/                                              
+       93 +        # is the planner's output; this is the source.                                                            
+       94 +        try:                                                                                                      
+       95 +            (self.workspace.run_dir / "spec.md").write_text(self.spec)                                            
+       96 +        except Exception as e:                                                                                    
+       97 +            log.debug("could not persist original spec: %s", e)                                                   
+       98          rep.emit(
+       99              "run_start",
+      100              run_id=self.workspace.run_dir.name,
+
+● Now update the reporter to embed the spec in the header:         
+
+● Update(/src/theloop/src/theloop/reporter.py)                                                                                      
+  ⎿  Added 12 lines, removed 1 line
+      116          d.mkdir(parents=True, exist_ok=True)                                                                             
+      117          (d / "diff.txt").write_text(diff_text or "(empty diff)")        
+      118                                                                                                                           
+      119 +    spec_text: str | None = None                                                                                  
+      120 +    spec_path = run_dir / "spec.md"                                                                                      
+      121 +    if spec_path.exists():                                                                                        
+      122 +        try:                                                                                                      
+      123 +            spec_text = spec_path.read_text()                                                                     
+      124 +        except Exception as e:                                                                                    
+      125 +            log.debug("could not read original spec for header: %s", e)                                           
+      126 +                                                                                                                  
+      127      out_path = run_dir / "index.html"
+      120 -    out_path.write_text(_render_html(run_dir.name, run_meta, run_end, by_iter, diffs))                            
+      128 +    out_path.write_text(                                                                                          
+      129 +        _render_html(run_dir.name, run_meta, run_end, by_iter, diffs, spec_text)                                  
+      130 +    )                                                                                                             
+      131      log.info("wrote report: %s", out_path)
+      132      return out_path
+      133  
+     ...
+      138      run_end: dict[str, Any],
+      139      by_iter: dict[int, dict[str, Any]],
+      140      diffs: dict[int, str],
+      141 +    spec_text: str | None = None,                                                                                 
+      142  ) -> str:
+      143      cards = "\n".join(_render_iter_card(i, by_iter[i], diffs.get(i, "")) for i in sorted(by_iter))
+      144  
+
+● Update(/src/theloop/src/theloop/reporter.py)                     
+  ⎿  Added 8 lines
+      173    header {{ padding: 24px 32px; border-bottom: 1px solid #222; }}                                                        
+      174    header h1 {{ margin: 0 0 8px; font-size: 18px; font-weight: 600; }}
+      175    header .id {{ color: var(--muted); font-family: ui-monospace, monospace; }}                                            
+      176 +  header details {{ margin-top: 16px; max-width: 1200px; }}                                                       
+      177 +  header details summary {{ color: var(--muted); cursor: pointer;                                                        
+      178 +    font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }}                                        
+      179 +  header details summary:hover {{ color: var(--accent); }}                                                             
+      180 +  header details pre {{ background: #0c0e12; color: #ddd;                                                         
+      181 +    padding: 12px 16px; border-radius: 6px; margin-top: 8px;                                                      
+      182 +    font-family: ui-monospace, monospace; font-size: 12px;                                                        
+      183 +    overflow: auto; max-height: 400px; white-space: pre-wrap; }}                                                  
+      184    main {{ padding: 24px 32px 64px; max-width: 1200px; margin: 0 auto; }}
+      185    section.summary table {{ border-collapse: collapse; margin-bottom: 32px; }}
+      186    section.summary th, section.summary td {{
+
+● Update(/src/theloop/src/theloop/reporter.py)                     
+  ⎿  Added 1 line
+      210  <header>                                                                                                                 
+      211    <h1>theloop run</h1>
+      212    <div class="id">{html.escape(run_id)}</div>                                                                            
+      213 +  {_render_spec_block(spec_text)}                                                                                 
+      214  </header>                                                                                                                
+      215  <main>                                                                  
+      216    <section class="summary">
+
+● Update(/src/theloop/src/theloop/reporter.py)                     
+  ⎿  Added 11 lines
+      223  """                                                                                                                      
+      224  
+      225                                                                                                                           
+      226 +def _render_spec_block(spec_text: str | None) -> str:                                                             
+      227 +    if not spec_text:                                                                                                    
+      228 +        return ""                                                                                                 
+      229 +    return (                                                                                                           
+      230 +        "<details>"                                                                                               
+      231 +        "<summary>original spec</summary>"                                                                        
+      232 +        f"<pre>{html.escape(spec_text)}</pre>"                                                                    
+      233 +        "</details>"                                                                                              
+      234 +    )                                                                                                             
+      235 +                                                                                                                  
+      236 +                                                                                                                  
+      237  def _render_iter_card(it: int, ev: dict[str, Any], diff_text: str) -> str:
+      238      plan_end = ev.get("plan_end") or {}
+      239      rc = ev.get("runtime_check") or {}
+
+● Bash(source /src/theloop/.venv/bin/activate && python -m theloop report runs/20260429-184937-watch-spec 2>&1 | tail -3 && echo
+      "---" && grep -A3 'theloop run' runs/2…)
+  ⎿  ╰──────────────────────────────────────────────────────────────────────────────╯                                               
+     FileNotFoundError: no events.jsonl at
+     runs/20260429-184937-watch-spec/events.jsonl                                                                                   
+     … +2 lines (ctrl+o to expand)                                                 
+                                                                                                                                    
+● Bash(cd /src/theloop && source .venv/bin/activate && python -m theloop report runs/20260429-184937-watch-spec 2>&1 | tail -3 &&
+      echo "---" && grep -A3 'theloop run'…)                                                                                        
+  ⎿  INFO theloop.reporter: wrote report: runs/20260429-184937-watch-spec/index.html                                                
+     wrote runs/20260429-184937-watch-spec/index.html                                                                               
+     ---                                                                                                                            
+     … +4 lines (ctrl+o to expand)                                                                                                  
+                                                                                                                                    
+● Bash(cp examples/watch.spec.md runs/20260429-184937-watch-spec/spec.md && source .venv/bin/activate && python -m theloop report   
+      runs/20260429-184937-watch-spec 2>&1…)                                                                                        
+  ⎿  wrote runs/20260429-184937-watch-spec/index.html                                                                               
+     ---                                                                                                                            
+       <h1>theloop run</h1>                                                                                                         
+ ▐▛███▜▌   Claude Code v2.1.123
+▝▜█████▛▘  Opus 4.7 with high effort · Claude Pro
+  ▘▘ ▝▝    /src/theloop
+
+✻ Conversation compacted (ctrl+o for history)
+
+  ⎿  Read src/theloop/reporter.py (345 lines)
+  ⎿  Read src/theloop/loop.py (273 lines)
+  ⎿  Read src/theloop/prompts/judge_describe.md (75 lines)
+  ⎿  Read src/theloop/prompts/judge.md (123 lines)
+  ⎿  Read src/theloop/judge.py (330 lines)
+  ⎿  You're out of extra usage · resets 10:10pm (Europe/Berlin)
+     /upgrade to increase your usage limit.

@@ -11,36 +11,81 @@ single JSON object.
 2. **First-pass description** — an element-by-element classification of
    what is present in the artifact, produced by the first pass. Each
    required spec element is marked PRESENT / PARTIAL / HIDDEN / MISSING
-   with concrete evidence. Trust the classifications; use them instead
-   of re-examining the raw artifact yourself. That is the whole point
-   of the two-stage design.
+   with concrete evidence. **This is your only window into the artifact.**
+   The raw artifact is deliberately not provided to you — the describe
+   pass already examined it and committed to these classifications. Do
+   not invent observations beyond what the description states.
 3. **Last coder output** — what the coding agent said it changed this
-   iteration. May be empty.
-4. **Artifact** — either an image, the artifact text, or both. Available
-   for cross-checking but the description is the primary signal.
+   iteration. Use only as supporting context; do not infer artifact
+   state from coder claims.
 
 ## What to do
 
-1. Read the first-pass description's "Required elements" classifications.
-2. Map each classification to a contribution:
-   - PRESENT → full credit
-   - PARTIAL → half credit (the spec requirement is only partly met)
-   - HIDDEN → quarter credit (element may exist but isn't viewable, which
-     is itself a defect for visual artifacts)
-   - MISSING → zero credit
-3. Compute a weighted score across requirements. Heavily-weighted spec
-   items (named subjects, hard constraints, top-level rubric bullets)
-   matter more than minor stylistic asks.
-4. Apply the structural-defect ceiling (below).
-5. Write a critique pointing at the worst-classified element and the
-   single most impactful next change.
+You are scoring the **whole artifact against the whole spec**, not
+"did the coder fix the previous defect". Pi may claim in `Last coder
+output` that it fixed something — ignore those claims. The describe pass
+examined the actual current state. If the description says a required
+element is MISSING or PARTIAL, it is, regardless of what pi says it did.
 
-If the first-pass description disagrees with what *you* see when
-re-examining the artifact (image or source), trust the first pass —
-unless its claim is impossible (e.g. claims a section exists that you
-can confirm by quote does not). The first pass was instructed to
-distinguish PRESENT-with-evidence from MISSING, so its calls are more
-reliable than your re-reading.
+1. Read the first-pass description's "Required elements" classifications.
+2. Assign each requirement a credit value:
+   - **PRESENT → 1.00**
+   - **HIDDEN → 0.50** (element may exist but isn't viewable; for visual
+     artifacts a hidden part is genuinely worse than a clearly-present
+     one but better than missing)
+   - **PARTIAL → 0.40** (element is there but malformed or incomplete)
+   - **MISSING → 0.00**
+3. Assign each requirement a weight:
+   - **3.0** for named subjects of the spec (e.g. "pelican", "bicycle",
+     "watch"), top-level rubric bullets, and hard constraints.
+   - **1.0** for everything else (style asks, decorative additions,
+     individual sub-parts of a larger required object).
+   The describe pass produced flat bullets; you decide weight from how
+   the spec phrases the requirement.
+4. Compute the **weighted pass rate**:
+   `r = sum(weight_i × credit_i) / sum(weight_i)`
+5. Map to a final score:
+   `score = round(0.05 + 0.90 × r, 2)`
+   - All PRESENT (`r = 1.0`) → 0.95.
+   - Half present, half MISSING (`r = 0.5`) → 0.50.
+   - All MISSING (`r = 0.0`) → 0.05.
+6. Apply the **subject-missing floor**: if any *named subject* of the
+   spec is MISSING, hard-cap at **0.30** regardless of formula.
+7. Reserve **score = 1.00** for the rare case where every required
+   element is PRESENT *and* there is no plausible improvement worth
+   making. Otherwise the formula's natural ceiling at 0.95 should hold.
+8. Write a critique pointing at the worst-classified high-weight element
+   and the single most impactful next change.
+
+## Whole-subject sanity
+
+Before finalizing, check whether the artifact still makes common sense as
+the requested subject. Do not let checklist details hide a major structural
+failure. A mechanical watch with gears outside the case, a bicycle with
+wheels disconnected from the frame, or an app with controls detached from
+the main workflow should be scored as a substantial defect even if many
+individual elements are present. Mention this in the critique and keep
+`done` false.
+
+## Show your arithmetic
+
+Before emitting JSON, work out the math in your reasoning:
+- Count how many requirements were PRESENT vs PARTIAL vs HIDDEN vs MISSING.
+- Compute `sum(weight × credit)` and `sum(weight)` and divide.
+- Plug into `0.05 + 0.90 × r` to get the score.
+
+The score in the JSON output **must equal** what the formula produced
+(rounded to 2 decimals). If your gut says higher, you're wrong — the
+two-stage design exists specifically to override gut-scoring. If you
+think the description got an element wrong, you do not have the
+authority to overrule it; just score it as classified.
+
+## Pi's claims are not evidence
+
+If `Last coder output` says "fixed the balance wheel position", that
+*does not* turn a MISSING balance wheel into a PRESENT one. Pi's
+narrative is what pi *attempted*; the describe pass observed what
+actually shipped. They diverge often enough to matter.
 
 ## What to return
 
@@ -54,27 +99,19 @@ A single JSON object, exactly this shape:
 }
 ```
 
-## Score scale
+## Score scale (informal mapping for sanity-checking the formula)
 
-- **0.0** — unrelated to the spec / broken / nothing there.
-- **0.5** — recognizable but with major defects against the spec.
-- **0.85** — ships; satisfies all required elements with minor polish gaps.
-- **0.95** — only nits remain.
-- **1.0** — genuinely defect-free against the spec. Reserve for cases
-  where you would not change a single thing.
+- **0.05–0.20** — almost nothing the spec asked for is there.
+- **0.30** — subject is present but everything else is missing, *or*
+  the subject itself is missing (subject-floor cap).
+- **0.50** — half the requirements (by weight) are met.
+- **0.70** — most requirements present, a handful PARTIAL/MISSING.
+- **0.85** — only minor PARTIAL items remain.
+- **0.95** — formula ceiling: every requirement PRESENT.
+- **1.00** — see step 7 above; rare.
 
-**Score ceiling for structural defects.** Apply these caps based on the
-first-pass classifications:
-
-- **Any required element marked MISSING or PARTIAL → cap at 0.85.**
-  A bicycle with PARTIAL frame doesn't ship as 0.95 even if everything
-  else is perfect. A doc with MISSING section doesn't get 0.9.
-- **Two or more requirements marked MISSING/PARTIAL → cap at 0.7.**
-- **The named subject(s) of the spec marked MISSING → cap at 0.3.**
-  ("Pelican on a bicycle" without a pelican is not 0.6.)
-
-These caps override anything else. Do not score higher than the worst
-required element supports.
+If the formula and your gut disagree, *trust the formula* — it's the
+whole point of step-by-step credit assignment.
 
 ## Critique requirements
 

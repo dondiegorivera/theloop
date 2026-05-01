@@ -59,6 +59,23 @@ _FILE_KEYS = ("path", "file_path", "filePath", "filename", "target")
 _WRITE_TOOLS = {"edit", "write", "create", "Edit", "Write", "Create"}
 
 
+def _path_is_outside_workspace(p: Path, workspace: Path) -> bool:
+    """True if `p` is absolute and falls outside `workspace`.
+
+    Pi's model has been observed hallucinating absolute paths that *almost*
+    match the workspace (truncated segments). Pi accepts them and writes
+    silently outside the workspace. We can't prevent that from the client
+    side, but we can detect it after the fact and warn loudly.
+    """
+    if not p.is_absolute():
+        return False
+    try:
+        p.resolve().relative_to(workspace.resolve())
+        return False
+    except ValueError:
+        return True
+
+
 class PiClient:
     """Async context manager wrapping `pi --mode rpc`."""
 
@@ -66,11 +83,15 @@ class PiClient:
         self,
         workspace: Path,
         model_alias: str | None = None,
+        thinking_level: str | None = None,
+        no_session: bool = False,
         extra_args: list[str] | None = None,
         stderr_buffer: int = 200,
     ) -> None:
         self.workspace = workspace
         self.model_alias = model_alias
+        self.thinking_level = thinking_level
+        self.no_session = no_session
         self.extra_args = list(extra_args or [])
         self._proc: asyncio.subprocess.Process | None = None
         self._stderr_task: asyncio.Task[None] | None = None
@@ -80,8 +101,12 @@ class PiClient:
 
     async def __aenter__(self) -> PiClient:
         argv = ["pi", "--mode", "rpc"]
+        if self.no_session:
+            argv.append("--no-session")
         if self.model_alias:
             argv += ["--model", self.model_alias]
+        if self.thinking_level:
+            argv += ["--thinking", self.thinking_level]
         argv += self.extra_args
         log.debug("spawning pi: %s (cwd=%s)", argv, self.workspace)
 
@@ -203,8 +228,7 @@ class PiClient:
     def _stderr_tail(self) -> str:
         return "\n".join(self._stderr_lines) or "<no stderr>"
 
-    @staticmethod
-    def _absorb(event: dict[str, Any], col: _PromptCollector) -> None:
+    def _absorb(self, event: dict[str, Any], col: _PromptCollector) -> None:
         etype = event.get("type")
 
         if etype == "tool_execution_start":
@@ -215,7 +239,15 @@ class PiClient:
                 for key in _FILE_KEYS:
                     val = args.get(key)
                     if isinstance(val, str) and val:
-                        col.touched.add(Path(val))
+                        p = Path(val)
+                        if _path_is_outside_workspace(p, self.workspace):
+                            log.error(
+                                "PI WROTE OUTSIDE WORKSPACE: tool=%s path=%r workspace=%r — "
+                                "edit will not appear in workspace; check pi prompt for "
+                                "stale absolute-path references",
+                                name, val, str(self.workspace),
+                            )
+                        col.touched.add(p)
                         break
             return
 

@@ -65,7 +65,7 @@ _README = """\
 # Web app workspace
 
 Edit `index.html` and `app.js`. The page is rendered in headless Chromium
-at 1024×768; theloop screenshots it once `window.__ready === true`.
+at 1536×1152; theloop screenshots it once `window.__ready === true`.
 
 Tools available: read, write, edit, bash. three.js global build is loaded
 in the scaffold; you can switch to import maps if you prefer.
