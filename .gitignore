@@ -8,6 +8,3 @@ CLAUDE.md
 .claude/
 .pytest_cache/
 docs/
-docs-local/
-runs-local2/
-runs-local/
