@@ -164,15 +164,6 @@ be swapped without touching code. The roles:
 Override any of these with environment variables, e.g.
 `THELOOP_MODEL_JUDGE_VISION=Qwen3.6-Mesh-Thinking`.
 
-## What's next
-
-- Filter `__pycache__` and similar from the `doc` adapter's `context/` copy
-- Render at higher resolution (1024 → 1536) to give the vision encoder more
-  detail to verify structural integrity
-- Adversarial describe is generic across adapters but the prompt could be
-  specialized per artifact type for sharper element extraction
-- Resumable runs (currently a re-run starts from scratch)
-
 ## Layout
 
 ```
@@ -203,4 +194,4 @@ runs/               # generated per-run output (gitignored)
 
 ## License
 
-TBD.
+MIT.
