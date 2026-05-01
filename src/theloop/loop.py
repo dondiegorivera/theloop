@@ -140,7 +140,10 @@ class Loop:
             records.append(rec)
             history.append(rec.verdict)
             spec = rec.spec  # carry the planner's updated spec forward
-            prev_critique = rec.verdict.critique or None
+            prev_critique = _critique_for_next_plan(
+                rec.verdict,
+                score_threshold=self.terminator.config.score_threshold,
+            )
             prev_description = rec.verdict.description or None
 
             stop = self.terminator.should_stop(history)
@@ -288,6 +291,7 @@ class Loop:
             png_path=judge_png,
             last_pi_output=pi_result.assistant_text,
             artifact_text=artifact_text,
+            score_threshold=self.terminator.config.score_threshold,
         )
         rep.emit(
             "judge_end",
@@ -389,7 +393,8 @@ class Loop:
                     phase="waiting",
                 )
                 if (
-                    self.pi_no_write_timeout_s > 0
+                    it > 0
+                    and self.pi_no_write_timeout_s > 0
                     and stats["write_tools"] == 0
                     and elapsed >= self.pi_no_write_timeout_s
                     and prompt_task is not None
@@ -430,10 +435,11 @@ class Loop:
                         tool=str(event.get("toolName") or ""),
                         args=args,
                         tool_count=int(stats["tools"]),
+                        workspace=self.workspace.workspace_path,
                     )
                     if violation:
                         rep.emit(
-                            "pi_prewrite_policy_timeout",
+                            "pi_prewrite_policy_warning",
                             iter=it,
                             elapsed_s=round(time.monotonic() - started, 1),
                             reason=violation,
@@ -441,7 +447,6 @@ class Loop:
                             tools=stats["tools"],
                             last_type=etype,
                         )
-                        raise TimeoutError(violation)
                 rep.emit(
                     "pi_tool_start",
                     iter=it,
@@ -475,7 +480,8 @@ class Loop:
                 )
                 elapsed = time.monotonic() - started
                 if (
-                    self.pi_no_write_timeout_s > 0
+                    it > 0
+                    and self.pi_no_write_timeout_s > 0
                     and stats["write_tools"] == 0
                     and elapsed >= self.pi_no_write_timeout_s
                 ):
@@ -538,6 +544,29 @@ def _summarize_tool_args(args: object, *, max_chars: int = 500) -> object:
     return summary
 
 
+def _critique_for_next_plan(
+    verdict: JudgeVerdict,
+    *,
+    score_threshold: float,
+) -> str | None:
+    critique = verdict.critique.strip() if verdict.critique else ""
+    if (
+        verdict.done
+        and verdict.score is not None
+        and verdict.score < score_threshold
+    ):
+        note = (
+            f"Previous judge returned done=true at score {verdict.score:.2f}, "
+            f"below the configured threshold {score_threshold:.2f}. Do not "
+            "verify, conclude, or make vague final polish. Choose one concrete "
+            "visible artifact improvement that changes the output, prioritizing "
+            "legibility, containment of text within its surface, spatial "
+            "coherence, action clarity, and composition."
+        )
+        return f"{critique}\n\n{note}" if critique else note
+    return critique or None
+
+
 def _prewrite_policy_violation(
     *,
     it: int,
@@ -545,6 +574,7 @@ def _prewrite_policy_violation(
     tool: str,
     args: object,
     tool_count: int,
+    workspace: Path | None = None,
 ) -> str | None:
     """Bound read-only pi loops before they consume a full timeout window."""
     if it <= 0:
@@ -559,11 +589,29 @@ def _prewrite_policy_violation(
         path = str(args.get("path") or args.get("file_path") or "")
         has_limit = "limit" in args and str(args.get("limit") or "").strip()
         if path.endswith("generate_artifact.py") and not has_limit:
+            if _is_small_workspace_file(path, workspace):
+                return None
             return (
                 "pi attempted an unbounded read of generate_artifact.py before "
                 "making a write/edit/create call"
             )
     return None
+
+
+def _is_small_workspace_file(path: str, workspace: Path | None) -> bool:
+    """Allow full reads of tiny scaffold files, not large generated helpers."""
+    if workspace is None:
+        return False
+    p = Path(path)
+    target = p if p.is_absolute() else workspace / p
+    try:
+        resolved = target.resolve()
+        resolved.relative_to(workspace.resolve())
+        return resolved.is_file() and resolved.stat().st_size <= 12_000
+    except OSError:
+        return False
+    except ValueError:
+        return False
 
 
 def _compose_pi_retry_prompt(original_prompt: str) -> str:

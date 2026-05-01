@@ -158,6 +158,7 @@ class Judge:
         png_path: Path | None,
         last_pi_output: str,
         artifact_text: str | None = None,
+        score_threshold: float | None = None,
     ) -> JudgeVerdict:
         """Two-pass judge: describe → score.
 
@@ -200,7 +201,12 @@ class Judge:
             temperature=0.0,
         )
         raw = (resp.choices[0].message.content or "").strip()
-        return _parse_verdict(raw, description=description, spec=spec)
+        return _parse_verdict(
+            raw,
+            description=description,
+            spec=spec,
+            score_threshold=score_threshold,
+        )
 
     async def _describe(
         self,
@@ -258,7 +264,13 @@ class Judge:
             return f"(describe pass failed: {e})"
 
 
-def _parse_verdict(raw: str, *, description: str = "", spec: str = "") -> JudgeVerdict:
+def _parse_verdict(
+    raw: str,
+    *,
+    description: str = "",
+    spec: str = "",
+    score_threshold: float | None = None,
+) -> JudgeVerdict:
     body = _FENCE_RE.sub("", raw).strip()
     try:
         obj = json.loads(body)
@@ -270,6 +282,13 @@ def _parse_verdict(raw: str, *, description: str = "", spec: str = "") -> JudgeV
             critique=str(obj.get("critique", "")).strip(),
             description=description,
             spec=spec,
+        )
+        score_f, done, critique = _apply_threshold_actionability_guard(
+            score=score_f,
+            done=done,
+            critique=critique,
+            description=description,
+            score_threshold=score_threshold,
         )
         return JudgeVerdict(
             score=score_f,
@@ -337,6 +356,55 @@ def _apply_description_score_guard(
     if score is None or score < 0.95 or defects:
         done = False
     return score, done, critique
+
+
+_NO_DEFECT_RE = re.compile(
+    r"\b("
+    r"no (?:visible |significant |major )?(?:defects?|issues?|problems?)"
+    r"|all required elements (?:are )?present"
+    r"|meets all (?:spec )?requirements"
+    r"|successfully (?:includes|satisfies)"
+    r")\b",
+    re.IGNORECASE,
+)
+
+
+def _apply_threshold_actionability_guard(
+    *,
+    score: float | None,
+    done: bool,
+    critique: str,
+    description: str,
+    score_threshold: float | None,
+) -> tuple[float | None, bool, str]:
+    """A below-threshold verdict must give the planner a real next defect."""
+    if score_threshold is None or score is None or score >= score_threshold:
+        return score, done, critique
+
+    done = False
+    if not _NO_DEFECT_RE.search(critique or ""):
+        return score, done, critique
+
+    improvement = _visible_improvement_hint(description)
+    note = (
+        f"Score {score:.2f} is below the configured threshold "
+        f"{score_threshold:.2f}, so the artifact is not done. "
+        f"{improvement}"
+    )
+    return score, done, note
+
+
+def _visible_improvement_hint(description: str) -> str:
+    desc_l = description.lower()
+    if any(word in desc_l for word in ("newspaper", "text", "headline", "label")):
+        return (
+            "Inspect and fix the most visible remaining layout issue, especially "
+            "text containment, clipping, overlap, or newspaper legibility."
+        )
+    return (
+        "Inspect and fix the most visible remaining issue in composition, "
+        "legibility, alignment, spatial coherence, or action clarity."
+    )
 
 
 def _score_from_description(description: str) -> tuple[float, dict[str, int]] | None:

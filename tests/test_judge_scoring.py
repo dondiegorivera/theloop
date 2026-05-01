@@ -91,3 +91,31 @@ def test_spatial_layout_guard_penalizes_gears_outside_watch_case() -> None:
     assert verdict.score == 0.65
     assert verdict.done is False
     assert "Spatial-layout guard" in verdict.critique
+
+
+def test_below_threshold_no_defect_verdict_gets_actionable_critique() -> None:
+    description = "\n".join(
+        [
+            "- Victorian-era robot: PRESENT — visible brass robot.",
+            "- Reading a newspaper: PRESENT — open newspaper with headline and text.",
+            "- In a cafe: PRESENT — table, cup, and window are visible.",
+            "",
+            "## Other observations",
+            "The composition is centered.",
+        ]
+    )
+    raw = (
+        '{"score": 0.95, "critique": "All required elements are present and '
+        'there are no visible defects.", "done": true}'
+    )
+
+    verdict = _parse_verdict(
+        raw,
+        description=description,
+        score_threshold=0.99,
+    )
+
+    assert verdict.score == 0.95
+    assert verdict.done is False
+    assert "below the configured threshold 0.99" in verdict.critique
+    assert "text containment" in verdict.critique

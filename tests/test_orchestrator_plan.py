@@ -98,6 +98,27 @@ def test_parse_plan_rejects_rewritten_user_contract() -> None:
     assert "Do not change the spec text" in plan.intent
 
 
+def test_parse_plan_retargets_non_actionable_final_intent() -> None:
+    fallback = (
+        "---\n"
+        "adapter: svg\n"
+        "---\n"
+        "# A Victorian-era robot reading a newspaper in a cafe\n\n"
+        "An svg image of a Victorian-era robot reading a newspaper in a cafe\n"
+    )
+    raw = json.dumps(
+        {
+            "spec": fallback + "\n\n## Iteration history\n- iter 0: draw scene.",
+            "intent": "The artifact successfully satisfies all specified requirements. This iteration should verify the final output against the 0.99 score threshold and conclude the generation process, as no further structural or aesthetic changes are necessary.",
+        }
+    )
+
+    plan = _parse_plan(raw, fallback_spec=fallback)
+
+    assert "Make one concrete visible improvement" in plan.intent
+    assert "Do not merely verify" in plan.intent
+
+
 def test_compose_pi_prompt_keeps_authoritative_spec_visible() -> None:
     prompt = _compose_pi_prompt(
         spec="# Watch\n\n- Roman numerals I through XII\n- Crown chain",

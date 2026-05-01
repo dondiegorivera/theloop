@@ -19,7 +19,12 @@ _INDEX_HTML = """<!doctype html>
 <style>
   html, body { margin: 0; padding: 0; height: 100%; background: #fff; }
   body { display: flex; align-items: center; justify-content: center; }
-  img { max-width: 92vw; max-height: 92vh; }
+  img {
+    display: block;
+    width: 92vw;
+    height: 92vh;
+    object-fit: contain;
+  }
 </style>
 </head>
 <body>

@@ -158,6 +158,7 @@ def _parse_plan(raw: str, *, fallback_spec: str) -> PlanResult:
             )
             candidate_spec = fallback_spec
         intent = _retarget_spec_edit_intent(intent, fallback_spec)
+        intent = _retarget_non_actionable_intent(intent, fallback_spec)
         return PlanResult(
             spec=candidate_spec,
             intent=intent,
@@ -237,6 +238,31 @@ def _retarget_spec_edit_intent(intent: str, fallback_spec: str) -> str:
     return (
         "Revise the artifact to satisfy the authoritative spec as-is. Do not "
         "change the spec text to match the previous artifact."
+    )
+
+
+def _retarget_non_actionable_intent(intent: str, fallback_spec: str) -> str:
+    """Reject planner intents that would not change the artifact meaningfully."""
+    lowered = intent.lower()
+    non_actionable = (
+        "verify the final output" in lowered
+        or "conclude the generation" in lowered
+        or "no further" in lowered
+        or "no structural or aesthetic changes" in lowered
+        or "final aesthetic refinement" in lowered
+        or "secure the target score" in lowered
+        or "meets all spec requirements" in lowered
+    )
+    if not non_actionable:
+        return intent
+    heading = _primary_heading(fallback_spec)
+    subject = f" for {heading}" if heading else ""
+    return (
+        f"Make one concrete visible improvement{subject}: inspect the rendered "
+        "composition for text containment, legibility, object alignment, action "
+        "clarity, and spatial coherence, then edit the artifact to fix the "
+        "most obvious remaining visual defect. Do not merely verify or add "
+        "generic polish."
     )
 
 

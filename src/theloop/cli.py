@@ -152,7 +152,7 @@ def run(
                 "this many seconds. Set 0 to disable."
             )
         ),
-    ] = 120.0,
+    ] = 0.0,
     pi_thinking: Annotated[
         str | None,
         typer.Option(

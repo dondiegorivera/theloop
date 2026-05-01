@@ -62,6 +62,13 @@ that pass can rely on.
   supposed to belong to are not fully present. For example, watch gears
   outside the case are PARTIAL or MISSING as a movement/cutaway, even if
   gear shapes exist somewhere in the image.
+- **Text containment and legibility matter.** If visible text belongs on a
+  physical object or UI surface (newspaper, sign, label, button, card,
+  screen) but spills outside that surface, is clipped, overlaps unrelated
+  elements, or is too misaligned to read as belonging there, classify the
+  relevant requirement as PARTIAL and call out the defect. For example,
+  a newspaper with headline/body text extending beyond the newspaper page
+  is only PARTIAL as "reading a newspaper".
 - **Cite evidence concretely.** "FRAME: PRESENT — diamond shape with
   red top tube from x≈170 to x≈220" beats "FRAME: PRESENT — bike has
   a frame".

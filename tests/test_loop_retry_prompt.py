@@ -1,4 +1,9 @@
-from theloop.loop import _compose_pi_retry_prompt, _prewrite_policy_violation
+from theloop.judge import JudgeVerdict
+from theloop.loop import (
+    _compose_pi_retry_prompt,
+    _critique_for_next_plan,
+    _prewrite_policy_violation,
+)
 
 
 def test_retry_prompt_is_short_and_forbids_full_generated_reads() -> None:
@@ -49,6 +54,23 @@ def test_prewrite_policy_blocks_later_unbounded_generator_read() -> None:
     assert "unbounded read" in reason
 
 
+def test_prewrite_policy_allows_small_scaffold_generator_read(tmp_path) -> None:
+    generator = tmp_path / "generate_artifact.py"
+    generator.write_text("print('small scaffold')\n")
+
+    assert (
+        _prewrite_policy_violation(
+            it=2,
+            attempt=0,
+            tool="read",
+            args={"path": "generate_artifact.py"},
+            tool_count=1,
+            workspace=tmp_path,
+        )
+        is None
+    )
+
+
 def test_prewrite_policy_blocks_retry_tool_loops() -> None:
     reason = _prewrite_policy_violation(
         it=2,
@@ -60,3 +82,20 @@ def test_prewrite_policy_blocks_retry_tool_loops() -> None:
 
     assert reason is not None
     assert "without calling write/edit/create" in reason
+
+
+def test_done_below_threshold_gets_concrete_next_plan_note() -> None:
+    critique = _critique_for_next_plan(
+        JudgeVerdict(
+            score=0.95,
+            critique="All required elements are present.",
+            done=True,
+            raw="",
+        ),
+        score_threshold=0.99,
+    )
+
+    assert critique is not None
+    assert "below the configured threshold 0.99" in critique
+    assert "Do not verify" in critique
+    assert "one concrete visible artifact improvement" in critique

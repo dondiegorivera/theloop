@@ -106,8 +106,13 @@ file exists and can be mapped back into the workspace.
 
 ### No-write timeout and retry
 
-The loop now supports `--pi-no-write-timeout-s`, defaulting to `120.0`. If Pi
-does not call `write`, `edit`, or `create` within that window, the loop cancels
+The loop supports `--pi-no-write-timeout-s`, but the default is now `0.0`
+(disabled). The earlier `120.0` default caused false no-op iterations with
+Code-Long/medium thinking because Pi sometimes needed several minutes before
+its first write on iteration 0 or after reading a complex generator.
+
+If a nonzero timeout is explicitly supplied and Pi does not call `write`,
+`edit`, or `create` within that window on later iterations, the loop cancels
 the turn and retries once with a shorter corrective prompt.
 
 Retry prompts now tell Pi to make a concrete edit immediately, use relative
@@ -116,17 +121,17 @@ targeted validation, then stop.
 
 ### Pre-write tool budget
 
-Later iterations now have a hard pre-write policy:
+Later iterations now have a non-fatal pre-write policy:
 
 - Iteration 0 is allowed to spend time generating the initial artifact.
-- Later first attempts may use only a bounded number of tools before the first
+- Later first attempts emit a warning if Pi uses many tools before the first
   `write` / `edit` / `create`.
-- Retry attempts are stricter.
-- An unbounded pre-write `read generate_artifact.py` is treated as an immediate
-  failed attempt.
+- Retry attempts have a stricter warning threshold.
+- An unbounded pre-write `read generate_artifact.py` emits a warning when the
+  generator is large, but it no longer aborts the turn.
 
-This is meant to stop multi-minute read-only loops and force failures to happen
-quickly.
+This started as a hard guard, but that proved too aggressive: it blocked useful
+Pi turns and caused skipped renders. It is now diagnostic only.
 
 ### Compact Pi live logs
 
@@ -214,9 +219,9 @@ If Pi makes no workspace changes, later iterations will skip render and reuse
 the previous verdict. This means "no render after iter 0" usually means "Pi did
 not edit anything", not that the renderer itself failed.
 
-If Pi spends too long inspecting before editing, the new pre-write guard should
-fail the attempt earlier and retry with a stricter prompt. If retry also fails,
-the iteration will be recorded as a no-op.
+If Pi spends too long inspecting before editing, the loop records
+`pi_prewrite_policy_warning` events. It will not abort unless the user
+explicitly enables `--pi-no-write-timeout-s`.
 
 ## Remaining Risks
 

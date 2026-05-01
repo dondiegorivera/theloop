@@ -57,6 +57,12 @@ element is MISSING or PARTIAL, it is, regardless of what pi says it did.
 8. Write a critique pointing at the worst-classified high-weight element
    and the single most impactful next change.
 
+If the first-pass description reports visible defects in "Other observations"
+that directly affect a required element, such as text spilling outside a
+newspaper, clipped labels, malformed object structure, or incoherent overlap,
+treat the affected requirement as no better than PARTIAL for scoring and keep
+`done` false. Do not let an all-PRESENT checklist hide a visible layout defect.
+
 ## Whole-subject sanity
 
 Before finalizing, check whether the artifact still makes common sense as
@@ -122,7 +128,8 @@ whole point of step-by-step credit assignment.
   to the head-tube and to both wheel hubs".
 
 `done` is true only if `score >= 0.95` AND no obvious improvement is on
-the table. When in doubt, false.
+the table. Visible text overflow, clipping, incoherent overlap, or malformed
+required objects are obvious improvements. When in doubt, false.
 
 ## Hard rules
 

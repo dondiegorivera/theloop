@@ -5,15 +5,16 @@ after every iteration without ceremony.
 
 Reasons (priority order, first match wins):
 
-- `done`         — the judge said it explicitly (`verdict.done == True`)
-- `threshold`    — latest score ≥ `score_threshold`
+- `threshold`    — latest score >= `score_threshold`
+- `done`         — the judge said it explicitly and the latest numeric score
+                   is not below `score_threshold`
 - `plateau`      — the best score over the most recent
                    `no_improvement_for` iterations did not strictly improve
                    over the best score seen before that window
 - `max_iters`    — `len(history) >= max_iters`
 
-`done` and `threshold` are checked before `max_iters` so a successful run
-reports the right reason even if it lands on the cap.
+`score_threshold` is the user's configured quality target. A judge `done=true`
+below that threshold is treated as an optimistic judge signal, not a stop.
 """
 
 from __future__ import annotations
@@ -49,10 +50,12 @@ class Terminator:
         cfg = self.config
         latest = history[-1]
 
-        if latest.done:
-            return StopReason.DONE
         if latest.score is not None and latest.score >= cfg.score_threshold:
             return StopReason.THRESHOLD
+        if latest.done and (
+            latest.score is None or latest.score >= cfg.score_threshold
+        ):
+            return StopReason.DONE
 
         # Plateau check: only meaningful once we have enough history to
         # compare a "recent window" against everything before it.
@@ -93,7 +96,8 @@ def _smoke() -> None:
         ([], None),
         ([_v(0.3)], None),
         ([_v(0.3), _v(0.5)], None),
-        ([_v(0.5, done=True)], StopReason.DONE),
+        ([_v(0.5, done=True)], None),
+        ([_v(0.9, done=True)], StopReason.THRESHOLD),
         ([_v(0.9)], StopReason.THRESHOLD),
         ([_v(0.5), _v(0.6), _v(0.55), _v(0.55)], StopReason.PLATEAU),
         ([_v(0.5), _v(0.55), _v(0.6), _v(0.65)], None),  # still improving
