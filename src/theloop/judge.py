@@ -74,6 +74,10 @@ class JudgeVerdict:
     done: bool
     raw: str  # original model output, kept for debugging
     description: str = ""  # first-pass concrete description (empty pre-two-pass)
+    hard_failures: list[str] | None = None
+    dimensions: dict[str, float] | None = None
+    next_action: str = ""
+    regression_against_best: bool = False
 
 
 class Judge:
@@ -83,11 +87,20 @@ class Judge:
         *,
         prompt_template: str | None = None,
         describe_template: str | None = None,
+        prose_prompt_template: str | None = None,
+        prose_describe_template: str | None = None,
         vision_available: bool | None = None,
     ) -> None:
         self.config = config or litellm_config()
         self.prompt_template = prompt_template or (_PROMPTS_DIR / "judge.md").read_text()
         self.describe_template = describe_template or (_PROMPTS_DIR / "judge_describe.md").read_text()
+        self.prose_prompt_template = (
+            prose_prompt_template or (_PROMPTS_DIR / "judge_prose.md").read_text()
+        )
+        self.prose_describe_template = (
+            prose_describe_template
+            or (_PROMPTS_DIR / "judge_describe_prose.md").read_text()
+        )
         # None = unknown (probe not yet run); True/False = decided.
         self.vision_available: bool | None = vision_available
         self._client = AsyncOpenAI(base_url=self.config.base_url, api_key=self.config.api_key)
@@ -159,6 +172,7 @@ class Judge:
         last_pi_output: str,
         artifact_text: str | None = None,
         score_threshold: float | None = None,
+        judge_profile: str = "text_presence",
     ) -> JudgeVerdict:
         """Two-pass judge: describe → score.
 
@@ -174,6 +188,7 @@ class Judge:
             png_path=png_path if use_vision else None,
             artifact_text=artifact_text,
             spec=spec,
+            judge_profile=judge_profile,
         )
 
         # ── Pass 2: score ────────────────────────────────────────────────
@@ -185,8 +200,13 @@ class Judge:
         # correctly positioned"), which destroys the whole two-stage design.
         verdict_alias = alias_for(Hat.JUDGE_TEXT)
 
+        verdict_template = (
+            self.prose_prompt_template
+            if judge_profile == "prose_quality"
+            else self.prompt_template
+        )
         verdict_text = (
-            f"{self.prompt_template}\n\n"
+            f"{verdict_template}\n\n"
             "## Spec\n"
             f"{spec.strip()}\n\n"
             "## First-pass description\n"
@@ -206,6 +226,7 @@ class Judge:
             description=description,
             spec=spec,
             score_threshold=score_threshold,
+            judge_profile=judge_profile,
         )
 
     async def _describe(
@@ -213,6 +234,7 @@ class Judge:
         png_path: Path | None,
         artifact_text: str | None,
         spec: str,
+        judge_profile: str = "text_presence",
     ) -> str:
         """First pass: concrete description of the artifact, no scoring."""
         if png_path is not None:
@@ -234,8 +256,13 @@ class Judge:
         # The describe pass sees the spec only as context for *what to look
         # for* (e.g. a bicycle has these parts), not as something to score
         # against. The prompt explicitly forbids evaluation.
+        describe_template = (
+            self.prose_describe_template
+            if judge_profile == "prose_quality"
+            else self.describe_template
+        )
         user_text = (
-            f"{self.describe_template}\n\n"
+            f"{describe_template}\n\n"
             "## Spec (for context only — do not evaluate against it)\n"
             f"{spec.strip()}\n\n"
             "## Artifact\n"
@@ -270,12 +297,17 @@ def _parse_verdict(
     description: str = "",
     spec: str = "",
     score_threshold: float | None = None,
+    judge_profile: str = "text_presence",
 ) -> JudgeVerdict:
     body = _FENCE_RE.sub("", raw).strip()
     try:
         obj = json.loads(body)
         score = obj.get("score")
         score_f = float(score) if score is not None else None
+        hard_failures = _coerce_string_list(obj.get("hard_failures"))
+        dimensions = _coerce_dimension_scores(obj.get("dimensions"))
+        next_action = str(obj.get("next_action") or "").strip()
+        regression = bool(obj.get("regression_against_best", False))
         score_f, done, critique = _apply_description_score_guard(
             score=score_f,
             done=bool(obj.get("done", False)),
@@ -283,6 +315,8 @@ def _parse_verdict(
             description=description,
             spec=spec,
         )
+        if judge_profile == "prose_quality" and hard_failures:
+            done = False
         score_f, done, critique = _apply_threshold_actionability_guard(
             score=score_f,
             done=done,
@@ -296,12 +330,35 @@ def _parse_verdict(
             done=done,
             raw=raw,
             description=description,
+            hard_failures=hard_failures,
+            dimensions=dimensions,
+            next_action=next_action,
+            regression_against_best=regression,
         )
     except (json.JSONDecodeError, TypeError, ValueError) as e:
         log.warning("judge output did not parse as JSON (%s); raw=%r", e, raw[:200])
         return JudgeVerdict(
             score=None, critique=raw[:500], done=False, raw=raw, description=description
         )
+
+
+def _coerce_string_list(value: object) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    return [str(item).strip() for item in value if str(item).strip()]
+
+
+def _coerce_dimension_scores(value: object) -> dict[str, float]:
+    if not isinstance(value, dict):
+        return {}
+    scores: dict[str, float] = {}
+    for key, raw_score in value.items():
+        try:
+            score = float(raw_score)
+        except (TypeError, ValueError):
+            continue
+        scores[str(key)] = max(0.0, min(1.0, score))
+    return scores
 
 
 def _apply_description_score_guard(

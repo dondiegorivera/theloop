@@ -18,14 +18,15 @@ participates in scoring.
 
 ## What it does today
 
-Four task adapters, all working end-to-end:
+Task adapters, all working end-to-end:
 
 | Adapter   | Artifact                       | Render path                   | Judge input            |
 | --------- | ------------------------------ | ----------------------------- | ---------------------- |
 | `svg`     | `artifact.svg`                 | Chromium screenshot           | image + SVG source     |
 | `web`     | `index.html` + JS/CSS          | Chromium screenshot           | image                  |
 | `doc`     | `document.md` (refines source) | none                          | original + current text |
-| `generic` | whatever the spec asks for     | none                          | spec + assistant turn  |
+| `prose`   | configured prose file          | none                          | canonical prose text   |
+| `generic` | whatever the spec asks for     | none                          | text-like files        |
 
 The judge runs in two passes: an **adversarial describe** classifies every
 spec-required element as PRESENT / PARTIAL / HIDDEN / MISSING with concrete
@@ -65,7 +66,7 @@ Specs are markdown files with optional YAML frontmatter:
 
 ```markdown
 ---
-adapter: svg              # svg | web | doc | generic
+adapter: svg              # svg | web | doc | prose | generic
 max_iters: 10
 score_threshold: 0.95
 no_improvement_for: 3
@@ -89,13 +90,26 @@ context_notes: |               # task-specific gotchas pi should know
     context/litellm-endpoints.md are the upstream endpoints, NOT the proxy.
 ```
 
-See `examples/` for working specs covering all four adapters.
+See `examples/` for working specs covering the adapters.
+
+For new writing tasks, prefer `prose` over `generic`:
+
+```yaml
+adapter: prose
+artifact: scene.md
+target_words: 200
+word_tolerance: 20
+```
+
+`prose` gives the loop one canonical draft file and deterministic checks such
+as word count, banned phrases, and required prefixes. `generic` remains the
+catch-all for tasks that do not have a stronger adapter contract.
 
 ## CLI
 
 ```bash
 python -m theloop run <spec.md>
-    [--adapter svg|web|doc|generic]   # override frontmatter
+    [--adapter svg|web|doc|prose|generic]   # override frontmatter
     [--max-iters N]                   # override frontmatter
     [--threshold 0.0-1.0]             # override frontmatter
     [--no-improvement-for N]          # plateau window
@@ -128,7 +142,7 @@ python -m theloop report <runs/<id>>  # rebuild HTML report from events.jsonl
                └─── Qwen3.6 via LiteLLM proxy ────┘
                           │
                  ┌────────▼─────────┐
-                 │   TaskAdapter    │   svg | web | doc | generic
+                 │   TaskAdapter    │   svg | web | doc | prose | generic
                  │ prepare/render/  │
                  │ runtime_check/   │
                  │ artifact_text    │
@@ -183,11 +197,12 @@ src/theloop/
     svg.py          # SVG → Chromium screenshot
     web.py          # HTML/JS/CSS → Chromium screenshot
     doc.py          # Markdown improvement, with context/ reference material
-    generic.py      # No render — text judge against spec + assistant turn
+    prose.py        # New prose artifact, canonical draft + text checks
+    generic.py      # No render — text judge against text-like files
   prompts/
     planner.md, director.md, judge.md, judge_describe.md
 
-examples/           # specs covering all four adapters
+examples/           # specs covering the adapters
 docs/               # design notes
 runs/               # generated per-run output (gitignored)
 ```

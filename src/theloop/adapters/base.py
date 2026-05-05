@@ -52,6 +52,15 @@ class TaskAdapter(ABC):
         del workspace
         return None
 
+    def judge_profile(self) -> str:
+        """Return the judge prompt profile this adapter should use.
+
+        Existing visual/text adapters keep the current generic judge prompts.
+        More specialized adapters can override this to opt into typed judging
+        without adding adapter-name checks to the loop.
+        """
+        return "visual_presence" if self.has_visual_artifact else "text_presence"
+
     @abstractmethod
     def prepare(self, workspace: Path) -> None:
         """Scaffold initial files. Called once before iter 0."""

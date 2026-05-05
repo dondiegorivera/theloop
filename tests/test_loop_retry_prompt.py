@@ -3,6 +3,7 @@ from theloop.loop import (
     _compose_pi_retry_prompt,
     _critique_for_next_plan,
     _prewrite_policy_violation,
+    _verdict_payload,
 )
 
 
@@ -99,3 +100,26 @@ def test_done_below_threshold_gets_concrete_next_plan_note() -> None:
     assert "below the configured threshold 0.99" in critique
     assert "Do not verify" in critique
     assert "one concrete visible artifact improvement" in critique
+
+
+def test_verdict_payload_includes_structured_fields() -> None:
+    payload = _verdict_payload(
+        JudgeVerdict(
+            score=0.8,
+            critique="Tighten the ending.",
+            done=False,
+            raw="{}",
+            description="description",
+            hard_failures=["too short"],
+            dimensions={"compression": 0.7},
+            next_action="Add one concrete image.",
+            regression_against_best=True,
+        )
+    )
+
+    assert payload["score"] == 0.8
+    assert payload["hard_failures"] == ["too short"]
+    assert payload["dimensions"] == {"compression": 0.7}
+    assert payload["next_action"] == "Add one concrete image."
+    assert payload["regression_against_best"] is True
+    assert payload["description_chars"] == len("description")

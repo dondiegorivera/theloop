@@ -126,21 +126,25 @@ def build_html_report(run_dir: Path) -> Path:
 
     out_path = run_dir / "index.html"
     out_path.write_text(
-        _render_html(run_dir.name, run_meta, run_end, by_iter, diffs, spec_text)
+        _render_html(run_dir, run_meta, run_end, by_iter, diffs, spec_text)
     )
     log.info("wrote report: %s", out_path)
     return out_path
 
 
 def _render_html(
-    run_id: str,
+    run_dir: Path,
     run_meta: dict[str, Any],
     run_end: dict[str, Any],
     by_iter: dict[int, dict[str, Any]],
     diffs: dict[int, str],
     spec_text: str | None = None,
 ) -> str:
-    cards = "\n".join(_render_iter_card(i, by_iter[i], diffs.get(i, "")) for i in sorted(by_iter))
+    run_id = run_dir.name
+    cards = "\n".join(
+        _render_iter_card(run_dir, i, by_iter[i], diffs.get(i, ""))
+        for i in sorted(by_iter)
+    )
 
     summary_pairs = [
         ("adapter", run_meta.get("adapter", "?")),
@@ -234,7 +238,7 @@ def _render_spec_block(spec_text: str | None) -> str:
     )
 
 
-def _render_iter_card(it: int, ev: dict[str, Any], diff_text: str) -> str:
+def _render_iter_card(run_dir: Path, it: int, ev: dict[str, Any], diff_text: str) -> str:
     plan_end = ev.get("plan_end") or {}
     rc = ev.get("runtime_check") or {}
     render = ev.get("render") or {}
@@ -246,6 +250,8 @@ def _render_iter_card(it: int, ev: dict[str, Any], diff_text: str) -> str:
     score = judge_end.get("score")
     critique = judge_end.get("critique", "(no critique)")
     done = judge_end.get("done", False)
+    hard_failures = judge_end.get("hard_failures") or []
+    dimensions = judge_end.get("dimensions") or {}
     rc_ok = bool(rc.get("ok"))
     rc_log = rc.get("log", "")
     sha = commit.get("sha")
@@ -255,6 +261,13 @@ def _render_iter_card(it: int, ev: dict[str, Any], diff_text: str) -> str:
         # png is absolute; build relative-to-run-dir for HTML
         # render_dir is run_dir/artifacts/iter-N/render.png — last 3 parts.
         png_rel = "/".join(Path(png_rel).parts[-3:])
+    artifact_rel = Path("artifacts") / f"iter-{it}" / "artifact.txt"
+    artifact_link = ""
+    if (run_dir / artifact_rel).exists():
+        artifact_link = (
+            f'<a href="{html.escape(artifact_rel.as_posix())}">'
+            "judged artifact</a>"
+        )
 
     score_class = ""
     score_str = "—"
@@ -295,14 +308,40 @@ def _render_iter_card(it: int, ev: dict[str, Any], diff_text: str) -> str:
       <div class="label">judge critique</div>
       <div>{html.escape(critique)}</div>
 
+      {_render_hard_failures(hard_failures)}
+      {_render_dimensions(dimensions)}
+
       <div class="label">runtime check</div>
       <div>{html.escape(rc_log)}</div>
 
       <div class="label">commit</div>
       <div>{diff_link or "(no commit)"}</div>
+
+      <div class="label">artifact</div>
+      <div>{artifact_link or "(no text artifact)"}</div>
     </div>
   </article>
 """
+
+
+def _render_hard_failures(value: Any) -> str:
+    if not isinstance(value, list) or not value:
+        return ""
+    items = "".join(f"<li>{html.escape(str(item))}</li>" for item in value)
+    return f'<div class="label">hard failures</div><ul>{items}</ul>'
+
+
+def _render_dimensions(value: Any) -> str:
+    if not isinstance(value, dict) or not value:
+        return ""
+    rows = "".join(
+        "<tr>"
+        f"<th>{html.escape(str(key))}</th>"
+        f"<td>{html.escape(_fmt_score(score))}</td>"
+        "</tr>"
+        for key, score in sorted(value.items())
+    )
+    return f'<div class="label">dimensions</div><table>{rows}</table>'
 
 
 def _fmt_score(v: Any) -> str:

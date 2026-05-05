@@ -5,6 +5,7 @@ from __future__ import annotations
 from theloop.adapters.base import RuntimeCheckResult, TaskAdapter
 from theloop.adapters.doc import DocAdapter
 from theloop.adapters.generic import GenericAdapter
+from theloop.adapters.prose import ProseAdapter
 from theloop.adapters.svg import SVGAdapter
 from theloop.adapters.web import WebAppAdapter
 
@@ -13,6 +14,7 @@ ADAPTERS: dict[str, type[TaskAdapter]] = {
     "web": WebAppAdapter,
     "generic": GenericAdapter,
     "doc": DocAdapter,
+    "prose": ProseAdapter,
 }
 
 
@@ -32,6 +34,7 @@ __all__ = [
     "WebAppAdapter",
     "GenericAdapter",
     "DocAdapter",
+    "ProseAdapter",
     "get_adapter",
     "ADAPTERS",
 ]

@@ -76,9 +76,17 @@ _ADAPTER_NOTES: dict[str, str] = {
     ),
     "generic": (
         "Create whatever files the spec requires (Python scripts, data, "
-        "configs, etc.). There is no rendered preview — the judge scores "
-        "from the spec plus your final assistant message. End your turn "
-        "with a clear summary of what you produced and where to find it. "
+        "configs, prose, etc.). There is no rendered preview — the judge "
+        "scores from the spec plus the text-like files you create. End your "
+        "turn with a clear summary of what you produced and where to find it. "
+        f"{_PATH_RULE}"
+    ),
+    "prose": (
+        "Edit the canonical prose artifact named in the adapter notes. Do not "
+        "create alternate drafts, notes, or side files unless the spec "
+        "explicitly requires them. Preserve hard constraints first, then "
+        "improve specificity, compression, voice, structure, and subtext. "
+        "End your turn with a concise summary of the concrete prose changes. "
         f"{_PATH_RULE}"
     ),
     "doc": (
@@ -128,6 +136,8 @@ def _normalize_spec_text(text: str) -> str:
 
 
 def _pi_alias_for_adapter(adapter_name: str) -> str:
+    if adapter_name == "prose":
+        return alias_for(Hat.WRITER)
     # Pi is on the hot path every iteration. Use the CODER hat for enough
     # output budget; the CLI's default --pi-thinking=off keeps it from spending
     # that budget on reasoning instead of edits.

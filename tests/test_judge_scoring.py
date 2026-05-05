@@ -119,3 +119,39 @@ def test_below_threshold_no_defect_verdict_gets_actionable_critique() -> None:
     assert verdict.done is False
     assert "below the configured threshold 0.99" in verdict.critique
     assert "text containment" in verdict.critique
+
+
+def test_legacy_verdict_json_still_parses_with_new_optional_fields() -> None:
+    verdict = _parse_verdict(
+        '{"score": 0.7, "critique": "Still rough.", "done": false}'
+    )
+
+    assert verdict.score == 0.7
+    assert verdict.done is False
+    assert verdict.hard_failures == []
+    assert verdict.dimensions == {}
+    assert verdict.next_action == ""
+    assert verdict.regression_against_best is False
+
+
+def test_prose_verdict_parses_dimensions_and_blocks_done_on_hard_failures() -> None:
+    raw = (
+        "{"
+        '"score": 0.88,'
+        '"critique": "The scene tells the emotion directly.",'
+        '"done": true,'
+        '"hard_failures": ["direct emotional label remains"],'
+        '"dimensions": {"hard_constraints": 0.5, "specificity": 1.2, "style_fit": "bad"},'
+        '"next_action": "Replace the direct label with an object beat.",'
+        '"regression_against_best": true'
+        "}"
+    )
+
+    verdict = _parse_verdict(raw, judge_profile="prose_quality")
+
+    assert verdict.score == 0.88
+    assert verdict.done is False
+    assert verdict.hard_failures == ["direct emotional label remains"]
+    assert verdict.dimensions == {"hard_constraints": 0.5, "specificity": 1.0}
+    assert verdict.next_action == "Replace the direct label with an object beat."
+    assert verdict.regression_against_best is True

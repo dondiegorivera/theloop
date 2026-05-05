@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import asyncio
 import contextlib
+import json
 import logging
 import time
 from dataclasses import dataclass
@@ -229,24 +230,28 @@ class Loop:
             rep.emit(
                 "judge_end",
                 iter=it,
-                score=prev_verdict.score,
-                done=prev_verdict.done,
-                critique=prev_verdict.critique,
-                description_chars=len(prev_verdict.description),
+                **_verdict_payload(prev_verdict),
                 reused=True,
             )
             sha = ws.commit_iteration(it, plan.intent)
             rep.emit("commit", iter=it, sha=sha, branch=f"iter/{it}")
             try:
-                (ws.artifact_dir(it) / "spec.md").write_text(plan.spec)
-                (ws.artifact_dir(it) / "pi_prompt.txt").write_text(pi_prompt)
-                (ws.artifact_dir(it) / "pi_assistant.txt").write_text(
+                artifact_dir = ws.artifact_dir(it)
+                (artifact_dir / "spec.md").write_text(plan.spec)
+                (artifact_dir / "pi_prompt.txt").write_text(pi_prompt)
+                (artifact_dir / "pi_assistant.txt").write_text(
                     pi_result.assistant_text
                 )
+                artifact_text = self.adapter.artifact_text(ws_path)
+                if artifact_text:
+                    (artifact_dir / "artifact.txt").write_text(artifact_text)
                 if prev_verdict.description:
-                    (ws.artifact_dir(it) / "judge_description.txt").write_text(
+                    (artifact_dir / "judge_description.txt").write_text(
                         prev_verdict.description
                     )
+                (artifact_dir / "verdict.json").write_text(
+                    json.dumps(_verdict_payload(prev_verdict), indent=2)
+                )
             except Exception as e:
                 log.debug("could not persist no-op iter %d artifacts: %s", it, e)
             return IterationRecord(
@@ -280,11 +285,18 @@ class Loop:
         # 6. judge ----------------------------------------------------------
         judge_png = png_path if (rc.ok and png_path is not None) else None
         artifact_text = self.adapter.artifact_text(ws_path) if rc.ok else None
+        judge_profile = self.adapter.judge_profile()
+        if artifact_text:
+            try:
+                (ws.artifact_dir(it) / "artifact.txt").write_text(artifact_text)
+            except Exception as e:
+                log.debug("could not persist iter %d text artifact: %s", it, e)
         rep.emit(
             "judge_start",
             iter=it,
             has_image=bool(judge_png),
             artifact_chars=len(artifact_text) if artifact_text else 0,
+            profile=judge_profile,
         )
         verdict = await self.judge.evaluate(
             spec=plan.spec,
@@ -292,14 +304,12 @@ class Loop:
             last_pi_output=pi_result.assistant_text,
             artifact_text=artifact_text,
             score_threshold=self.terminator.config.score_threshold,
+            judge_profile=judge_profile,
         )
         rep.emit(
             "judge_end",
             iter=it,
-            score=verdict.score,
-            done=verdict.done,
-            critique=verdict.critique,
-            description_chars=len(verdict.description),
+            **_verdict_payload(verdict),
         )
 
         # 7. commit ---------------------------------------------------------
@@ -313,11 +323,17 @@ class Loop:
 
         # Persist the per-iter spec snapshot for the report.
         try:
-            (ws.artifact_dir(it) / "spec.md").write_text(plan.spec)
-            (ws.artifact_dir(it) / "pi_prompt.txt").write_text(pi_prompt)
-            (ws.artifact_dir(it) / "pi_assistant.txt").write_text(pi_result.assistant_text)
+            artifact_dir = ws.artifact_dir(it)
+            (artifact_dir / "spec.md").write_text(plan.spec)
+            (artifact_dir / "pi_prompt.txt").write_text(pi_prompt)
+            (artifact_dir / "pi_assistant.txt").write_text(pi_result.assistant_text)
+            if artifact_text:
+                (artifact_dir / "artifact.txt").write_text(artifact_text)
             if verdict.description:
-                (ws.artifact_dir(it) / "judge_description.txt").write_text(verdict.description)
+                (artifact_dir / "judge_description.txt").write_text(verdict.description)
+            (artifact_dir / "verdict.json").write_text(
+                json.dumps(_verdict_payload(verdict), indent=2)
+            )
         except Exception as e:
             log.debug("could not persist iter %d artifacts: %s", it, e)
 
@@ -542,6 +558,19 @@ def _summarize_tool_args(args: object, *, max_chars: int = 500) -> object:
             s = str(value)
             summary[key] = s[:max_chars] + ("..." if len(s) > max_chars else "")
     return summary
+
+
+def _verdict_payload(verdict: JudgeVerdict) -> dict[str, object]:
+    return {
+        "score": verdict.score,
+        "done": verdict.done,
+        "critique": verdict.critique,
+        "description_chars": len(verdict.description),
+        "hard_failures": verdict.hard_failures or [],
+        "dimensions": verdict.dimensions or {},
+        "next_action": verdict.next_action,
+        "regression_against_best": verdict.regression_against_best,
+    }
 
 
 def _critique_for_next_plan(

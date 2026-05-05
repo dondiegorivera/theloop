@@ -2,7 +2,7 @@
 
 Used for CLI tools, data-cleaning scripts, refactors, configs, anything
 where there's no single rendered surface to screenshot. The judge falls
-back to text-only mode (spec + last pi output → JSON verdict).
+back to text-only mode and receives text-like files from the workspace.
 
 The adapter is deliberately minimal:
 
@@ -10,6 +10,8 @@ The adapter is deliberately minimal:
 - `runtime_check()` is permissive: it succeeds as long as pi did *something*
   (the workspace contains at least one file beyond the scaffold). Hard
   validation of arbitrary code is out of scope; the judge handles correctness.
+- `artifact_text()` collects text-like workspace files so the judge can score
+  the produced artifact itself, not just pi's final summary.
 - `render()` raises — `has_visual_artifact = False` means the Loop never
   calls it.
 """
@@ -32,11 +34,36 @@ spec, then create whatever files the task needs (Python scripts, data,
 configs, etc.) using your write/edit tools.
 
 There is no rendered preview for this task type — your work is judged from
-the spec plus the final assistant message you emit at end of turn. Make
-sure that final message tells the judge what you produced and where to
-find it (e.g. "wrote `solver.py` with a `solve(input: list[int]) -> int`
-function; sample run on the example input returns 42").
+the spec plus the text-like files you create. Make sure that final message
+tells the judge what you produced and where to find it (e.g. "wrote
+`solver.py` with a `solve(input: list[int]) -> int` function; sample run
+on the example input returns 42").
 """
+
+_SCAFFOLD_NAMES = {"README.md"}
+_IGNORED_DIRS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
+_TEXT_SUFFIXES = {
+    ".cfg",
+    ".css",
+    ".csv",
+    ".html",
+    ".ini",
+    ".js",
+    ".json",
+    ".jsonl",
+    ".md",
+    ".markdown",
+    ".py",
+    ".rst",
+    ".sh",
+    ".sql",
+    ".toml",
+    ".ts",
+    ".txt",
+    ".xml",
+    ".yaml",
+    ".yml",
+}
 
 
 class GenericAdapter(TaskAdapter):
@@ -65,6 +92,37 @@ class GenericAdapter(TaskAdapter):
         # Loop never calls this because has_visual_artifact = False, but be
         # explicit so a misuse fails loud.
         raise NotImplementedError("GenericAdapter has no visual artifact")
+
+    def artifact_text(self, workspace: Path) -> str | None:
+        """Return text-like files created by pi, labeled by relative path.
+
+        Generic tasks can be prose, scripts, configs, or data. The old
+        behavior exposed none of those files to the judge, so text-only runs
+        were scored as missing artifacts even after successful writes.
+        """
+        chunks: list[str] = []
+        for path in sorted(workspace.rglob("*")):
+            if not path.is_file():
+                continue
+            if any(part in _IGNORED_DIRS for part in path.parts):
+                continue
+            rel = path.relative_to(workspace)
+            if rel.name in _SCAFFOLD_NAMES:
+                continue
+            if rel.suffix.lower() not in _TEXT_SUFFIXES:
+                continue
+            try:
+                text = path.read_text()
+            except UnicodeDecodeError:
+                continue
+            lines = text.count("\n") + 1
+            chunks.append(
+                f"### {rel.as_posix()} ({lines} lines, {len(text)} chars)\n\n"
+                f"```\n{text}\n```\n"
+            )
+        if not chunks:
+            return None
+        return "\n".join(chunks)
 
 
 # ── manual smoke test ───────────────────────────────────────────────────────
